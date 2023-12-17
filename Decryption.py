@@ -1,52 +1,57 @@
+'''Расположен класс Ui_Window_decr,
+который описывает весь дизайн окна Encryption
+'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
-from main_screen import  Ui_MainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 
 class Ui_Window_decr(object):
+    '''Описывает дизайн окна Encryption'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
-        self.label_1.setGeometry(QtCore.QRect(170, 10, 161, 71))
+        self.label_1.setGeometry(QtCore.QRect(190, 0, 161, 71))
         self.label_1.setStyleSheet("font: 12pt \".AppleSystemUIFont\";")
         self.label_1.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_1.setObjectName("label_1")
-        self.paswrd = QtWidgets.QKeySequenceEdit(self.centralwidget)
-        self.paswrd.setGeometry(QtCore.QRect(250, 260, 201, 51))
-        self.paswrd.setObjectName("paswrd")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.setGeometry(QtCore.QRect(345, 35, 141, 26))
+        self.comboBox.setGeometry(QtCore.QRect(370, 20, 141, 31))
+        self.comboBox.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(210, 100, 301, 71))
+        self.label_2.setGeometry(QtCore.QRect(190, 130, 331, 71))
         font = QtGui.QFont()
         font.setFamily(".AppleSystemUIFont")
-        font.setPointSize(10)
+        font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
         self.label_2.setFont(font)
-        self.label_2.setStyleSheet("font: 10pt \".AppleSystemUIFont\";")
+        self.label_2.setStyleSheet("font: 12pt \".AppleSystemUIFont\";")
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.but_exlor = QtWidgets.QPushButton(self.centralwidget)
-        self.but_exlor.setGeometry(QtCore.QRect(290, 170, 113, 32))
+        self.but_exlor.setGeometry(QtCore.QRect(290, 200, 113, 32))
         self.but_exlor.setObjectName("but_exlor")
         self.but_decr = QtWidgets.QPushButton(self.centralwidget)
-        self.but_decr.setGeometry(QtCore.QRect(280, 370, 151, 61))
+        self.but_decr.setGeometry(QtCore.QRect(270, 410, 151, 61))
         self.but_decr.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";")
         self.but_decr.setObjectName("but_decr")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(120, 250, 101, 71))
+        self.label_3.setGeometry(QtCore.QRect(130, 297, 101, 71))
         self.label_3.setStyleSheet("font: 12pt \".AppleSystemUIFont\";")
         self.label_3.setObjectName("label_3")
         self.but_insert = QtWidgets.QPushButton(self.centralwidget)
-        self.but_insert.setGeometry(QtCore.QRect(480, 260, 113, 51))
+        self.but_insert.setGeometry(QtCore.QRect(490, 307, 113, 61))
+        self.but_insert.setStyleSheet("font: 11pt \"MS Shell Dlg 2\";")
         self.but_insert.setObjectName("but_insert")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
         self.but_back.setGeometry(QtCore.QRect(10, 10, 101, 61))
@@ -56,6 +61,11 @@ class Ui_Window_decr(object):
         self.but_back.setIcon(icon)
         self.but_back.setIconSize(QtCore.QSize(50, 50))
         self.but_back.setObjectName("but_back")
+        self.key_insert = QtWidgets.QLineEdit(self.centralwidget)
+        self.key_insert.setGeometry(QtCore.QRect(250, 320, 211, 31))
+        self.key_insert.setObjectName("lineEdit")
+        self.key_insert.setEchoMode(QLineEdit.Password)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -90,4 +100,3 @@ class Ui_Window_decr(object):
 #     ui.setupUi(Decr_Window)
 #     Decr_Window.show()
 #     sys.exit(app.exec_())
-
