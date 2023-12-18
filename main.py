@@ -4,10 +4,10 @@
 
 import sys
 import pyperclip
-from PyQt5 import QtCore, QtGui, QtWidgets
-from Decryption import Ui_Window_decr
-from Encryption import Ui_Window_encr
-from main_screen import Ui_MainWindow
+from PyQt5 import QtWidgets
+from Program_windows.Decryption import Ui_Window_decr
+from Program_windows.Encryption import Ui_Window_encr
+from Program_windows.main_screen import Ui_MainWindow
 from Shivrs.DES.Shifrator import DES_shifr
 from Choose_fr_expl import Choose_fr_expl
 from Shivrs.DES.Deshifrator import DES_deshif
@@ -42,19 +42,19 @@ def open_Encryption():
         '''Обработка нажатия на кнопку but_encrypt
         Взависимости от выбранного шифра шифрует файл и запоминает ключ'''
 
-        iteam = ui.comboBox.currentText()
+        iteam = ui.shifrs.currentText()
 
         if (iteam == "DES"):
             def show_key(key):
                 '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                ui.pasw_out.setText('*' * len(key))
+                ui.key_label.setText('*' * len(key))
 
             global key
             key = DES_shifr()
             show_key(key)
 
-    ui.but_encrypt.clicked.connect(check_shifrator)
+    ui.but_encr.clicked.connect(check_shifrator)
 
     def copy_clipbord():
         '''Обработка нажатия на кнопку but_insert
@@ -63,7 +63,7 @@ def open_Encryption():
         global key
         pyperclip.copy(str(key))
 
-    ui.but_insert.clicked.connect(copy_clipbord)
+    ui.but_copy.clicked.connect(copy_clipbord)
 
     ui.but_exlor.clicked.connect(Choose_fr_expl)
 
@@ -90,7 +90,7 @@ def open_Decryption():
         '''Обработка нажатия на кнопку but_decr
         Взависимости от выбранного шифра дешифрует файл'''
 
-        iteam = ui.comboBox.currentText()
+        iteam = ui.shifrs.currentText()
 
         if (iteam == "DES"):
             global key
@@ -105,7 +105,7 @@ def open_Decryption():
         global key
         key = passwrd
 
-    ui.key_insert.textChanged.connect(text_insert)
+    ui.key_label.textChanged.connect(text_insert)
 
     def from_clipbord():
         '''Обработка нажатия на кнопку but_insert
@@ -113,7 +113,7 @@ def open_Decryption():
 
         global key
         key = pyperclip.paste()
-        ui.key_insert.setText(key)
+        ui.key_label.setText(key)
 
     ui.but_insert.clicked.connect(from_clipbord)
 

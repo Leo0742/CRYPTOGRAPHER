@@ -11,11 +11,11 @@ def DES_deshif(key):
     key = key.encode()
 
     f = Fernet(key)
-    file = open("shifr.txt", 'rb')  # rb - будет считывать в бинарной строчке -> read binary
+    file = open("Files/shifr.txt", 'rb')  # rb - будет считывать в бинарной строчке -> read binary
     crypt_text = file.read()
     file.close()
 
     text = f.decrypt(crypt_text)
-    file = open("shifr.txt", 'wb')
+    file = open("Files/shifr.txt", 'wb')
     file.write(text)
     file.close()
