@@ -24,6 +24,4 @@ def AES_shifr():
 
     file = open("Files/key.txt", 'w')
     file.write(key.decode('utf-8'))
-    file.close
-
-
+    file.close()
