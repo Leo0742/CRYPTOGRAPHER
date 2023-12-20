@@ -11,7 +11,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # !!!!!!!!!!!!!!!!!!!!!!!!!!1
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("")
@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         self.settings.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.settings.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/settings.svg"), QtGui.QIcon.Normal,
+        icon.addPixmap(QtGui.QPixmap("Icons/settings.svg"), QtGui.QIcon.Normal, # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                        QtGui.QIcon.Off)
         self.settings.setIcon(icon)
         self.settings.setIconSize(QtCore.QSize(60, 60))

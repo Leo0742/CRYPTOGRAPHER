@@ -13,7 +13,7 @@ def Choose_fr_expl():
     file_dialog = QFileDialog()
     file_dialog.setFileMode(QFileDialog.ExistingFile)
 
-    file = open('Files/selected_file', 'w')
+    file = open('Files/selected_file.txt', 'w')
     file.write('')
     if file_dialog.exec_():
         file.write(file_dialog.selectedFiles()[0])

@@ -11,7 +11,7 @@ class Ui_Window_encr(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # !!!!!!!!!!!!!!!!!!!!!!!!!
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -53,7 +53,7 @@ class Ui_Window_encr(object):
         self.but_back.setGeometry(QtCore.QRect(10, 10, 71, 61))
         self.but_back.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/back.svg"), QtGui.QIcon.Normal,
+        icon.addPixmap(QtGui.QPixmap("Icons/back.svg"), QtGui.QIcon.Normal, # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                        QtGui.QIcon.Off)
         self.but_back.setIcon(icon)
         self.but_back.setIconSize(QtCore.QSize(50, 50))
@@ -67,7 +67,7 @@ class Ui_Window_encr(object):
         self.question.setGeometry(QtCore.QRect(850, 620, 93, 71))
         self.question.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal,
+        icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         QtGui.QIcon.Off)
         self.question.setIcon(icon1)
         self.question.setIconSize(QtCore.QSize(60, 60))
