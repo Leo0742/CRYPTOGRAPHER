@@ -1,7 +1,10 @@
+'''Расположен класс Ui_er,
+который описывает весь дизайн окна Encryption'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
-class Ui_error_window(object):
+class Ui_Window_error(object):
     '''Описывает дизайн окна Error'''
 
     def setupUi(self, error):
@@ -14,11 +17,11 @@ class Ui_error_window(object):
         error.setStandardButtons(QtWidgets.QMessageBox.Ok)
         error.setStyleSheet("")
 
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     Error_Window = QtWidgets.QMessageBox()
-#     ui = Ui_error_window()
-#     ui.setupUi(Error_Window)
-#     Error_Window.show()
-#     sys.exit(app.exec_())
+ # if __name__ == "__main__":
+ #     import sys
+ #     app = QtWidgets.QApplication(sys.argv)
+ #     Error_Window = QtWidgets.QMessageBox()
+ #     ui = Ui_window_error()
+ #     ui.setupUi(Error_Window)
+ #     Error_Window.show()
+ #     sys.exit(app.exec_())
