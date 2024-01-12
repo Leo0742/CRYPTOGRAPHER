@@ -27,9 +27,12 @@ def DES_shifr():
     encryptor = cipher.encryptor()
 
     # Шифруем сообщение
-    message = b'Hello, world!'
+    selected_file = open("Files/selected_file.txt", "r")
+    plaintext = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    selected_file.close()
+
     padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
-    padded_data = padder.update(message) + padder.finalize()
+    padded_data = padder.update(plaintext) + padder.finalize()
     crypt_text = encryptor.update(padded_data) + encryptor.finalize()
 
     file = open("Files/key.txt", 'wb')

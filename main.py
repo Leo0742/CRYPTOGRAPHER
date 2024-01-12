@@ -852,7 +852,7 @@ def open_Intermediate():
                             '''Перезаписывает содержимое файла на зашифрованный текст'''
 
                             file = open("Files/selected_file.txt", "r")
-                            open(file.read(), 'w').write(plaintext)  # Read and store the content of the selected file
+                            open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
                             file.close()
 
                     except:
@@ -901,7 +901,7 @@ def open_Intermediate():
             ui_1.iv_label.textChanged.connect(text_insert_iv)
 
             def from_clipbord_key():
-                '''Обработка нажатия на кнопку but_in_лун
+                '''Обработка нажатия на кнопку but_in_key
                 Вставляет ключ из буфера'''
 
                 file = open("Files/key.txt", 'w')
