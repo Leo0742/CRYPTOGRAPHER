@@ -1,7 +1,12 @@
+'''Расположен класс Ui_Window_decr_RSA,
+который описывает весь дизайн окна RSA_Decryption'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 
 class Ui_Window_decr_RSA(object):
+    '''Описывает дизайн окна RSA_Decryption'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)

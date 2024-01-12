@@ -1,3 +1,8 @@
+'''Обработка нажатия на кнопку but_encr
+Расположенна функция DES_shifr(), которая
+шифрует файл и записывает значение ключа в файл key.txt,
+значение вектора инициализации в DES_iv.txt'''
+
 import string
 import random
 from cryptography.hazmat.backends import default_backend
@@ -6,6 +11,10 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.asymmetric import padding as padding_asymmetric
 
 def DES_shifr():
+    '''Шифрует выбранный файл и записывает значение ключа в файл key.txt,
+    вектора инициализации в файл DES_iv.txt
+    Возвращает содержимое зашифрованного файла в main'''
+
     # Генерируем ключ и вектор инициализации
     all_characters = string.ascii_letters + string.digits + string.punctuation
     key = ''.join(random.choice(all_characters) for _ in range(16))

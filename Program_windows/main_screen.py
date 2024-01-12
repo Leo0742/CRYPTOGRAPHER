@@ -1,7 +1,11 @@
+'''Расположен класс Ui_Window_main_screen,
+который описывает весь дизайн окна main_screen'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_Window_main_screen(object):
+    '''Описывает дизайн окна main_screen'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)

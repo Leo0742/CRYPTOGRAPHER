@@ -1,5 +1,5 @@
 '''Расположен класс Ui_er,
-который описывает весь дизайн окна Encryption'''
+который описывает весь дизайн окна Error'''
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox

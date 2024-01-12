@@ -1,6 +1,6 @@
 '''Управляющий файл. По умолчанию открывается окно main_screen
-и отслеживается открытие окон Encryption и Decryption
-и всплывающего окна Error и выполнение всех встроенных в них функций'''
+и отслеживается открытие окон Intermediate, Encryption и Decryption
+и всплывающих окон Error и Choice_safe, а так же выполнение всех встроенных в них функций'''
 
 import atexit
 import os
@@ -25,7 +25,7 @@ from Shivrs.RSA.Deshifrator import RSA_decrypt
 from Shivrs.DES.Shifrator import DES_shifr
 from Shivrs.DES.Deshifrator import DES_decrypt
 from Choose_fr_expl import Choose_fr_expl
-from Shivrs.AES.Deshifrator import AES_deshif
+from Shivrs.AES.Deshifrator import AES_decrypt
 from Program_windows.Error import Ui_Window_error
 from Program_windows.Intermediate import Ui_Window_inter
 from Shivrs.RSA.Shifrator import RSA_shifr
@@ -598,7 +598,7 @@ def open_Intermediate():
             ui_1.but_decr.clicked.connect(decruption)
 
             def text_insert(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_label_text'''
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
 
                 file = open("Files/RSA_priv_key.pem", 'a')
                 file.write(passwrd)
@@ -647,6 +647,8 @@ def open_Intermediate():
 
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
         elif ui.Box_decr.currentText() == "AES":
+            '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
+
             Decr_Window = QtWidgets.QMainWindow()
             ui_1 = Ui_Window_decr_AES()
             ui_1.setupUi(Decr_Window)
@@ -663,6 +665,9 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
+                '''Обработка нажатия на кнопку but_decr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
+
                 file = open("Files/key.txt", 'r')
                 key = file.read()
                 file.close()
@@ -676,6 +681,9 @@ def open_Intermediate():
                 Chsafe_Window.show()
 
                 def Decrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
+
                     try:
                         global flag
                         if ui_2.rab_new.isChecked():
@@ -685,9 +693,11 @@ def open_Intermediate():
 
                         Chsafe_Window.close()
 
-                        plaintext = AES_deshif()
+                        plaintext = AES_decrypt()
 
                         if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
+
                             options = QFileDialog.Options()
                             file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
                                                                        "All Files (*)",
@@ -697,6 +707,8 @@ def open_Intermediate():
                                     f.write(plaintext)
                                     f.close()
                         else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
                             file = open("Files/selected_file.txt", "r")
                             open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
                             file.close()
@@ -731,7 +743,7 @@ def open_Intermediate():
             ui_1.but_decr.clicked.connect(decruption)
 
             def text_insert(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_insert'''
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
 
                 file = open("Files/key.txt", 'w')
                 file.write(str(passwrd))
@@ -773,6 +785,8 @@ def open_Intermediate():
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
 
         elif ui.Box_decr.currentText() == "DES":
+            '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
+
             Decr_Window = QtWidgets.QMainWindow()
             ui_1 = Ui_Window_decr_DES()
             ui_1.setupUi(Decr_Window)
@@ -789,6 +803,9 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
+                '''Обработка нажатия на кнопку but_decr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
+
                 file = open("Files/key.txt", 'r')
                 key = file.read()
                 file.close()
@@ -806,6 +823,9 @@ def open_Intermediate():
                 Chsafe_Window.show()
 
                 def Decrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
+
                     try:
                         global flag
                         if ui_2.rab_new.isChecked():
@@ -818,6 +838,8 @@ def open_Intermediate():
                         plaintext = DES_decrypt()
 
                         if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
+
                             options = QFileDialog.Options()
                             file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
                                                                        "All Files (*)",
@@ -827,6 +849,8 @@ def open_Intermediate():
                                     f.write(plaintext)
                                     f.close()
                         else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
                             file = open("Files/selected_file.txt", "r")
                             open(file.read(), 'w').write(plaintext)  # Read and store the content of the selected file
                             file.close()
@@ -860,14 +884,14 @@ def open_Intermediate():
             ui_1.but_decr.clicked.connect(decruption)
 
             def text_insert_key(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_insert'''
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
 
                 file = open("Files/key.txt", 'w')
                 file.write(str(passwrd))
                 file.close()
 
             def text_insert_iv(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_insert'''
+                '''Обрабатывает ввод значений в поле ввода ключа iv_label'''
 
                 file = open("Files/DES_iv.txt", 'w')
                 file.write(str(passwrd))
@@ -877,7 +901,7 @@ def open_Intermediate():
             ui_1.iv_label.textChanged.connect(text_insert_iv)
 
             def from_clipbord_key():
-                '''Обработка нажатия на кнопку but_insert
+                '''Обработка нажатия на кнопку but_in_лун
                 Вставляет ключ из буфера'''
 
                 file = open("Files/key.txt", 'w')
@@ -906,8 +930,8 @@ def open_Intermediate():
                 file.close()
 
             def from_clipbord_iv():
-                '''Обработка нажатия на кнопку but_insert
-                Вставляет ключ из буфера'''
+                '''Обработка нажатия на кнопку but_in_iv
+                Вставляет вектор инициализации из буфера'''
 
                 file = open("Files/DES_iv.txt", 'w')
                 iv = pyperclip.paste()
@@ -949,7 +973,7 @@ ui.but_start.clicked.connect(open_Intermediate)
 
 
 def delete_file():
-    '''При завершении программы очищает содержимое selected_file'''
+    '''При завершении программы очищает содержимое папки Files'''
 
     file = open("Files/selected_file.txt", 'w')
     file.write('')

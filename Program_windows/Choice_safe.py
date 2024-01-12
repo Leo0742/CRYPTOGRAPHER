@@ -1,7 +1,12 @@
+'''Расположен класс Ui_Window_Chsafe,
+который описывает весь дизайн окна Choice_safe'''
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_Window_Chsafe(object):
+    '''Описывает дизайн окна Choice_safe'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(480, 270)

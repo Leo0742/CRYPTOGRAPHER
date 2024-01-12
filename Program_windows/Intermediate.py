@@ -1,7 +1,11 @@
+'''Расположен класс Ui_Window_inter,
+который описывает весь дизайн окна Intermediate'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_Window_inter(object):
+    '''Описывает дизайн окна Intermediate'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)

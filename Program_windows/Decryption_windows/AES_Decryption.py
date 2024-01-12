@@ -1,8 +1,13 @@
+'''Расположен класс Ui_Window_decr_AES,
+который описывает весь дизайн окна AES_Decryption'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 
 
 class Ui_Window_decr_AES(object):
+    '''Описывает дизайн окна AES_Decryption'''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)

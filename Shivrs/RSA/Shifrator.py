@@ -1,3 +1,8 @@
+'''Обработка нажатия на кнопку but_encr
+Расположенна функция RSA_shifr(), которая
+шифрует файл и записывает значение ключей в файлы:
+RSA_priv_key.pem, RSA_pub_key.pem'''
+
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -5,6 +10,10 @@ from cryptography.hazmat.primitives import hashes
 
 
 def RSA_shifr():
+    '''Шифрует выбранный файл и записывает значение ключей в файлы:
+    RSA_priv_key.pem, RSA_pub_key.pem
+    Возвращает содержимое зашифрованного файла в main'''
+
     # Generate keys
     private_key = rsa.generate_private_key(
         public_exponent=65537,

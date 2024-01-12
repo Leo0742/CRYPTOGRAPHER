@@ -1,8 +1,16 @@
+'''Обработка нажатия на клавишу but_decr
+Расположенна функция DES_decrypt(), которая
+принимает ключ и вектор инициализации из main, и расшифровывает файл'''
+
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 def DES_decrypt():
+    '''Считывает ключ и вектор инициализации
+    из файлов key.txt, DES_iv.txt
+    Расшифрованное содержимое файла возвращает в main'''
+
     file = open("Files/key.txt", 'r')
     key = file.read()
     file.close()
