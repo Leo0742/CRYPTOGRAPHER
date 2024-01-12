@@ -82,7 +82,7 @@ class Ui_Window_inter(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Intermediate"))
         self.but_encr.setText(_translate("MainWindow", "Зашифровать"))
-        self.but_decr.setText(_translate("MainWindow", "Дешифровать"))
+        self.but_decr.setText(_translate("MainWindow", "Расшифровать"))
         self.label_2.setText(_translate("MainWindow", "version 2024.1.0"))
         self.label_3.setText(_translate("MainWindow", "Leonardo"))
         self.Box_encr.setItemText(0, _translate("MainWindow", "RSA"))

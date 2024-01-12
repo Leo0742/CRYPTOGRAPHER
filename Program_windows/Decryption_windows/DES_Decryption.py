@@ -81,7 +81,7 @@ class Ui_Window_decr_DES(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> DES -> Decryption"))
         self.label_1.setText(_translate("MainWindow", "Выбирите файл для дешифрования"))
         self.but_exlor.setText(_translate("MainWindow", "Обзор"))
-        self.but_decr.setText(_translate("MainWindow", "Дешифровать"))
+        self.but_decr.setText(_translate("MainWindow", "Расшифровать"))
         self.label_2.setText(_translate("MainWindow", "Ваш ключ:"))
         self.but_in_iv.setText(_translate("MainWindow", "Вставить"))
         self.but_in_key.setText(_translate("MainWindow", "Вставить"))

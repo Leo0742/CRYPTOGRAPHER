@@ -68,7 +68,7 @@ class Ui_Window_decr_RSA(object):
         self.label_1.setText(_translate("MainWindow", "Выбирите файл для дешифрования"))
         self.but_exlor.setText(_translate("MainWindow", "Обзор"))
         self.label_2.setText(_translate("MainWindow", "Ваш приватный ключ:"))
-        self.but_decr.setText(_translate("MainWindow", "Дешифровать"))
+        self.but_decr.setText(_translate("MainWindow", "Расшифровать"))
         self.but_insert.setText(_translate("MainWindow", "Вставить"))
 
 
