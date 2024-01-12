@@ -3,6 +3,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 
+
 def RSA_shifr():
     # Generate keys
     private_key = rsa.generate_private_key(
@@ -27,9 +28,6 @@ def RSA_shifr():
         )
     )
 
-    with open("Files/shifr.txt", 'wb') as file:
-        file.write(crypt_text)  # Write the encrypted text to the file
-
     with open("Files/RSA_priv_key.pem", 'wb') as file:
         file.write(private_key.private_bytes(
             encoding=serialization.Encoding.PEM,
@@ -41,3 +39,5 @@ def RSA_shifr():
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         ))
+
+    return crypt_text

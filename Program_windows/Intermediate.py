@@ -55,12 +55,10 @@ class Ui_Window_inter(object):
         self.Box_encr.addItem("")
         self.Box_encr.addItem("")
         self.Box_encr.addItem("")
-        self.Box_encr.addItem("")
         self.Box_decr = QtWidgets.QComboBox(self.centralwidget)
         self.Box_decr.setGeometry(QtCore.QRect(170, 360, 241, 41))
         self.Box_decr.setStyleSheet("font: 75 12pt \"Nirmala UI\";")
         self.Box_decr.setObjectName("Box_decr")
-        self.Box_decr.addItem("")
         self.Box_decr.addItem("")
         self.Box_decr.addItem("")
         self.Box_decr.addItem("")
@@ -86,11 +84,9 @@ class Ui_Window_inter(object):
         self.Box_encr.setItemText(0, _translate("MainWindow", "RSA"))
         self.Box_encr.setItemText(1, _translate("MainWindow", "AES"))
         self.Box_encr.setItemText(2, _translate("MainWindow", "DES"))
-        self.Box_encr.setItemText(3, _translate("MainWindow", "Шифр Цезаря"))
         self.Box_decr.setItemText(0, _translate("MainWindow", "RSA"))
         self.Box_decr.setItemText(1, _translate("MainWindow", "AES"))
         self.Box_decr.setItemText(2, _translate("MainWindow", "DES"))
-        self.Box_decr.setItemText(3, _translate("MainWindow", "Шифр Цезаря"))
 
 
 # if __name__ == "__main__":

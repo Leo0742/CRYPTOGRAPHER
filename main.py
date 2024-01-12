@@ -3,6 +3,7 @@
 и всплывающего окна Error и выполнение всех встроенных в них функций'''
 
 import atexit
+import os
 import os.path
 import sys
 import pyperclip
@@ -28,7 +29,9 @@ from Shivrs.AES.Deshifrator import AES_deshif
 from Program_windows.Error import Ui_Window_error
 from Program_windows.Intermediate import Ui_Window_inter
 from Shivrs.RSA.Shifrator import RSA_shifr
-
+from Program_windows.Choice_safe import Ui_Window_Chsafe
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -52,6 +55,8 @@ def open_Intermediate():
         ''' Открывает окно Encryption и обрабатывает действия в нём'''
 
         if ui.Box_encr.currentText() == "RSA":
+            '''Открывает открывает окно RSA_Encryption и обрабатывает действия в нём'''
+
             global Encr_Window
             Encr_Window = QtWidgets.QMainWindow()
             ui_1 = Ui_Window_encr_RSA()
@@ -59,40 +64,83 @@ def open_Intermediate():
             Inter_Window.close()
 
             def encryption():
-                try:
-                    def show_keys(key_cl, key_op):
-                        '''Шифрует ключи под * и выводит его в окно pasw_out'''
+                '''Обработка нажатия на кнопку but_encr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                        ui_1.key_label_cl.setText('*' * len(key_cl))
-                        ui_1.key_label_op.setText('*' * len(key_op))
+                global flag
 
-                    RSA_shifr()
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                    file_priv = open("Files/RSA_priv_key.pem", 'r')  # Open the private key file
-                    private_key = file_priv.readlines()
-                    file_priv.close()
-                    file_op = open("Files/RSA_pub_key.pem", 'r')  # Open the private key file
-                    public_key = file_op.readlines()
-                    file_op.close()
+                def Encrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
 
-                    key_cl = ''.join(private_key[1:26])
-                    key_op = ''.join(public_key[1:8])
+                    global flag
+                    try:
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                    show_keys(key_cl, key_op)
+                        Chsafe_Window.close()
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                     и предложит методы её решения'''
-                    global Error_Window
+                        def show_keys(key_cl, key_op):
+                            '''Шифрует ключи под * и выводит его в окна key_label_cl и key_label_op'''
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.setInformativeText("Выберите файл для шифрования")
-                    Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+                            ui_1.key_label_cl.setText('*' * len(key_cl))
+                            ui_1.key_label_op.setText('*' * len(key_op))
 
-                    Error_Window.show()
+                        crypt_text = RSA_shifr()
+
+                        if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
+
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(crypt_text)
+                                    f.close()
+                        else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
+                            file.close()
+
+                        file_priv = open("Files/RSA_priv_key.pem", 'r')  # Open the private key file
+                        private_key = file_priv.readlines()
+                        file_priv.close()
+                        file_op = open("Files/RSA_pub_key.pem", 'r')  # Open the private key file
+                        public_key = file_op.readlines()
+                        file_op.close()
+
+                        key_cl = ''.join(private_key[1:26])
+                        key_op = ''.join(public_key[1:8])
+
+                        show_keys(key_cl, key_op)
+
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                        и предложит методы её решения'''
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.setInformativeText("Выберите файл для шифрования")
+                        Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+
+                        Error_Window.show()
+
+                ui_2.but_next.clicked.connect(Encrwind)
 
 
             ui_1.but_encr.clicked.connect(encryption)
@@ -106,7 +154,7 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def copy_clipbord_cl():
-                '''Обработка нажатия на кнопку but_insert
+                '''Обработка нажатия на кнопку but_copy_cl
                 Копирует ключ в буфер обмена'''
 
                 file = open("Files/RSA_priv_key.pem", 'r')
@@ -115,14 +163,14 @@ def open_Intermediate():
                 file.close()
 
                 if key_cl == '':
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
+                    '''Появится всплывающие окно Error, которое предупредит об ошибке 
                     и предложит методы её решения'''
 
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -134,7 +182,7 @@ def open_Intermediate():
                     pyperclip.copy(str(key_cl))
 
             def copy_clipbord_op():
-                '''Обработка нажатия на кнопку but_insert
+                '''Обработка нажатия на кнопку but_copy_op
                 Копирует ключ в буфер обмена'''
 
                 file = open("Files/RSA_pub_key.pem", 'r')
@@ -149,8 +197,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -167,6 +215,8 @@ def open_Intermediate():
 
             Encr_Window.show()
         elif ui.Box_encr.currentText() == "AES":
+            '''Открывает открывает окно AES_Encryption и обрабатывает действия в нём'''
+
             Encr_Window = QtWidgets.QMainWindow()
             ui_1 = Ui_Window_encr_AES()
             ui_1.setupUi(Encr_Window)
@@ -175,33 +225,76 @@ def open_Intermediate():
             Encr_Window.show()
 
             def encryption():
-                try:
-                    def show_key(key):
-                        '''Шифрует ключ под * и выводит его в окно pasw_out'''
+                '''Обработка нажатия на кнопку but_encr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                        ui_1.key_label.setText('*' * len(key))
+                global flag
 
-                    AES_shifr()
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                    file = open("Files/key.txt", 'r')
-                    key = file.read()
-                    file.close()
+                def Encrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
 
-                    show_key(key)
+                    global flag
+                    try:
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                     и предложит методы её решения'''
-                    global Error_Window
+                        Chsafe_Window.close()
+                        def show_key(key):
+                            '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.setInformativeText("Выберите файл для шифрования")
-                    Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+                            ui_1.key_label.setText('*' * len(key))
 
-                    Error_Window.show()
+                        crypt_text = AES_shifr()
+
+                        if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
+
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(crypt_text)
+                                    f.close()
+                        else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
+                            file.close()
+
+                        file = open("Files/key.txt", 'r')
+                        key = file.read()
+                        file.close()
+
+                        show_key(key)
+
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                         и предложит методы её решения'''
+
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.setInformativeText("Выберите файл для шифрования")
+                        Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+
+                        Error_Window.show()
+
+                ui_2.but_next.clicked.connect(Encrwind)
 
 
             ui_1.but_encr.clicked.connect(encryption)
@@ -215,7 +308,7 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def copy_clipbord():
-                '''Обработка нажатия на кнопку but_insert
+                '''Обработка нажатия на кнопку but_copy
                 Копирует ключ в буфер обмена'''
 
                 file = open("Files/key.txt", 'r')
@@ -228,8 +321,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -243,6 +336,8 @@ def open_Intermediate():
             ui_1.but_copy.clicked.connect(copy_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
         elif ui.Box_encr.currentText() == "DES":
+            '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
+
             Encr_Window = QtWidgets.QMainWindow()
             ui_1 = Ui_Window_encr_DES()
             ui_1.setupUi(Encr_Window)
@@ -250,39 +345,82 @@ def open_Intermediate():
             Encr_Window.show()
 
             def encryption():
-                try:
-                    def show_key_iv(key, iv):
-                        '''Шифрует ключ под * и выводит его в окно pasw_out'''
+                '''Обработка нажатия на кнопку but_encr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                        ui_1.key_label.setText('*' * len(key))
-                        ui_1.iv_label.setText('*' * len(iv))
+                global flag
 
-                    DES_shifr()
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                    file = open("Files/key.txt", 'r')
-                    key = file.read()
-                    file.close()
+                def Encrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
 
-                    file = open("Files/DES_iv.txt", 'r')
-                    iv = file.read()
-                    file.close()
+                    global flag
+                    try:
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                    show_key_iv(key, iv)
+                        Chsafe_Window.close()
+                        def show_key_iv(key, iv):
+                            '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                     и предложит методы её решения'''
-                    global Error_Window
+                            ui_1.key_label.setText('*' * len(key))
+                            ui_1.iv_label.setText('*' * len(iv))
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.setInformativeText("Выберите файл для шифрования")
-                    Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+                        crypt_text = DES_shifr()
 
-                    Error_Window.show()
+                        if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(crypt_text)
+                                    f.close()
+                        else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
+                            file.close()
+
+
+                        file = open("Files/key.txt", 'r')
+                        key = file.read()
+                        file.close()
+
+                        file = open("Files/DES_iv.txt", 'r')
+                        iv = file.read()
+                        file.close()
+
+                        show_key_iv(key, iv)
+
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                        и предложит методы её решения'''
+
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.setInformativeText("Выберите файл для шифрования")
+                        Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
+
+                        Error_Window.show()
+
+                ui_2.but_next.clicked.connect(Encrwind)
 
             ui_1.but_encr.clicked.connect(encryption)
             def open_Main():
@@ -295,7 +433,7 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def copy_clipbord_key():
-                '''Обработка нажатия на кнопку but_insert
+                '''Обработка нажатия на кнопку but_copy_key
                 Копирует ключ в буфер обмена'''
 
                 file = open("Files/key.txt", 'r')
@@ -308,8 +446,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -321,8 +459,8 @@ def open_Intermediate():
                     pyperclip.copy(str(key))
 
             def copy_clipbord_iv():
-                '''Обработка нажатия на кнопку but_insert
-                Копирует ключ в буфер обмена'''
+                '''Обработка нажатия на кнопку but_copy_iv
+                Копирует вектор инициализации в буфер обмена'''
 
                 file = open("Files/DES_iv.txt", 'r')
                 iv = file.read()
@@ -334,8 +472,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -355,6 +493,8 @@ def open_Intermediate():
         ''' Открывает окно Decryption и обрабатывает действия в нём'''
 
         if ui.Box_decr.currentText() == "RSA":
+            '''Открывает открывает окно RSA_Decryption и обрабатывает действия в нём'''
+
             global Decr_Window
 
             Decr_Window = QtWidgets.QMainWindow()
@@ -376,6 +516,9 @@ def open_Intermediate():
             ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
+                '''Обработка нажатия на кнопку but_decr
+                Открывает окно Choice_safe и обрабатывает действия в нём'''
+
                 file = open("Files/RSA_priv_key.pem", 'a')
                 file.write("-----END RSA PRIVATE KEY-----\n")
                 file.close()
@@ -384,38 +527,78 @@ def open_Intermediate():
                 key = ''.join(lines[1:26])
                 file.close()
 
-                try:
-                    RSA_decrypt()
+                global flag
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                    и предложит методы её решения'''
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                    global Error_Window
+                def Decrwind():
+                    '''Обработка нажатия на кнопку but_next
+                    Обрабатывает действия в окне Choice_safe'''
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    try:
+                        global flag
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                    if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
-                        Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
-                    elif os.path.getsize("Files/selected_file.txt") == 0:
-                        Error_Window.setInformativeText("Выберите файл для дешифрования")
-                        Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
-                    else:
-                        Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+                        Chsafe_Window.close()
 
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.show()
+                        plaintext = RSA_decrypt()
+
+                        if flag:
+                            '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
+
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(plaintext)
+                                    f.close()
+                        else:
+                            '''Перезаписывает содержимое файла на зашифрованный текст'''
+
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
+                            file.close()
+
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                        и предложит методы её решения'''
+
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+
+                        if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
+                            Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
+                        elif os.path.getsize("Files/selected_file.txt") == 0:
+                            Error_Window.setInformativeText("Выберите файл для дешифрования")
+                            Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
+                        else:
+                            Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.show()
+
+                ui_2.but_next.clicked.connect(Decrwind)
 
             ui_1.but_decr.clicked.connect(decruption)
 
             def text_insert(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_insert'''
+                '''Обрабатывает ввод значений в поле ввода ключа key_label_text'''
 
                 file = open("Files/RSA_priv_key.pem", 'a')
                 file.write(passwrd)
@@ -427,9 +610,7 @@ def open_Intermediate():
                 '''Обработка нажатия на кнопку but_insert
                 Вставляет ключ из буфера'''
 
-                file = open("Files/RSA_priv_key.pem", 'a')
                 key = pyperclip.paste()
-                print(key)
 
                 if key == '':
                     '''Появится всплывающие окно Error, которое предупредит об ошибке
@@ -438,8 +619,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -448,19 +629,19 @@ def open_Intermediate():
 
                     Error_Window.show()
                 else:
-                    ui_1.key_label.setText(key)
+                    file = open("Files/RSA_priv_dub.pem", 'w')
                     file.write(key)
+                    file.close()
 
-                    with open('Files/RSA_priv_key.pem', 'r') as file:
+                    with open('Files/RSA_priv_dub.pem', 'r') as file:
                         lines = file.readlines()
+                        file.close()
 
                     # Удаление пустых строк
                     lines = [line for line in lines if line.strip()]
 
-                    with open('Files/RSA_priv_key.pem', 'w') as file:
-                        file.writelines(lines)
-
-                file.close()
+                    key = ''.join(lines)
+                    ui_1.key_label.setText(key)
 
             ui_1.but_insert.clicked.connect(from_clipbord)
 
@@ -486,34 +667,66 @@ def open_Intermediate():
                 key = file.read()
                 file.close()
 
+                global flag
 
-                try:
-                    AES_deshif()
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                    и предложит методы её решения'''
+                def Decrwind():
+                    try:
+                        global flag
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                    global Error_Window
+                        Chsafe_Window.close()
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                        plaintext = AES_deshif()
 
-                    if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
-                        Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
-                    elif os.path.getsize("Files/selected_file.txt") == 0:
-                        Error_Window.setInformativeText("Выберите файл для дешифрования")
-                        Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
-                    else:
-                        Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+                        if flag:
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(plaintext)
+                                    f.close()
+                        else:
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
+                            file.close()
 
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.show()
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                        и предложит методы её решения'''
+
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+
+                        if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
+                            Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
+                        elif os.path.getsize("Files/selected_file.txt") == 0:
+                            Error_Window.setInformativeText("Выберите файл для дешифрования")
+                            Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
+                        else:
+                            Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.show()
+
+                ui_2.but_next.clicked.connect(Decrwind)
 
             ui_1.but_decr.clicked.connect(decruption)
 
@@ -540,8 +753,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -584,34 +797,65 @@ def open_Intermediate():
                 iv = file.read()
                 file.close()
 
+                global flag
 
-                try:
-                    DES_decrypt()
+                global Chsafe_Window
+                Chsafe_Window = QtWidgets.QMainWindow()
+                ui_2 = Ui_Window_Chsafe()
+                ui_2.setupUi(Chsafe_Window)
+                Chsafe_Window.show()
 
-                except:
-                    '''Появится всплывающие окно Error, которое предупредит об ошибке
-                    и предложит методы её решения'''
+                def Decrwind():
+                    try:
+                        global flag
+                        if ui_2.rab_new.isChecked():
+                            flag = True
+                        elif ui_2.rab_this.isChecked():
+                            flag = False
 
-                    global Error_Window
+                        Chsafe_Window.close()
 
-                    Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                        plaintext = DES_decrypt()
 
-                    if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
-                        Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
-                    elif os.path.getsize("Files/selected_file.txt") == 0:
-                        Error_Window.setInformativeText("Выберите файл для дешифрования")
-                        Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
-                    else:
-                        Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
-                        Error_Window.setDetailedText(
-                            "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+                        if flag:
+                            options = QFileDialog.Options()
+                            file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                                                       "All Files (*)",
+                                                                       options=options)
+                            if file_name:
+                                with open(file_name, 'wb') as f:
+                                    f.write(plaintext)
+                                    f.close()
+                        else:
+                            file = open("Files/selected_file.txt", "r")
+                            open(file.read(), 'w').write(plaintext)  # Read and store the content of the selected file
+                            file.close()
 
-                    Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                    Error_Window.show()
+                    except:
+                        '''Появится всплывающие окно Error, которое предупредит об ошибке
+                        и предложит методы её решения'''
+
+                        global Error_Window
+
+                        Error_Window = QtWidgets.QMessageBox()
+                        ui_3 = Ui_Window_error()
+                        ui_3.setupUi(Error_Window)
+
+                        if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
+                            Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не выберите его и не вставите в поле ввода ключа свой ключ")
+                        elif os.path.getsize("Files/selected_file.txt") == 0:
+                            Error_Window.setInformativeText("Выберите файл для дешифрования")
+                            Error_Window.setDetailedText("Программа не сможет дешифровать файл, пока вы не выберите его")
+                        else:
+                            Error_Window.setInformativeText("Вставьте свой ключ в поле ввода ключа")
+                            Error_Window.setDetailedText(
+                                "Программа не сможет дешифровать файл, пока вы не вставите в поле ввода ключа свой ключ")
+
+                        Error_Window.setText("Сейчас выполнить данное действие невозможно !")
+                        Error_Window.show()
+                ui_2.but_next.clicked.connect(Decrwind)
 
             ui_1.but_decr.clicked.connect(decruption)
 
@@ -646,8 +890,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -727,6 +971,9 @@ def delete_file():
     file.write('')
     file.close()
 
+    file = open("Files/RSA_priv_dub.pem", 'w')
+    file.write('')
+    file.close()
 
 atexit.register(delete_file)  # регестрирует функцию, которая будет выполняться после окончания программы
 

@@ -21,11 +21,7 @@ def DES_shifr():
     message = b'Hello, world!'
     padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
     padded_data = padder.update(message) + padder.finalize()
-    ct = encryptor.update(padded_data) + encryptor.finalize()
-
-    file = open("Files/shifr.txt", 'wb')
-    file.write(ct)
-    file.close()
+    crypt_text = encryptor.update(padded_data) + encryptor.finalize()
 
     file = open("Files/key.txt", 'wb')
     file.write(key)
@@ -34,5 +30,7 @@ def DES_shifr():
     file = open("Files/DES_iv.txt", 'wb')
     file.write(iv)
     file.close()
+
+    return crypt_text
 
 #DES_shifr()

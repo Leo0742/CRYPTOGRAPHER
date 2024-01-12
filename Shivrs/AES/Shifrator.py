@@ -13,15 +13,11 @@ def AES_shifr():
     text = file.read()
     selected_file.close()
     file.close()
-    selected_file = open('Files/selected_file.txt', 'w')
-    selected_file.write('')
-    selected_file.close()
 
     crypt_text = f.encrypt(text)
-    file = open("Files/shifr.txt", 'wb')
-    file.write(crypt_text)
-    file.close()
 
     file = open("Files/key.txt", 'w')
     file.write(key.decode('utf-8'))
     file.close()
+
+    return crypt_text

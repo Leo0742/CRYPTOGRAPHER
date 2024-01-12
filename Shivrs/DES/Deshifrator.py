@@ -16,19 +16,18 @@ def DES_decrypt():
 
     cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv), backend=default_backend())
 
-    file = open("Files/shifr.txt", 'rb')  # Open the file in binary mode
-    ct = file.read()
-    file.close()
+    selected_file = open("Files/selected_file.txt", "r")
+    crypt_text = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    selected_file.close()
 
     # Расшифровываем сообщение
     decryptor = cipher.decryptor()
-    pt = decryptor.update(ct) + decryptor.finalize()  # Расшифровываем сообщение
+    pt = decryptor.update(crypt_text) + decryptor.finalize()  # Расшифровываем сообщение
     unpadder = padding.PKCS7(algorithms.TripleDES.block_size).unpadder()
-    pt = unpadder.update(pt) + unpadder.finalize()  # Удаляем дополнение
+    plaintext = unpadder.update(pt) + unpadder.finalize()  # Удаляем дополнения
 
-    # Выводим результат
-    file = open("Files/shifr.txt", 'w')
-    file.write(pt.decode('utf-8')) # Convert bytes to string for printing
-    file.close()
+    plaintext = plaintext.decode('utf-8')
+    print(plaintext)
+    return plaintext
 
 #DES_decrypt()

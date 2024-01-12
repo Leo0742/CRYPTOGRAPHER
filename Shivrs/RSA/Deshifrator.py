@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives import hashes
 
 
 def RSA_decrypt():
+    print("RSA_1")
     file = open("Files/RSA_priv_key.pem", 'rb')  # Open the private key file
     private_key = serialization.load_pem_private_key(  # Load the private key
         file.read(),
@@ -11,10 +12,12 @@ def RSA_decrypt():
     )
     file.close()
 
-    file = open("Files/shifr.txt", 'rb')
-    cipher_text = file.read()
-    file.close()
+    print("RSA_2")
+    selected_file = open("Files/selected_file.txt", "r")
+    cipher_text = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    selected_file.close()
 
+    print("RSA_3")
     plaintext = private_key.decrypt(  # Decrypt the ciphertext using the private key
         cipher_text,
         padding.OAEP(
@@ -24,8 +27,8 @@ def RSA_decrypt():
         )
     )
 
-    file = open("Files/shifr.txt", 'wb')  # Open the plaintext file in write mode
-    file.write(plaintext)  # Write the decrypted plaintext to the file
-    file.close()
+    print("RSA_4")
+    print(plaintext)
+    return plaintext
 
-# RSA_decrypt()
+#RSA_decrypt()

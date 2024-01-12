@@ -15,11 +15,10 @@ def AES_deshif():
     key = key.encode()
 
     f = Fernet(key)
-    file = open("Files/shifr.txt", 'rb')  # rb - будет считывать в бинарной строчке -> read binary
-    crypt_text = file.read()
-    file.close()
+    selected_file = open("Files/selected_file.txt", "r")
+    crypt_text = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    selected_file.close()
 
-    text = f.decrypt(crypt_text)
-    file = open("Files/shifr.txt", 'wb')
-    file.write(text)
-    file.close()
+    plaintext = f.decrypt(crypt_text)
+
+    return plaintext
