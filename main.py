@@ -5,13 +5,9 @@
 import atexit
 import os
 import os.path
-import sys
+import time
+
 import pyperclip
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives import serialization
-import cryptography.hazmat.primitives
 from PyQt5 import QtWidgets
 from Program_windows.Encryption_windows.AES_Encryption import Ui_Window_encr_AES
 from Program_windows.Encryption_windows.RSA_Encryption import Ui_Window_encr_RSA
@@ -19,6 +15,9 @@ from Program_windows.Encryption_windows.DES_Encryption import Ui_Window_encr_DES
 from Program_windows.Decryption_windows.AES_Decryption import Ui_Window_decr_AES
 from Program_windows.Decryption_windows.RSA_Decryption import Ui_Window_decr_RSA
 from Program_windows.Decryption_windows.DES_Decryption import Ui_Window_decr_DES
+from Program_windows.Additional.Encr_Progress_Bar import Ui_Window_EncrProgbar
+from Program_windows.Additional.Decr_Progress_Bar import Ui_Window_DecrProgbar
+from Program_windows.Additional.Report import Ui_Window_report
 from Program_windows.main_screen import Ui_Window_main_screen
 from Shivrs.AES.Shifrator import AES_shifr
 from Shivrs.RSA.Deshifrator import RSA_decrypt
@@ -26,12 +25,12 @@ from Shivrs.DES.Shifrator import DES_shifr
 from Shivrs.DES.Deshifrator import DES_decrypt
 from Choose_fr_expl import Choose_fr_expl
 from Shivrs.AES.Deshifrator import AES_decrypt
-from Program_windows.Error import Ui_Window_error
+from Program_windows.Additional.Error import Ui_Window_error
 from Program_windows.Intermediate import Ui_Window_inter
 from Shivrs.RSA.Shifrator import RSA_shifr
-from Program_windows.Choice_safe import Ui_Window_Chsafe
+from Program_windows.Additional.Choice_safe import Ui_Window_Chsafe
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QFileDialog
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -88,6 +87,18 @@ def open_Intermediate():
 
                         Chsafe_Window.close()
 
+                        global EncrProgbar_Window
+
+                        '''Открывает окно Encr_Progress_Bar которое отслеживает выполнение шифрования'''
+
+                        EncrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_EncrProgbar()
+                        ui_3.setupUi(EncrProgbar_Window)
+                        EncrProgbar_Window.show()
+
+                        ui_3.progBar_encr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         def show_keys(key_cl, key_op):
                             '''Шифрует ключи под * и выводит его в окна key_label_cl и key_label_op'''
 
@@ -95,6 +106,9 @@ def open_Intermediate():
                             ui_1.key_label_op.setText('*' * len(key_op))
 
                         crypt_text = RSA_shifr()
+
+                        ui_3.progBar_encr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -114,6 +128,9 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_encr.setValue(75)
+                        QtWidgets.QApplication.processEvents()
+
                         file_priv = open("Files/RSA_priv_key.pem", 'r')  # Open the private key file
                         private_key = file_priv.readlines()
                         file_priv.close()
@@ -126,14 +143,29 @@ def open_Intermediate():
 
                         show_keys(key_cl, key_op)
 
+                        ui_3.progBar_encr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        EncrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешном шифровании файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
+
+                        Report_Window.show()
+
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
                         и предложит методы её решения'''
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.setInformativeText("Выберите файл для шифрования")
                         Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
@@ -169,8 +201,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -197,8 +229,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -248,12 +280,28 @@ def open_Intermediate():
                             flag = False
 
                         Chsafe_Window.close()
+
+                        '''Открывает окно Encr_Progress_Bar которое отслеживает выполнение шифрования'''
+
+                        global EncrProgbar_Window
+
+                        EncrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_EncrProgbar()
+                        ui_3.setupUi(EncrProgbar_Window)
+                        EncrProgbar_Window.show()
+
+                        ui_3.progBar_encr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         def show_key(key):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
                             ui_1.key_label.setText('*' * len(key))
 
                         crypt_text = AES_shifr()
+
+                        ui_3.progBar_encr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -273,11 +321,29 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_encr.setValue(75)
+                        QtWidgets.QApplication.processEvents()
+
                         file = open("Files/key.txt", 'r')
                         key = file.read()
                         file.close()
 
                         show_key(key)
+
+                        ui_3.progBar_encr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        EncrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешном шифровании файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
+
+                        Report_Window.show()
 
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
@@ -286,8 +352,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.setInformativeText("Выберите файл для шифрования")
                         Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
@@ -321,8 +387,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -368,6 +434,19 @@ def open_Intermediate():
                             flag = False
 
                         Chsafe_Window.close()
+
+                        '''Открывает окно Encr_Progress_Bar которое отслеживает выполнение шифрования'''
+
+                        global EncrProgbar_Window
+
+                        EncrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_EncrProgbar()
+                        ui_3.setupUi(EncrProgbar_Window)
+                        EncrProgbar_Window.show()
+
+                        ui_3.progBar_encr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         def show_key_iv(key, iv):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
@@ -375,6 +454,9 @@ def open_Intermediate():
                             ui_1.iv_label.setText('*' * len(iv))
 
                         crypt_text = DES_shifr()
+
+                        ui_3.progBar_encr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -394,6 +476,8 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_encr.setValue(75)
+                        QtWidgets.QApplication.processEvents()
 
                         file = open("Files/key.txt", 'r')
                         key = file.read()
@@ -405,6 +489,21 @@ def open_Intermediate():
 
                         show_key_iv(key, iv)
 
+                        ui_3.progBar_encr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        EncrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешном шифровании файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
+
+                        Report_Window.show()
+
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
                         и предложит методы её решения'''
@@ -412,8 +511,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.setInformativeText("Выберите файл для шифрования")
                         Error_Window.setDetailedText("Программа не сможет зашифровать файл, пока вы не выберите его")
@@ -446,8 +545,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -472,8 +571,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_4 = Ui_Window_error()
+                    ui_4.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -548,7 +647,22 @@ def open_Intermediate():
 
                         Chsafe_Window.close()
 
+                        '''Открывает окно Decr_Progress_Bar которое отслеживает выполнение расшифровки'''
+
+                        global DecrProgbar_Window
+
+                        DecrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_DecrProgbar()
+                        ui_3.setupUi(DecrProgbar_Window)
+                        DecrProgbar_Window.show()
+
+                        ui_3.progBar_decr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         plaintext = RSA_decrypt()
+
+                        ui_3.progBar_decr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -568,6 +682,21 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_decr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        DecrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешной расшифровки файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
+
+                        Report_Window.show()
+
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
                         и предложит методы её решения'''
@@ -575,8 +704,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
                             Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
@@ -619,8 +748,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -693,7 +822,22 @@ def open_Intermediate():
 
                         Chsafe_Window.close()
 
+                        '''Открывает окно Decr_Progress_Bar которое отслеживает выполнение расшифровки'''
+
+                        global DecrProgbar_Window
+
+                        DecrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_DecrProgbar()
+                        ui_3.setupUi(DecrProgbar_Window)
+                        DecrProgbar_Window.show()
+
+                        ui_3.progBar_decr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         plaintext = AES_decrypt()
+
+                        ui_3.progBar_decr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -713,6 +857,21 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_decr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        DecrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешной расшифровки файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
+
+                        Report_Window.show()
+
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
                         и предложит методы её решения'''
@@ -720,8 +879,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
                             Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
@@ -765,8 +924,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -835,7 +994,22 @@ def open_Intermediate():
 
                         Chsafe_Window.close()
 
+                        '''Открывает окно Decr_Progress_Bar которое отслеживает выполнение расшифровки'''
+
+                        global DecrProgbar_Window
+
+                        DecrProgbar_Window = QtWidgets.QMainWindow()
+                        ui_3 = Ui_Window_DecrProgbar()
+                        ui_3.setupUi(DecrProgbar_Window)
+                        DecrProgbar_Window.show()
+
+                        ui_3.progBar_decr.setValue(25)
+                        QtWidgets.QApplication.processEvents()
+
                         plaintext = DES_decrypt()
+
+                        ui_3.progBar_decr.setValue(50)
+                        QtWidgets.QApplication.processEvents()
 
                         if flag:
                             '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
@@ -855,6 +1029,21 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(plaintext)  # Read and store the content of the selected file
                             file.close()
 
+                        ui_3.progBar_decr.setValue(100)
+                        QtWidgets.QApplication.processEvents()
+                        DecrProgbar_Window.close()
+
+                        '''Открывает окно Report которое сообщает об успешной расшифровки файла'''
+
+                        global Report_Window
+
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui_4 = Ui_Window_report()
+                        ui_4.setupUi(Report_Window)
+                        Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
+
+                        Report_Window.show()
+
                     except:
                         '''Появится всплывающие окно Error, которое предупредит об ошибке
                         и предложит методы её решения'''
@@ -862,8 +1051,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_3 = Ui_Window_error()
-                        ui_3.setupUi(Error_Window)
+                        ui_5 = Ui_Window_error()
+                        ui_5.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
                             Error_Window.setInformativeText("Выберите файл для дешифрования и вставьте ключ")
@@ -914,8 +1103,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_3 = Ui_Window_error()
-                    ui_3.setupUi(Error_Window)
+                    ui_5 = Ui_Window_error()
+                    ui_5.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")

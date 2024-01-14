@@ -30,7 +30,6 @@ def RSA_decrypt():
         )
     )
 
-    print(plaintext)
     return plaintext
 
 #RSA_decrypt()
