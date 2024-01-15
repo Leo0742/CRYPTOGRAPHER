@@ -11,7 +11,7 @@ class Ui_Window_report(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         report.setWindowIcon(icon)
-        report.setWindowTitle("Error")
+        report.setWindowTitle("Report")
         report.setIcon(QtWidgets.QMessageBox.Information)
         report.setStandardButtons(QtWidgets.QMessageBox.Ok)
         report.setStyleSheet("")

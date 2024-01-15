@@ -81,7 +81,7 @@ class Ui_Window_encr_RSA(object):
         self.but_encr.setText(_translate("MainWindow", "Зашифровать"))
         self.label_2.setText(_translate("MainWindow", "Ваш открытый ключ:"))
         self.but_copy_op.setText(_translate("MainWindow", "Скопировать"))
-        self.label_3.setText(_translate("MainWindow", "Ваш приватный ключ:"))
+        self.label_3.setText(_translate("MainWindow", "Ваш закрытый ключ:"))
         self.but_copy_cl.setText(_translate("MainWindow", "Скопировать"))
 
 
