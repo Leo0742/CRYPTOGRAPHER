@@ -16,7 +16,7 @@ def DES_shifr():
     Возвращает содержимое зашифрованного файла в main'''
 
     # Генерируем ключ и вектор инициализации
-    all_characters = string.ascii_letters + string.digits + string.punctuation
+    all_characters = string.ascii_letters + string.digits + '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
     key = ''.join(random.choice(all_characters) for _ in range(16))
     iv = ''.join(random.choice(all_characters) for _ in range(8))
     key = key.encode()

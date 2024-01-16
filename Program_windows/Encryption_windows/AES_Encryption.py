@@ -33,7 +33,7 @@ class Ui_Window_encr_AES(object):
         self.label_2.setStyleSheet("font: italic 14pt \"Arial\";")
         self.label_2.setObjectName("label_2")
         self.but_copy = QtWidgets.QPushButton(self.centralwidget)
-        self.but_copy.setGeometry(QtCore.QRect(630, 470, 141, 61))
+        self.but_copy.setGeometry(QtCore.QRect(690, 470, 141, 61))
         self.but_copy.setStyleSheet("font: italic 12pt \"Courier New\";")
         self.but_copy.setObjectName("but_copy")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
@@ -47,7 +47,6 @@ class Ui_Window_encr_AES(object):
         self.key_label = QtWidgets.QLineEdit(self.centralwidget)
         self.key_label.setGeometry(QtCore.QRect(270, 480, 341, 41))
         self.key_label.setObjectName("key_label")
-        self.key_label.setReadOnly(True) # !!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.key_label.setEchoMode(QLineEdit.Password) # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(840, 660, 93, 71))
@@ -56,7 +55,16 @@ class Ui_Window_encr_AES(object):
         icon2.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.help.setIcon(icon2)
         self.help.setIconSize(QtCore.QSize(60, 60))
-        self.help.setObjectName("question")
+        self.help.setObjectName("help")
+        self.key_on_off = QtWidgets.QPushButton(self.centralwidget)
+        self.key_on_off.setGeometry(QtCore.QRect(620, 470, 61, 61))
+        self.key_on_off.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
+        self.key_on_off.setIcon(icon3)
+        self.key_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_on_off.setObjectName("key_on_off")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

@@ -6,7 +6,7 @@
 import atexit
 import os
 import os.path
-import time
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 import pyperclip
 from PyQt5 import QtWidgets
@@ -31,7 +31,7 @@ from Program_windows.Intermediate import Ui_Window_inter
 from Shivrs.RSA.Shifrator import RSA_shifr
 from Program_windows.Additional.Choice_safe import Ui_Window_Chsafe
 import sys
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QLineEdit
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -115,8 +115,8 @@ def open_Intermediate():
                         def show_keys(key_cl, key_op):
                             '''Шифрует ключи под * и выводит его в окна key_label_cl и key_label_op'''
 
-                            ui_1.key_label_cl.setText('*' * len(key_cl))
-                            ui_1.key_label_op.setText('*' * len(key_op))
+                            ui_1.key_label_cl.setText(key_cl)
+                            ui_1.key_label_op.setText(key_op)
 
                         crypt_text = RSA_shifr()
 
@@ -284,6 +284,50 @@ def open_Intermediate():
                 else:
                     pyperclip.copy(str(key_op))
 
+            def chang_text_label_cl():
+                echo_mode = ui_1.key_label_cl.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_cl_on_off.setIcon(icon3)
+                    ui_1.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label_cl.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_cl_on_off.setIcon(icon3)
+                    ui_1.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label_cl.setEchoMode(QLineEdit.Password)
+
+            def chang_text_label_op():
+                echo_mode = ui_1.key_label_op.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_op_on_off.setIcon(icon3)
+                    ui_1.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label_op.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_op_on_off.setIcon(icon3)
+                    ui_1.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label_op.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_cl_on_off.clicked.connect(chang_text_label_cl)
+            ui_1.key_op_on_off.clicked.connect(chang_text_label_op)
             ui_1.but_copy_cl.clicked.connect(copy_clipbord_cl)
             ui_1.but_copy_op.clicked.connect(copy_clipbord_op)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
@@ -348,7 +392,7 @@ def open_Intermediate():
                         def show_key(key):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                            ui_1.key_label.setText('*' * len(key))
+                            ui_1.key_label.setText(key)
 
                         crypt_text = AES_shifr()
 
@@ -473,6 +517,36 @@ def open_Intermediate():
                 else:
                     pyperclip.copy(str(key))
 
+            def text_insert(passwrd):
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
+
+                file = open("Files/key.txt", 'w')
+                file.write(passwrd)
+                file.close()
+
+            def chang_text_label():
+                echo_mode = ui_1.key_label.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_label.textChanged.connect(text_insert)
+            ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_copy.clicked.connect(copy_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
         elif ui.Box_encr.currentText() == "DES":
@@ -533,8 +607,8 @@ def open_Intermediate():
                         def show_key_iv(key, iv):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                            ui_1.key_label.setText('*' * len(key))
-                            ui_1.iv_label.setText('*' * len(iv))
+                            ui_1.key_label.setText(key)
+                            ui_1.iv_label.setText(iv)
 
                         crypt_text = DES_shifr()
 
@@ -688,6 +762,66 @@ def open_Intermediate():
                 else:
                     pyperclip.copy(str(iv))
 
+            def text_insert_key(passwrd):
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
+
+                file = open("Files/key.txt", 'w')
+                file.write(passwrd)
+                file.close()
+
+            def text_insert_iv(passwrd):
+                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
+
+                file = open("Files/DES_iv.txt", 'w')
+                file.write(passwrd)
+                file.close()
+
+            def chang_text_key_label():
+                echo_mode = ui_1.key_label.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+
+            def chang_text_iv_label():
+                echo_mode = ui_1.iv_label.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.iv_on_off.setIcon(icon3)
+                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.iv_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.iv_on_off.setIcon(icon3)
+                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.iv_label.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_label.textChanged.connect(text_insert_key)
+            ui_1.iv_label.textChanged.connect(text_insert_iv)
+            ui_1.key_on_off.clicked.connect(chang_text_key_label)
+            ui_1.iv_on_off.clicked.connect(chang_text_iv_label)
             ui_1.but_copy_key.clicked.connect(copy_clipbord_key)
             ui_1.but_copy_iv.clicked.connect(copy_clipbord_iv)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
@@ -707,9 +841,6 @@ def open_Intermediate():
             Inter_Window.close()
             Decr_Window.show()
 
-            file = open("Files/RSA_priv_key.pem", 'w')
-            file.write("-----BEGIN RSA PRIVATE KEY-----\n")
-            file.close()
             def open_Main():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Decryption и возвращaется в main_screen'''
@@ -724,12 +855,27 @@ def open_Intermediate():
                 Открывает окно Choice_safe и обрабатывает действия в нём'''
 
                 file = open("Files/RSA_priv_key.pem", 'a')
-                file.write("-----END RSA PRIVATE KEY-----\n")
+                file.write("\n-----END RSA PRIVATE KEY-----\n")
                 file.close()
+
                 file = open("Files/RSA_priv_key.pem", 'r')
                 lines = file.readlines()
-                key = ''.join(lines[1:26])
+                print(lines)
                 file.close()
+
+                file = open("Files/RSA_priv_key.pem", 'w')
+                file.write("-----BEGIN RSA PRIVATE KEY-----\n")
+                file.close()
+
+                file = open("Files/RSA_priv_key.pem", 'a')
+                file.writelines(lines)
+                file.close()
+
+                file = open("Files/RSA_priv_key.pem", 'r')
+                lines = file.readlines()
+                file.close()
+
+                key = ''.join(lines[1:26])
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
@@ -864,8 +1010,21 @@ def open_Intermediate():
             def text_insert(passwrd):
                 '''Обрабатывает ввод значений в поле ввода ключа key_label'''
 
+                file = open("Files/RSA_priv_key.pem", 'w')
+                file.write('')
+                file.close()
+
                 file = open("Files/RSA_priv_key.pem", 'a')
-                file.write(passwrd)
+
+                cnt = 0
+                for i in passwrd:
+                    if (cnt == 64):
+                        file.write('\n')
+                        cnt = 0
+
+                    cnt += 1
+                    file.write(i)
+
                 file.close()
 
             ui_1.key_label.textChanged.connect(text_insert)
@@ -893,22 +1052,42 @@ def open_Intermediate():
 
                     Error_Window.show()
                 else:
-                    file = open("Files/RSA_priv_dub.pem", 'w')
-                    file.write(key)
+                    key = [i for i in key if i.strip()]
+
+                    for i in range(len(key)):
+                        key[i] = key[i].strip()
+
+                    key = ''.join(key)
+
+                    file = open("Files/RSA_priv_key.pem", 'w')
+                    file.write('')
                     file.close()
 
-                    with open('Files/RSA_priv_dub.pem', 'r') as file:
-                        lines = file.readlines()
-                        file.close()
-
-                    # Удаление пустых строк
-                    lines = [line for line in lines if line.strip()]
-
-                    key = ''.join(lines)
                     ui_1.key_label.setText(key)
 
-            ui_1.but_insert.clicked.connect(from_clipbord)
+            def chang_text_label():
+                echo_mode = ui_1.key_label.echoMode()
 
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_on_off.clicked.connect(chang_text_label)
+            ui_1.but_insert.clicked.connect(from_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
         elif ui.Box_decr.currentText() == "AES":
             '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
@@ -1104,8 +1283,29 @@ def open_Intermediate():
 
                 file.close()
 
-            ui_1.but_insert.clicked.connect(from_clipbord)
+            def chang_text_label():
+                echo_mode = ui_1.key_label.echoMode()
 
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_on_off.clicked.connect(chang_text_label)
+            ui_1.but_insert.clicked.connect(from_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
         elif ui.Box_decr.currentText() == "DES":
             '''Открывает открывает окно DES_Decryption и обрабатывает действия в нём'''
@@ -1353,6 +1553,50 @@ def open_Intermediate():
 
                 file.close()
 
+            def chang_text_key_label():
+                echo_mode = ui_1.key_label.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.key_on_off.setIcon(icon3)
+                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+
+            def chang_text_iv_label():
+                echo_mode = ui_1.iv_label.echoMode()
+
+                if echo_mode == QLineEdit.Password:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.iv_on_off.setIcon(icon3)
+                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.iv_label.setEchoMode(QLineEdit.Normal)
+
+                else:
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.iv_on_off.setIcon(icon3)
+                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+
+                    ui_1.iv_label.setEchoMode(QLineEdit.Password)
+
+            ui_1.key_on_off.clicked.connect(chang_text_key_label)
+            ui_1.iv_on_off.clicked.connect(chang_text_iv_label)
             ui_1.but_in_key.clicked.connect(from_clipbord_key)
             ui_1.but_in_iv.clicked.connect(from_clipbord_iv)
 
@@ -1387,10 +1631,6 @@ def delete_file():
     file.close()
 
     file = open("Files/DES_iv.txt", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/RSA_priv_dub.pem", 'w')
     file.write('')
     file.close()
 

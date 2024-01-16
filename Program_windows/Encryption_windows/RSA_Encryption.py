@@ -11,7 +11,8 @@ class Ui_Window_encr_RSA(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -33,7 +34,7 @@ class Ui_Window_encr_RSA(object):
         self.label_2.setStyleSheet("font: italic 14pt \"Arial\";")
         self.label_2.setObjectName("label_2")
         self.but_copy_op = QtWidgets.QPushButton(self.centralwidget)
-        self.but_copy_op.setGeometry(QtCore.QRect(660, 420, 141, 61))
+        self.but_copy_op.setGeometry(QtCore.QRect(720, 420, 141, 61))
         self.but_copy_op.setStyleSheet("font: italic 12pt \"Courier New\";")
         self.but_copy_op.setObjectName("but_copy_op")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
@@ -46,8 +47,8 @@ class Ui_Window_encr_RSA(object):
         self.but_back.setObjectName("but_back")
         self.key_label_op = QtWidgets.QLineEdit(self.centralwidget)
         self.key_label_op.setGeometry(QtCore.QRect(300, 430, 341, 41))
-        self.key_label_op.setObjectName("key_label_op")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        self.key_label_op.setReadOnly(True)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.key_label_op.setObjectName("key_label_op")
+        self.key_label_op.setEchoMode(QLineEdit.Password)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(850, 660, 93, 71))
         self.help.setText("")
@@ -55,19 +56,34 @@ class Ui_Window_encr_RSA(object):
         icon2.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.help.setIcon(icon2)
         self.help.setIconSize(QtCore.QSize(60, 60))
-        self.help.setObjectName("question")
+        self.help.setObjectName("help")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(40, 495, 251, 71))
         self.label_3.setStyleSheet("font: italic 14pt \"Arial\";")
         self.label_3.setObjectName("label_3")
         self.but_copy_cl = QtWidgets.QPushButton(self.centralwidget)
-        self.but_copy_cl.setGeometry(QtCore.QRect(660, 500, 141, 61))
+        self.but_copy_cl.setGeometry(QtCore.QRect(720, 500, 141, 61))
         self.but_copy_cl.setStyleSheet("font: italic 12pt \"Courier New\";")
         self.but_copy_cl.setObjectName("but_copy_cl")
         self.key_label_cl = QtWidgets.QLineEdit(self.centralwidget)
         self.key_label_cl.setGeometry(QtCore.QRect(300, 510, 341, 41))
-        self.key_label_cl.setObjectName("key_label_cl")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        self.key_label_cl.setReadOnly(True)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.key_label_cl.setObjectName("key_label_cl")
+        self.key_label_cl.setEchoMode(QLineEdit.Password)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.key_op_on_off = QtWidgets.QPushButton(self.centralwidget)
+        self.key_op_on_off.setGeometry(QtCore.QRect(650, 420, 61, 61))
+        self.key_op_on_off.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
+        self.key_op_on_off.setIcon(icon3)
+        self.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_op_on_off.setObjectName("key_op_on_off")
+        self.key_cl_on_off = QtWidgets.QPushButton(self.centralwidget)
+        self.key_cl_on_off.setGeometry(QtCore.QRect(650, 500, 61, 61))
+        self.key_cl_on_off.setText("")
+        self.key_cl_on_off.setIcon(icon3)
+        self.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_cl_on_off.setObjectName("key_cl_on_off")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -83,7 +99,6 @@ class Ui_Window_encr_RSA(object):
         self.but_copy_op.setText(_translate("MainWindow", "Скопировать"))
         self.label_3.setText(_translate("MainWindow", "Ваш закрытый ключ:"))
         self.but_copy_cl.setText(_translate("MainWindow", "Скопировать"))
-
 
 # if __name__ == "__main__":
 #     import sys

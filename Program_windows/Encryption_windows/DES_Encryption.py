@@ -30,13 +30,13 @@ class Ui_Window_encr_DES(object):
         self.but_encr.setStyleSheet("font: italic 12pt \"Courier New\";")
         self.but_encr.setObjectName("but_encr")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(150, 423, 121, 71))
+        self.label_2.setGeometry(QtCore.QRect(130, 425, 121, 71))
         self.label_2.setStyleSheet("font: italic 14pt \"Arial\";")
         self.label_2.setObjectName("label_2")
         self.but_copy_key = QtWidgets.QPushButton(self.centralwidget)
-        self.but_copy_key.setGeometry(QtCore.QRect(650, 428, 141, 61))
+        self.but_copy_key.setGeometry(QtCore.QRect(690, 430, 141, 61))
         self.but_copy_key.setStyleSheet("font: italic 12pt \"Courier New\";")
-        self.but_copy_key.setObjectName("but_copy")
+        self.but_copy_key.setObjectName("but_copy_key")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
         self.but_back.setGeometry(QtCore.QRect(10, 10, 71, 61))
         self.but_back.setText("")
@@ -46,9 +46,8 @@ class Ui_Window_encr_DES(object):
         self.but_back.setIconSize(QtCore.QSize(50, 50))
         self.but_back.setObjectName("but_back")
         self.key_label = QtWidgets.QLineEdit(self.centralwidget)
-        self.key_label.setGeometry(QtCore.QRect(290, 438, 341, 41))
+        self.key_label.setGeometry(QtCore.QRect(270, 440, 341, 41))
         self.key_label.setObjectName("key_label")
-        self.key_label.setReadOnly(True)     # !!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.key_label.setEchoMode(QLineEdit.Password)    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(850, 660, 93, 71))
@@ -59,18 +58,32 @@ class Ui_Window_encr_DES(object):
         self.help.setIconSize(QtCore.QSize(60, 60))
         self.help.setObjectName("help")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(70, 518, 221, 71))
+        self.label_3.setGeometry(QtCore.QRect(50, 520, 221, 71))
         self.label_3.setStyleSheet("font: italic 14pt \"Arial\";")
         self.label_3.setObjectName("label_3")
         self.but_copy_iv = QtWidgets.QPushButton(self.centralwidget)
-        self.but_copy_iv.setGeometry(QtCore.QRect(650, 518, 141, 61))
+        self.but_copy_iv.setGeometry(QtCore.QRect(690, 520, 141, 61))
         self.but_copy_iv.setStyleSheet("font: italic 12pt \"Courier New\";")
-        self.but_copy_iv.setObjectName("but_copy_2")
+        self.but_copy_iv.setObjectName("but_copy_iv")
         self.iv_label = QtWidgets.QLineEdit(self.centralwidget)
-        self.iv_label.setGeometry(QtCore.QRect(290, 530, 341, 41))
+        self.iv_label.setGeometry(QtCore.QRect(270, 532, 341, 41))
         self.iv_label.setObjectName("iv_label")
-        self.iv_label.setReadOnly(True)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.iv_label.setEchoMode(QLineEdit.Password)   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.key_on_off = QtWidgets.QPushButton(self.centralwidget)
+        self.key_on_off.setGeometry(QtCore.QRect(620, 430, 61, 61))
+        self.key_on_off.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
+        self.key_on_off.setIcon(icon3)
+        self.key_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_on_off.setObjectName("key_on_off")
+        self.iv_on_off = QtWidgets.QPushButton(self.centralwidget)
+        self.iv_on_off.setGeometry(QtCore.QRect(620, 520, 61, 61))
+        self.iv_on_off.setText("")
+        self.iv_on_off.setIcon(icon3)
+        self.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.iv_on_off.setObjectName("iv_on_off")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -87,7 +100,6 @@ class Ui_Window_encr_DES(object):
         self.label_3.setText(_translate("MainWindow",
                                         "<html><head/><body><p align=\"center\">Ваш вектор </p><p align=\"center\">инициализации:</p></body></html>"))
         self.but_copy_iv.setText(_translate("MainWindow", "Скопировать"))
-
 
 # if __name__ == "__main__":
 #     import sys
