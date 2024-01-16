@@ -10,7 +10,8 @@ class Ui_Window_inter(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 750)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("")
@@ -19,7 +20,7 @@ class Ui_Window_inter(object):
         self.but_encr = QtWidgets.QPushButton(self.centralwidget)
         self.but_encr.setGeometry(QtCore.QRect(500, 210, 201, 71))
         self.but_encr.setStyleSheet("font: 16pt \".AppleSystemUIFont\";\n"
-"font: italic 16pt \"Arial\";")
+                                    "font: italic 16pt \"Arial\";")
         self.but_encr.setObjectName("but_encr")
         self.but_decr = QtWidgets.QPushButton(self.centralwidget)
         self.but_decr.setGeometry(QtCore.QRect(500, 340, 211, 71))
@@ -30,7 +31,8 @@ class Ui_Window_inter(object):
         self.settings.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.settings.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Icons/settings.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("Icons/settings.svg"), QtGui.QIcon.Normal,
+                        QtGui.QIcon.Off)
         self.settings.setIcon(icon1)
         self.settings.setIconSize(QtCore.QSize(60, 60))
         self.settings.setObjectName("settings")
@@ -67,13 +69,6 @@ class Ui_Window_inter(object):
         self.Box_decr.addItem("")
         self.Box_decr.addItem("")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 950, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -85,13 +80,12 @@ class Ui_Window_inter(object):
         self.but_decr.setText(_translate("MainWindow", "Расшифровать"))
         self.label_2.setText(_translate("MainWindow", "version 2024.1.0"))
         self.label_3.setText(_translate("MainWindow", "Leonardo"))
-        self.Box_encr.setItemText(0, _translate("MainWindow", "RSA"))
-        self.Box_encr.setItemText(1, _translate("MainWindow", "AES"))
-        self.Box_encr.setItemText(2, _translate("MainWindow", "DES"))
-        self.Box_decr.setItemText(0, _translate("MainWindow", "RSA"))
-        self.Box_decr.setItemText(1, _translate("MainWindow", "AES"))
-        self.Box_decr.setItemText(2, _translate("MainWindow", "DES"))
-
+        self.Box_encr.setItemText(0, _translate("MainWindow", "AES"))
+        self.Box_encr.setItemText(1, _translate("MainWindow", "Triple DES"))
+        self.Box_encr.setItemText(2, _translate("MainWindow", "RSA"))
+        self.Box_decr.setItemText(0, _translate("MainWindow", "AES"))
+        self.Box_decr.setItemText(1, _translate("MainWindow", "Triple DES"))
+        self.Box_decr.setItemText(2, _translate("MainWindow", "RSA"))
 
 # if __name__ == "__main__":
 #     import sys

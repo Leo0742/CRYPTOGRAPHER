@@ -196,7 +196,7 @@ def open_Intermediate():
                         elif os.path.getsize(selected_file.read()) > 190:
                             Error_Window.setInformativeText("Данный файл не может быть зашифрован")
                             Error_Window.setDetailedText(
-                                "Выбранный вами файл невозможно зашифровать при помощи алгоритма RSA, из-за особенностей его реализации.")
+                                "Выбранный вами файл невозможно зашифровать при помощи алгоритма RSA, из-за особенностей его реализации. Выберите другой алгоритм шифрования.")
                         elif flag == "None":
                             Error_Window.setInformativeText("Выберите вариант сохранения вашего файла")
                             Error_Window.setDetailedText(
@@ -549,7 +549,7 @@ def open_Intermediate():
             ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_copy.clicked.connect(copy_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
-        elif ui.Box_encr.currentText() == "DES":
+        elif ui.Box_encr.currentText() == "Triple DES":
             '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
 
             Encr_Window = QtWidgets.QMainWindow()
@@ -1307,7 +1307,7 @@ def open_Intermediate():
             ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_insert.clicked.connect(from_clipbord)
             ui_1.but_exlor.clicked.connect(Choose_fr_expl)
-        elif ui.Box_decr.currentText() == "DES":
+        elif ui.Box_decr.currentText() == "Triple DES":
             '''Открывает открывает окно DES_Decryption и обрабатывает действия в нём'''
 
             Decr_Window = QtWidgets.QMainWindow()

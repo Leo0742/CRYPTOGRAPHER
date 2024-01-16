@@ -91,7 +91,7 @@ class Ui_Window_encr_DES(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> DES -> Encryption"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Triple DES -> Encryption"))
         self.label_1.setText(_translate("MainWindow", "Выбирите файл для шифрования"))
         self.but_exlor.setText(_translate("MainWindow", "Обзор"))
         self.but_encr.setText(_translate("MainWindow", "Зашифровать"))
