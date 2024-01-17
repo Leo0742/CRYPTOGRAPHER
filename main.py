@@ -348,14 +348,35 @@ def open_Intermediate():
                     ui_1.key_label_op.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для шифрования не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для шифрования выбран.")
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_cl_on_off.clicked.connect(chang_text_label_cl)
             ui_1.key_op_on_off.clicked.connect(chang_text_label_op)
             ui_1.but_copy_cl.clicked.connect(copy_clipbord_cl)
@@ -588,14 +609,37 @@ def open_Intermediate():
                     ui_1.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для шифрования не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для шифрования выбран.")
+
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_label.textChanged.connect(text_insert)
             ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_copy.clicked.connect(copy_clipbord)
@@ -882,14 +926,36 @@ def open_Intermediate():
                     ui_1.iv_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для шифрования не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для шифрования выбран.")
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_label.textChanged.connect(text_insert_key)
             ui_1.iv_label.textChanged.connect(text_insert_iv)
             ui_1.key_on_off.clicked.connect(chang_text_key_label)
@@ -1187,14 +1253,36 @@ def open_Intermediate():
                     ui_1.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для расшифровки не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для расшифровки выбран.")
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_insert.clicked.connect(from_clipbord)
             ui_1.but_exlor.clicked.connect(choose_file)
@@ -1445,14 +1533,36 @@ def open_Intermediate():
                     ui_1.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для расшифровки не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для расшифровки выбран.")
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_on_off.clicked.connect(chang_text_label)
             ui_1.but_insert.clicked.connect(from_clipbord)
             ui_1.but_exlor.clicked.connect(choose_file)
@@ -1796,14 +1906,36 @@ def open_Intermediate():
                     ui_1.iv_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
-                icon3 = QtGui.QIcon()
-                icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
-                                QtGui.QIcon.Off)
-                ui_1.but_file.setIcon(icon3)
-                ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
-
                 Choose_fr_expl()
 
+                file = open("Files/selected_file.txt", 'r')
+
+                if file.read() != '':
+                    icon3 = QtGui.QIcon()
+                    icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
+                                    QtGui.QIcon.Off)
+                    ui_1.but_file.setIcon(icon3)
+                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+
+                file.close()
+
+            def cur_state_file():
+                file = open("Files/selected_file.txt", 'r')
+
+                global Report_Window
+
+                Report_Window = QtWidgets.QMessageBox()
+                ui_4 = Ui_Window_report()
+                ui_4.setupUi(Report_Window)
+
+                if file.read() == '':
+                    Report_Window.setText("В данный момент файл для расшифровки не выбран.")
+                else:
+                    Report_Window.setText("В данный момент файл для расшифровки выбран.")
+                Report_Window.show()
+                file.close()
+
+            ui_1.but_file.clicked.connect(cur_state_file)
             ui_1.key_on_off.clicked.connect(chang_text_key_label)
             ui_1.iv_on_off.clicked.connect(chang_text_iv_label)
             ui_1.but_in_key.clicked.connect(from_clipbord_key)
