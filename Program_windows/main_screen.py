@@ -8,10 +8,13 @@ class Ui_Window_main_screen(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(950, 750)
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]), int(geometry[1]), 950, 750) # !!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(950, 750) # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
-                       QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("")
@@ -19,8 +22,7 @@ class Ui_Window_main_screen(object):
         self.centralwidget.setObjectName("centralwidget")
         self.but_start = QtWidgets.QPushButton(self.centralwidget)
         self.but_start.setGeometry(QtCore.QRect(340, 400, 261, 91))
-        self.but_start.setStyleSheet("font: 16pt \"Bauhaus 93\";\n"
-                                     "font: 22pt \"Forte\";")
+        self.but_start.setStyleSheet("font: 16pt \"Bauhaus 93\";\nfont: 22pt \"Forte\";")
         self.but_start.setObjectName("but_start")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
         self.label_1.setGeometry(QtCore.QRect(220, 160, 501, 121))
@@ -51,6 +53,8 @@ class Ui_Window_main_screen(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.but_start.clicked.connect(lambda: self.go_new_window(MainWindow)) # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER"))
@@ -59,6 +63,14 @@ class Ui_Window_main_screen(object):
         self.label_3.setText(_translate("MainWindow", "Leonardo"))
         self.label_2.setText(_translate("MainWindow", "version 2024.1.0"))
 
+    def go_new_window(self, MainWindow):
+        x = MainWindow.geometry().x()
+        y = MainWindow.geometry().y()
+
+        file = open("Files/Geometry.txt", 'w')
+        file.write(str(x) + '\n')
+        file.write(str(y))
+        file.close()
 
 # if __name__ == "__main__":
 #     import sys

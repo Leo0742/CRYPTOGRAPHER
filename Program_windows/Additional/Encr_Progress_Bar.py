@@ -2,10 +2,8 @@
 который описывает весь дизайн окна Encr_Progress_Bar'''
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QProgressBar, QLabel
-import sys
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QWidget, QProgressBar, QLabel
 
 class Ui_Window_EncrProgbar(object):
     '''Описывает дизайн окна Encr_Progress_Bar'''
@@ -31,6 +29,8 @@ class Ui_Window_EncrProgbar(object):
 
         self.retranslateUi(MainWindow)
 
+        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Encr Progress Bar"))
@@ -38,6 +38,7 @@ class Ui_Window_EncrProgbar(object):
 
 
 # if __name__ == "__main__":
+#     import sys
 #     app = QApplication(sys.argv)
 #     MainWindow = QMainWindow()
 #     ui = Ui_Window_EncrProgbar()

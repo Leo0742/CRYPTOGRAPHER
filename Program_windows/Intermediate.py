@@ -8,7 +8,11 @@ class Ui_Window_inter(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(950, 750)
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]), int(geometry[1]), 950, 750)  # !!!!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(950, 750)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         MainWindow.setFocusPolicy(QtCore.Qt.NoFocus)
         MainWindow.setAcceptDrops(False)
         icon = QtGui.QIcon()
@@ -75,6 +79,9 @@ class Ui_Window_inter(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.but_encr.clicked.connect(lambda: self.go_new_window(MainWindow))  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.but_decr.clicked.connect(lambda: self.go_new_window(MainWindow))  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Intermediate"))
@@ -89,6 +96,17 @@ class Ui_Window_inter(object):
         self.Box_decr.setItemText(1, _translate("MainWindow", "Triple DES"))
         self.Box_decr.setItemText(2, _translate("MainWindow", "RSA"))
 
+    def go_new_window(self, MainWindow):
+        x = MainWindow.geometry().x()
+        y = MainWindow.geometry().y()
+
+        file = open("Files/Geometry.txt", 'w')
+        file.write(str(x) + '\n')
+        file.write(str(y))
+        file.close()
+
+    def delete_self(self):
+        del self
 
 # if __name__ == "__main__":
 #     import sys

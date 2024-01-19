@@ -1,9 +1,8 @@
 '''Расположен класс Ui_Window_error,
 который описывает весь дизайн окна Error'''
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-import sys
 
 
 class Ui_Window_error(object):
@@ -21,6 +20,7 @@ class Ui_Window_error(object):
 
 
 # if __name__ == "__main__":
+#     import sys
 #     app = QtWidgets.QApplication(sys.argv)
 #     Error_Window = QtWidgets.QMessageBox()
 #     ui = Ui_Window_error()

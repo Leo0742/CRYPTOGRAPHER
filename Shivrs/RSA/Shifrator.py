@@ -14,18 +14,18 @@ def RSA_shifr():
     RSA_priv_key.pem, RSA_pub_key.pem
     Возвращает содержимое зашифрованного файла в main'''
 
-    # Generate keys
+    # Генерация ключей
     private_key = rsa.generate_private_key(
         public_exponent=65537,
         key_size=2048,
     )
 
-    # Get the public key
+    # Получаем открытый ключ
     public_key = private_key.public_key()
 
-    # Encrypt the text
+    # Шифруем файл
     selected_file = open("Files/selected_file.txt", "r")
-    file_content = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    file_content = open(selected_file.read(), 'rb').read()
     selected_file.close()
 
     crypt_text = public_key.encrypt(

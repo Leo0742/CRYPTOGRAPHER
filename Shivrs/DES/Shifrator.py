@@ -8,7 +8,6 @@ import random
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives.asymmetric import padding as padding_asymmetric
 
 def DES_shifr():
     '''Шифрует выбранный файл и записывает значение ключа в файл key.txt,
@@ -16,7 +15,7 @@ def DES_shifr():
     Возвращает содержимое зашифрованного файла в main'''
 
     # Генерируем ключ и вектор инициализации
-    all_characters = string.ascii_letters + string.digits + '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'''
+    all_characters = string.ascii_letters + string.digits + '''!"#$%&'()*+,-./:;<=>?@[]^_`{|}~'''
     key = ''.join(random.choice(all_characters) for _ in range(16))
     iv = ''.join(random.choice(all_characters) for _ in range(8))
     key = key.encode()
@@ -28,7 +27,7 @@ def DES_shifr():
 
     # Шифруем сообщение
     selected_file = open("Files/selected_file.txt", "r")
-    plaintext = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    plaintext = open(selected_file.read(), 'rb').read()
     selected_file.close()
 
     padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
@@ -44,5 +43,3 @@ def DES_shifr():
     file.close()
 
     return crypt_text
-
-#DES_shifr()

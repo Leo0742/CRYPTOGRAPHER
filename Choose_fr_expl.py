@@ -3,8 +3,7 @@
 Открывает Проводник и записывает местоположение
 выбранного файла в файл selected_file'''
 
-from PyQt5.QtWidgets import QFileDialog, QDialog
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 
 
 def Choose_fr_expl():

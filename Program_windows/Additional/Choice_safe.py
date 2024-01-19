@@ -33,6 +33,8 @@ class Ui_Window_Chsafe(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Choicesafe"))
@@ -46,7 +48,7 @@ class Ui_Window_Chsafe(object):
 #     import sys
 #     app = QtWidgets.QApplication(sys.argv)
 #     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
+#     ui = Ui_Window_Chsafe()
 #     ui.setupUi(MainWindow)
 #     MainWindow.show()
 #     sys.exit(app.exec_())

@@ -25,7 +25,7 @@ def DES_decrypt():
     cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv), backend=default_backend())
 
     selected_file = open("Files/selected_file.txt", "r")
-    crypt_text = open(selected_file.read(), 'rb').read()  # Read and store the content of the selected file
+    crypt_text = open(selected_file.read(), 'rb').read()
     selected_file.close()
 
     # Расшифровываем сообщение
@@ -34,7 +34,4 @@ def DES_decrypt():
     unpadder = padding.PKCS7(algorithms.TripleDES.block_size).unpadder()
     plaintext = unpadder.update(pt) + unpadder.finalize()  # Удаляем дополнения
 
-    #plaintext = plaintext.decode('utf-8')
     return plaintext
-
-#DES_decrypt()

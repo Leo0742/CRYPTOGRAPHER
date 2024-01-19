@@ -6,10 +6,10 @@
 import atexit
 import os
 import os.path
-from PyQt5 import QtCore, QtGui, QtWidgets
-
+import sys
 import pyperclip
-from PyQt5 import QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QLineEdit
 from Program_windows.Encryption_windows.AES_Encryption import Ui_Window_encr_AES
 from Program_windows.Encryption_windows.RSA_Encryption import Ui_Window_encr_RSA
 from Program_windows.Encryption_windows.DES_Encryption import Ui_Window_encr_DES
@@ -18,21 +18,20 @@ from Program_windows.Decryption_windows.RSA_Decryption import Ui_Window_decr_RSA
 from Program_windows.Decryption_windows.DES_Decryption import Ui_Window_decr_DES
 from Program_windows.Additional.Encr_Progress_Bar import Ui_Window_EncrProgbar
 from Program_windows.Additional.Decr_Progress_Bar import Ui_Window_DecrProgbar
+from Program_windows.Additional.Choice_safe import Ui_Window_Chsafe
+from Program_windows.Intermediate import Ui_Window_inter
+from Program_windows.Additional.Error import Ui_Window_error
+from Choose_fr_expl import Choose_fr_expl
 from Program_windows.Additional.Report import Ui_Window_report
 from Program_windows.main_screen import Ui_Window_main_screen
 from Shivrs.AES.Shifrator import AES_shifr
-from Shivrs.RSA.Deshifrator import RSA_decrypt
 from Shivrs.DES.Shifrator import DES_shifr
-from Shivrs.DES.Deshifrator import DES_decrypt
-from Choose_fr_expl import Choose_fr_expl
-from Shivrs.AES.Deshifrator import AES_decrypt
-from Program_windows.Additional.Error import Ui_Window_error
-from Program_windows.Intermediate import Ui_Window_inter
 from Shivrs.RSA.Shifrator import RSA_shifr
-from Program_windows.Additional.Choice_safe import Ui_Window_Chsafe
-import sys
-from PyQt5.QtWidgets import QFileDialog, QLineEdit
+from Shivrs.RSA.Deshifrator import RSA_decrypt
+from Shivrs.DES.Deshifrator import DES_decrypt
+from Shivrs.AES.Deshifrator import AES_decrypt
 from Cleaner import Cleaner
+
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -43,26 +42,39 @@ MainWindow.show()
 
 
 def open_Intermediate():
+    ''' Открывает окно Intermediate и обрабатывает действия в нём'''
+
     global Inter_Window
 
     Inter_Window = QtWidgets.QMainWindow()
-    ui = Ui_Window_inter()
-    ui.setupUi(Inter_Window)
+    ui_1 = Ui_Window_inter()
+    ui_1.setupUi(Inter_Window)
 
     MainWindow.close()
+    Inter_Window.show()
+    Inter_Window.close()
+    Inter_Window.deleteLater()
+    ui_1.delete_self()
+
+    Inter_Window = QtWidgets.QMainWindow()
+    ui_1 = Ui_Window_inter()
+    ui_1.setupUi(Inter_Window)
+
     Inter_Window.show()
 
     def open_Encryption():
         ''' Открывает окно Encryption и обрабатывает действия в нём'''
 
-        if ui.Box_encr.currentText() == "RSA":
+        if ui_1.Box_encr.currentText() == "RSA":
             '''Открывает открывает окно RSA_Encryption и обрабатывает действия в нём'''
 
             global Encr_Window
             Encr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_encr_RSA()
-            ui_1.setupUi(Encr_Window)
+            ui_2 = Ui_Window_encr_RSA()
+            ui_2.setupUi(Encr_Window)
             Inter_Window.close()
+            Encr_Window.show()
+
 
             def encryption():
                 '''Обработка нажатия на кнопку but_encr
@@ -70,8 +82,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
 
@@ -94,9 +106,9 @@ def open_Intermediate():
                     selected_file.close()
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -116,22 +128,22 @@ def open_Intermediate():
                         global EncrProgbar_Window
 
                         EncrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_EncrProgbar()
-                        ui_3.setupUi(EncrProgbar_Window)
+                        ui_4 = Ui_Window_EncrProgbar()
+                        ui_4.setupUi(EncrProgbar_Window)
                         EncrProgbar_Window.show()
 
-                        ui_3.progBar_encr.setValue(25)
+                        ui_4.progBar_encr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         def show_keys(key_cl, key_op):
                             '''Шифрует ключи под * и выводит его в окна key_label_cl и key_label_op'''
 
-                            ui_1.key_label_cl.setText(key_cl)
-                            ui_1.key_label_op.setText(key_op)
+                            ui_2.key_label_cl.setText(key_cl)
+                            ui_2.key_label_op.setText(key_op)
 
                         crypt_text = RSA_shifr()
 
-                        ui_3.progBar_encr.setValue(50)
+                        ui_4.progBar_encr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -152,7 +164,7 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
-                        ui_3.progBar_encr.setValue(75)
+                        ui_4.progBar_encr.setValue(75)
                         QtWidgets.QApplication.processEvents()
 
                         file_cl = open("Files/RSA_priv_key.pem", 'r')  # Open the private key file
@@ -174,10 +186,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_3.progBar_encr.setValue(100)
+                        ui_4.progBar_encr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         EncrProgbar_Window.close()
 
@@ -186,8 +198,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
 
                         Report_Window.show()
@@ -205,8 +217,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         if os.path.getsize("Files/selected_file.txt") == 0:
                             Error_Window.setInformativeText("Выберите файл для шифрования")
@@ -226,28 +238,23 @@ def open_Intermediate():
                                 "Скорее всего вы наткнулись на программную ошибку. В скором времени она будет исправлена.")
 
                             EncrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_EncrProgbar()
-                            ui_3.setupUi(EncrProgbar_Window)
+                            ui_4 = Ui_Window_EncrProgbar()
+                            ui_4.setupUi(EncrProgbar_Window)
                             EncrProgbar_Window.show()
                             EncrProgbar_Window.close()
 
                         selected_file.close()
                         Error_Window.show()
 
-                ui_2.but_next.clicked.connect(Encrwind)
+                ui_3.but_next.clicked.connect(Encrwind)
 
-
-            ui_1.but_encr.clicked.connect(encryption)
-            def open_Main():
+            def open_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Encryption и возвращaется в main_screen'''
+                Закрывает окно Encryption и возвращaется в Intermediate'''
 
                 Cleaner()
-
                 Encr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
+                open_Intermediate()
 
             def copy_clipbord_cl():
                 '''Обработка нажатия на кнопку but_copy_cl
@@ -265,8 +272,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -293,8 +300,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -306,48 +313,61 @@ def open_Intermediate():
                     pyperclip.copy(str(key_op))
 
             def chang_text_label_cl():
-                echo_mode = ui_1.key_label_cl.echoMode()
+                '''Обработка нажатия на кнопку key_cl_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label_cl'''
+
+                echo_mode = ui_2.key_label_cl.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_cl_on_off.setIcon(icon3)
-                    ui_1.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_cl_on_off.setIcon(icon3)
+                    ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label_cl.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label_cl.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_cl_on_off.setIcon(icon3)
-                    ui_1.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_cl_on_off.setIcon(icon3)
+                    ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label_cl.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label_cl.setEchoMode(QLineEdit.Password)
 
             def chang_text_label_op():
-                echo_mode = ui_1.key_label_op.echoMode()
+                '''Обработка нажатия на кнопку key_op_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label_op'''
+
+                echo_mode = ui_2.key_label_op.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_op_on_off.setIcon(icon3)
-                    ui_1.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label_op.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label_op.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_op_on_off.setIcon(icon3)
-                    ui_1.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label_op.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label_op.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -356,18 +376,21 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для шифрования не выбран.")
@@ -376,23 +399,23 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_cl_on_off.clicked.connect(chang_text_label_cl)
-            ui_1.key_op_on_off.clicked.connect(chang_text_label_op)
-            ui_1.but_copy_cl.clicked.connect(copy_clipbord_cl)
-            ui_1.but_copy_op.clicked.connect(copy_clipbord_op)
-            ui_1.but_exlor.clicked.connect(choose_file)
-
-            Encr_Window.show()
-        elif ui.Box_encr.currentText() == "AES":
+            ui_2.but_encr.clicked.connect(encryption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_copy_cl.clicked.connect(copy_clipbord_cl)
+            ui_2.but_copy_op.clicked.connect(copy_clipbord_op)
+            ui_2.key_cl_on_off.clicked.connect(chang_text_label_cl)
+            ui_2.key_op_on_off.clicked.connect(chang_text_label_op)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
+        elif ui_1.Box_encr.currentText() == "AES":
             '''Открывает открывает окно AES_Encryption и обрабатывает действия в нём'''
 
             Encr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_encr_AES()
-            ui_1.setupUi(Encr_Window)
+            ui_2 = Ui_Window_encr_AES()
+            ui_2.setupUi(Encr_Window)
             Inter_Window.close()
-
             Encr_Window.show()
+
 
             def encryption():
                 '''Обработка нажатия на кнопку but_encr
@@ -400,8 +423,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
                 def Encrwind():
@@ -414,9 +437,9 @@ def open_Intermediate():
                     flag = None
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -436,21 +459,21 @@ def open_Intermediate():
                         global EncrProgbar_Window
 
                         EncrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_EncrProgbar()
-                        ui_3.setupUi(EncrProgbar_Window)
+                        ui_4 = Ui_Window_EncrProgbar()
+                        ui_4.setupUi(EncrProgbar_Window)
                         EncrProgbar_Window.show()
 
-                        ui_3.progBar_encr.setValue(25)
+                        ui_4.progBar_encr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         def show_key(key):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                            ui_1.key_label.setText(key)
+                            ui_2.key_label.setText(key)
 
                         crypt_text = AES_shifr()
 
-                        ui_3.progBar_encr.setValue(50)
+                        ui_4.progBar_encr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -471,7 +494,7 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
-                        ui_3.progBar_encr.setValue(75)
+                        ui_4.progBar_encr.setValue(75)
                         QtWidgets.QApplication.processEvents()
 
                         file = open("Files/key.txt", 'r')
@@ -487,10 +510,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_3.progBar_encr.setValue(100)
+                        ui_4.progBar_encr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         EncrProgbar_Window.close()
 
@@ -499,8 +522,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
 
                         Report_Window.show()
@@ -516,8 +539,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         if os.path.getsize("Files/selected_file.txt") == 0:
                             Error_Window.setInformativeText("Выберите файл для шифрования")
@@ -532,27 +555,23 @@ def open_Intermediate():
                                 "Скорее всего вы наткнулись на программную ошибку.В скором времени она будет исправлена.")
 
                             EncrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_EncrProgbar()
-                            ui_3.setupUi(EncrProgbar_Window)
+                            ui_4 = Ui_Window_EncrProgbar()
+                            ui_4.setupUi(EncrProgbar_Window)
                             EncrProgbar_Window.show()
                             EncrProgbar_Window.close()
 
                         Error_Window.show()
 
-                ui_2.but_next.clicked.connect(Encrwind)
+                ui_3.but_next.clicked.connect(Encrwind)
 
-
-            ui_1.but_encr.clicked.connect(encryption)
-            def open_Main():
+            def open_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Encryption и возвращaется в main_screen'''
+                Закрывает окно Encryption и возвращaется в Intermediate'''
 
                 Cleaner()
 
                 Encr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
+                open_Intermediate()
 
             def copy_clipbord():
                 '''Обработка нажатия на кнопку but_copy
@@ -568,8 +587,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -588,27 +607,36 @@ def open_Intermediate():
                 file.close()
 
             def chang_text_label():
-                echo_mode = ui_1.key_label.echoMode()
+                '''Обработка нажатия на кнопку key_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label'''
+
+                echo_mode = ui_2.key_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -617,19 +645,22 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
 
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для шифрования не выбран.")
@@ -639,19 +670,23 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_label.textChanged.connect(text_insert)
-            ui_1.key_on_off.clicked.connect(chang_text_label)
-            ui_1.but_copy.clicked.connect(copy_clipbord)
-            ui_1.but_exlor.clicked.connect(choose_file)
-        elif ui.Box_encr.currentText() == "Triple DES":
+
+            ui_2.but_encr.clicked.connect(encryption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_copy.clicked.connect(copy_clipbord)
+            ui_2.key_label.textChanged.connect(text_insert)
+            ui_2.key_on_off.clicked.connect(chang_text_label)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
+        elif ui_1.Box_encr.currentText() == "Triple DES":
             '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
 
             Encr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_encr_DES()
-            ui_1.setupUi(Encr_Window)
+            ui_2 = Ui_Window_encr_DES()
+            ui_2.setupUi(Encr_Window)
             Inter_Window.close()
             Encr_Window.show()
+
 
             def encryption():
                 '''Обработка нажатия на кнопку but_encr
@@ -659,8 +694,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
                 def Encrwind():
@@ -673,9 +708,9 @@ def open_Intermediate():
                     flag = None
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -695,22 +730,22 @@ def open_Intermediate():
                         global EncrProgbar_Window
 
                         EncrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_EncrProgbar()
-                        ui_3.setupUi(EncrProgbar_Window)
+                        ui_4 = Ui_Window_EncrProgbar()
+                        ui_4.setupUi(EncrProgbar_Window)
                         EncrProgbar_Window.show()
 
-                        ui_3.progBar_encr.setValue(25)
+                        ui_4.progBar_encr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         def show_key_iv(key, iv):
                             '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                            ui_1.key_label.setText(key)
-                            ui_1.iv_label.setText(iv)
+                            ui_2.key_label.setText(key)
+                            ui_2.iv_label.setText(iv)
 
                         crypt_text = DES_shifr()
 
-                        ui_3.progBar_encr.setValue(50)
+                        ui_4.progBar_encr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -731,7 +766,7 @@ def open_Intermediate():
                             open(file.read(), 'wb').write(crypt_text)  # Read and store the content of the selected file
                             file.close()
 
-                        ui_3.progBar_encr.setValue(75)
+                        ui_4.progBar_encr.setValue(75)
                         QtWidgets.QApplication.processEvents()
 
                         file = open("Files/key.txt", 'r')
@@ -751,10 +786,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_3.progBar_encr.setValue(100)
+                        ui_4.progBar_encr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         EncrProgbar_Window.close()
 
@@ -763,8 +798,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Шифрование вашего файла было выполнено успешно !")
 
                         Report_Window.show()
@@ -780,8 +815,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         if os.path.getsize("Files/selected_file.txt") == 0:
                             Error_Window.setInformativeText("Выберите файл для шифрования")
@@ -796,26 +831,23 @@ def open_Intermediate():
                                 "Скорее всего вы наткнулись на программную ошибку.В скором времени она будет исправлена.")
 
                             EncrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_EncrProgbar()
-                            ui_3.setupUi(EncrProgbar_Window)
+                            ui_4 = Ui_Window_EncrProgbar()
+                            ui_4.setupUi(EncrProgbar_Window)
                             EncrProgbar_Window.show()
                             EncrProgbar_Window.close()
 
                         Error_Window.show()
 
-                ui_2.but_next.clicked.connect(Encrwind)
+                ui_3.but_next.clicked.connect(Encrwind)
 
-            ui_1.but_encr.clicked.connect(encryption)
-            def open_Main():
+            def open_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Encryption и возвращaется в main_screen'''
+                Закрывает окно Encryption и возвращaется в Intermediate'''
 
                 Cleaner()
 
                 Encr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
+                open_Intermediate()
 
             def copy_clipbord_key():
                 '''Обработка нажатия на кнопку but_copy_key
@@ -831,8 +863,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода ключа пусто")
@@ -857,8 +889,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Поле ввода вектора инициализации пусто")
@@ -877,55 +909,68 @@ def open_Intermediate():
                 file.close()
 
             def text_insert_iv(passwrd):
-                '''Обрабатывает ввод значений в поле ввода ключа key_label'''
+                '''Обрабатывает ввод значений в поле ввода ключа iv_label'''
 
                 file = open("Files/DES_iv.txt", 'w')
                 file.write(passwrd)
                 file.close()
 
             def chang_text_key_label():
-                echo_mode = ui_1.key_label.echoMode()
+                '''Обработка нажатия на кнопку key_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label'''
+
+                echo_mode = ui_2.key_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label.setEchoMode(QLineEdit.Password)
 
             def chang_text_iv_label():
-                echo_mode = ui_1.iv_label.echoMode()
+                '''Обработка нажатия на кнопку iv_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в iv_label'''
+
+                echo_mode = ui_2.iv_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.iv_on_off.setIcon(icon3)
-                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.iv_on_off.setIcon(icon3)
+                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.iv_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.iv_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.iv_on_off.setIcon(icon3)
-                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.iv_on_off.setIcon(icon3)
+                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.iv_label.setEchoMode(QLineEdit.Password)
+                    ui_2.iv_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -934,19 +979,22 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
 
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для шифрования не выбран.")
@@ -955,40 +1003,33 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_label.textChanged.connect(text_insert_key)
-            ui_1.iv_label.textChanged.connect(text_insert_iv)
-            ui_1.key_on_off.clicked.connect(chang_text_key_label)
-            ui_1.iv_on_off.clicked.connect(chang_text_iv_label)
-            ui_1.but_copy_key.clicked.connect(copy_clipbord_key)
-            ui_1.but_copy_iv.clicked.connect(copy_clipbord_iv)
-            ui_1.but_exlor.clicked.connect(choose_file)
+
+            ui_2.but_encr.clicked.connect(encryption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_copy_key.clicked.connect(copy_clipbord_key)
+            ui_2.but_copy_iv.clicked.connect(copy_clipbord_iv)
+            ui_2.key_label.textChanged.connect(text_insert_key)
+            ui_2.iv_label.textChanged.connect(text_insert_iv)
+            ui_2.key_on_off.clicked.connect(chang_text_key_label)
+            ui_2.iv_on_off.clicked.connect(chang_text_iv_label)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
 
 
     def open_Decryption():
         ''' Открывает окно Decryption и обрабатывает действия в нём'''
 
-        if ui.Box_decr.currentText() == "RSA":
+        if ui_1.Box_decr.currentText() == "RSA":
             '''Открывает открывает окно RSA_Decryption и обрабатывает действия в нём'''
 
             global Decr_Window
 
             Decr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_decr_RSA()
-            ui_1.setupUi(Decr_Window)
+            ui_2 = Ui_Window_decr_RSA()
+            ui_2.setupUi(Decr_Window)
             Inter_Window.close()
             Decr_Window.show()
 
-            def open_Main():
-                ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Decryption и возвращaется в main_screen'''
-
-                Cleaner()
-
-                Decr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
                 '''Обработка нажатия на кнопку but_decr
@@ -1019,8 +1060,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
                 def Decrwind():
@@ -1033,9 +1074,9 @@ def open_Intermediate():
                     flag = None
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -1055,16 +1096,16 @@ def open_Intermediate():
                         global DecrProgbar_Window
 
                         DecrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_DecrProgbar()
-                        ui_3.setupUi(DecrProgbar_Window)
+                        ui_4 = Ui_Window_DecrProgbar()
+                        ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_3.progBar_decr.setValue(25)
+                        ui_4.progBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = RSA_decrypt()
 
-                        ui_3.progBar_decr.setValue(50)
+                        ui_4.progBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1092,10 +1133,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_3.progBar_decr.setValue(100)
+                        ui_4.progBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -1104,8 +1145,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
 
                         Report_Window.show()
@@ -1121,8 +1162,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
                             Error_Window.setInformativeText("Выберите файл для расшифровки и вставьте свой закрытый ключ")
@@ -1146,17 +1187,24 @@ def open_Intermediate():
                                 "или вы предоставили неверный ключ.")
 
                             DecrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_DecrProgbar()
-                            ui_3.setupUi(DecrProgbar_Window)
+                            ui_4 = Ui_Window_DecrProgbar()
+                            ui_4.setupUi(DecrProgbar_Window)
                             DecrProgbar_Window.show()
                             DecrProgbar_Window.close()
 
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.show()
 
-                ui_2.but_next.clicked.connect(Decrwind)
+                ui_3.but_next.clicked.connect(Decrwind)
 
-            ui_1.but_decr.clicked.connect(decruption)
+            def open_Intermediate():
+                ''' Обработка нажатия на кнопку but_back
+                Закрывает окно Decryption и возвращaется в Intermediate'''
+
+                Cleaner()
+
+                Decr_Window.close()
+                open_Intermediate()
 
             def text_insert(passwrd):
                 '''Обрабатывает ввод значений в поле ввода ключа key_label'''
@@ -1165,8 +1213,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setInformativeText("Ошибка во время введения ключа")
                     Error_Window.setDetailedText(
@@ -1177,7 +1225,7 @@ def open_Intermediate():
                     Error_Window.show()
 
                     passwrd = passwrd[:1588]
-                    ui_1.key_label.setText(passwrd)
+                    ui_2.key_label.setText(passwrd)
 
                 else:
                     file = open("Files/RSA_priv_key.pem", 'w')
@@ -1197,8 +1245,6 @@ def open_Intermediate():
 
                     file.close()
 
-            ui_1.key_label.textChanged.connect(text_insert)
-
             def from_clipbord():
                 '''Обработка нажатия на кнопку but_insert
                 Вставляет ключ из буфера'''
@@ -1212,8 +1258,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -1229,30 +1275,39 @@ def open_Intermediate():
 
                     key = ''.join(key)
 
-                    ui_1.key_label.setText(key)
+                    ui_2.key_label.setText(key)
 
             def chang_text_label():
-                echo_mode = ui_1.key_label.echoMode()
+                '''Обработка нажатия на кнопку key_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label'''
+
+                echo_mode = ui_2.key_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -1261,19 +1316,22 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
 
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для расшифровки не выбран.")
@@ -1282,29 +1340,23 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_on_off.clicked.connect(chang_text_label)
-            ui_1.but_insert.clicked.connect(from_clipbord)
-            ui_1.but_exlor.clicked.connect(choose_file)
-        elif ui.Box_decr.currentText() == "AES":
+
+            ui_2.but_decr.clicked.connect(decruption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.key_label.textChanged.connect(text_insert)
+            ui_2.but_insert.clicked.connect(from_clipbord)
+            ui_2.key_on_off.clicked.connect(chang_text_label)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
+        elif ui_1.Box_decr.currentText() == "AES":
             '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
 
             Decr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_decr_AES()
-            ui_1.setupUi(Decr_Window)
+            ui_2 = Ui_Window_decr_AES()
+            ui_2.setupUi(Decr_Window)
             Inter_Window.close()
             Decr_Window.show()
 
-            def open_Main():
-                ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Decryption и возвращaется в main_screen'''
-
-                Cleaner()
-
-                Decr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
                 '''Обработка нажатия на кнопку but_decr
@@ -1316,8 +1368,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
                 def Decrwind():
@@ -1330,9 +1382,9 @@ def open_Intermediate():
                     flag = None
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -1352,16 +1404,16 @@ def open_Intermediate():
                         global DecrProgbar_Window
 
                         DecrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_DecrProgbar()
-                        ui_3.setupUi(DecrProgbar_Window)
+                        ui_4 = Ui_Window_DecrProgbar()
+                        ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_3.progBar_decr.setValue(25)
+                        ui_4.progBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = AES_decrypt()
 
-                        ui_3.progBar_decr.setValue(50)
+                        ui_4.progBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1389,10 +1441,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_3.progBar_decr.setValue(100)
+                        ui_4.progBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -1401,8 +1453,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
 
                         Report_Window.show()
@@ -1418,8 +1470,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '':
                             Error_Window.setInformativeText("Выберите файл для расшифровки и вставьте свой ключ")
@@ -1439,30 +1491,38 @@ def open_Intermediate():
                         else:
                             Error_Window.setInformativeText("Неверный алгоритм шифрования или ключ")
                             Error_Window.setDetailedText(
-                                "Вами был выбран неверный алгоритм для расшифровки вашего файла(шифрование/расшифровка файла должны выполняться одним алгоритмом) "
+                                "Вами был выбран неверный алгоритм для расшифровки вашего файла (шифрование/расшифровка файла должны выполняться одним алгоритмом) "
                                 "или вы предоставили неверный ключ.")
 
                             DecrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_DecrProgbar()
-                            ui_3.setupUi(DecrProgbar_Window)
+                            ui_4 = Ui_Window_DecrProgbar()
+                            ui_4.setupUi(DecrProgbar_Window)
                             DecrProgbar_Window.show()
                             DecrProgbar_Window.close()
 
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.show()
 
-                ui_2.but_next.clicked.connect(Decrwind)
+                ui_3.but_next.clicked.connect(Decrwind)
 
-            ui_1.but_decr.clicked.connect(decruption)
+            def open_Intermediate():
+                ''' Обработка нажатия на кнопку but_back
+                Закрывает окно Decryption и возвращaется в Intermediate'''
+
+                Cleaner()
+
+                Decr_Window.close()
+                open_Intermediate()
 
             def text_insert(passwrd):
                 '''Обрабатывает ввод значений в поле ввода ключа key_label'''
+
                 if len(passwrd) > 44:
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setInformativeText("Ошибка во время введения ключа")
                     Error_Window.setDetailedText(
@@ -1473,14 +1533,12 @@ def open_Intermediate():
                     Error_Window.show()
 
                     passwrd = passwrd[:44]
-                    ui_1.key_label.setText(passwrd)
+                    ui_2.key_label.setText(passwrd)
 
                 else:
                     file = open("Files/key.txt", 'w')
                     file.write(str(passwrd))
                     file.close()
-
-            ui_1.key_label.textChanged.connect(text_insert)
 
             def from_clipbord():
                 '''Обработка нажатия на кнопку but_insert
@@ -1496,8 +1554,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -1506,33 +1564,42 @@ def open_Intermediate():
 
                     Error_Window.show()
                 else:
-                    ui_1.key_label.setText(key)
+                    ui_2.key_label.setText(key)
                     file.write(key)
 
                 file.close()
 
             def chang_text_label():
-                echo_mode = ui_1.key_label.echoMode()
+                '''Обработка нажатия на кнопку key_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label'''
+
+                echo_mode = ui_2.key_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -1541,19 +1608,22 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
 
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для расшифровки не выбран.")
@@ -1562,29 +1632,23 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_on_off.clicked.connect(chang_text_label)
-            ui_1.but_insert.clicked.connect(from_clipbord)
-            ui_1.but_exlor.clicked.connect(choose_file)
-        elif ui.Box_decr.currentText() == "Triple DES":
+
+            ui_2.but_decr.clicked.connect(decruption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.key_label.textChanged.connect(text_insert)
+            ui_2.but_insert.clicked.connect(from_clipbord)
+            ui_2.key_on_off.clicked.connect(chang_text_label)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
+        elif ui_1.Box_decr.currentText() == "Triple DES":
             '''Открывает открывает окно DES_Decryption и обрабатывает действия в нём'''
 
             Decr_Window = QtWidgets.QMainWindow()
-            ui_1 = Ui_Window_decr_DES()
-            ui_1.setupUi(Decr_Window)
+            ui_2 = Ui_Window_decr_DES()
+            ui_2.setupUi(Decr_Window)
             Inter_Window.close()
             Decr_Window.show()
 
-            def open_Main():
-                ''' Обработка нажатия на кнопку but_back
-                Закрывает окно Decryption и возвращaется в main_screen'''
-
-                Cleaner()
-
-                Decr_Window.close()
-                Inter_Window.show()
-
-            ui_1.but_back.clicked.connect(open_Main)
 
             def decruption():
                 '''Обработка нажатия на кнопку but_decr
@@ -1600,8 +1664,8 @@ def open_Intermediate():
 
                 global Chsafe_Window
                 Chsafe_Window = QtWidgets.QMainWindow()
-                ui_2 = Ui_Window_Chsafe()
-                ui_2.setupUi(Chsafe_Window)
+                ui_3 = Ui_Window_Chsafe()
+                ui_3.setupUi(Chsafe_Window)
                 Chsafe_Window.show()
 
                 def Decrwind():
@@ -1614,9 +1678,9 @@ def open_Intermediate():
                     flag = None
 
                     try:
-                        if ui_2.rab_new.isChecked():
+                        if ui_3.rab_new.isChecked():
                             flag = True
-                        elif ui_2.rab_this.isChecked():
+                        elif ui_3.rab_this.isChecked():
                             flag = False
                         file = open("Files/flag_value.txt", 'w')
                         file.write(str(flag))
@@ -1636,16 +1700,16 @@ def open_Intermediate():
                         global DecrProgbar_Window
 
                         DecrProgbar_Window = QtWidgets.QMainWindow()
-                        ui_3 = Ui_Window_DecrProgbar()
-                        ui_3.setupUi(DecrProgbar_Window)
+                        ui_4 = Ui_Window_DecrProgbar()
+                        ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_3.progBar_decr.setValue(25)
+                        ui_4.progBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = DES_decrypt()
 
-                        ui_3.progBar_decr.setValue(50)
+                        ui_4.progBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1673,10 +1737,10 @@ def open_Intermediate():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_1.but_file.setIcon(icon3)
-                        ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.but_file.setIcon(icon3)
+                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
                         
-                        ui_3.progBar_decr.setValue(100)
+                        ui_4.progBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -1685,8 +1749,8 @@ def open_Intermediate():
                         global Report_Window
 
                         Report_Window = QtWidgets.QMessageBox()
-                        ui_4 = Ui_Window_report()
-                        ui_4.setupUi(Report_Window)
+                        ui_5 = Ui_Window_report()
+                        ui_5.setupUi(Report_Window)
                         Report_Window.setText("Расшифровка вашего файла была выполнена успешно !")
 
                         Report_Window.show()
@@ -1702,8 +1766,8 @@ def open_Intermediate():
                         global Error_Window
 
                         Error_Window = QtWidgets.QMessageBox()
-                        ui_5 = Ui_Window_error()
-                        ui_5.setupUi(Error_Window)
+                        ui_6 = Ui_Window_error()
+                        ui_6.setupUi(Error_Window)
 
                         if os.path.getsize("Files/selected_file.txt") == 0 and key == '' and iv == '':
                             Error_Window.setInformativeText("Выберите файл для расшифровки, вставьте свой ключ и вектор инициализации")
@@ -1739,16 +1803,23 @@ def open_Intermediate():
                                 "или вы предоставили неверный ключ.")
 
                             DecrProgbar_Window = QtWidgets.QMainWindow()
-                            ui_3 = Ui_Window_DecrProgbar()
-                            ui_3.setupUi(DecrProgbar_Window)
+                            ui_4 = Ui_Window_DecrProgbar()
+                            ui_4.setupUi(DecrProgbar_Window)
                             DecrProgbar_Window.show()
                             DecrProgbar_Window.close()
 
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.show()
-                ui_2.but_next.clicked.connect(Decrwind)
+                ui_3.but_next.clicked.connect(Decrwind)
 
-            ui_1.but_decr.clicked.connect(decruption)
+            def open_Intermediate():
+                ''' Обработка нажатия на кнопку but_back
+                Закрывает окно Decryption и возвращaется в Intermediate'''
+
+                Cleaner()
+
+                Decr_Window.close()
+                open_Intermediate()
 
             def text_insert_key(passwrd):
                 '''Обрабатывает ввод значений в поле ввода ключа key_label'''
@@ -1757,8 +1828,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setInformativeText("Ошибка во время введения ключа")
                     Error_Window.setDetailedText(
@@ -1769,7 +1840,7 @@ def open_Intermediate():
                     Error_Window.show()
 
                     passwrd = passwrd[:16]
-                    ui_1.key_label.setText(passwrd)
+                    ui_2.key_label.setText(passwrd)
 
                 else:
                     file = open("Files/key.txt", 'w')
@@ -1783,8 +1854,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setInformativeText("Ошибка во время введения ключа")
                     Error_Window.setDetailedText(
@@ -1795,15 +1866,12 @@ def open_Intermediate():
                     Error_Window.show()
 
                     passwrd = passwrd[:8]
-                    ui_1.key_label.setText(passwrd)
+                    ui_2.key_label.setText(passwrd)
 
                 else:
                     file = open("Files/DES_iv.txt", 'w')
                     file.write(str(passwrd))
                     file.close()
-
-            ui_1.key_label.textChanged.connect(text_insert_key)
-            ui_1.iv_label.textChanged.connect(text_insert_iv)
 
             def from_clipbord_key():
                 '''Обработка нажатия на кнопку but_in_key
@@ -1819,8 +1887,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_5 = Ui_Window_error()
-                    ui_5.setupUi(Error_Window)
+                    ui_6 = Ui_Window_error()
+                    ui_6.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -1829,7 +1897,7 @@ def open_Intermediate():
 
                     Error_Window.show()
                 else:
-                    ui_1.key_label.setText(key)
+                    ui_2.key_label.setText(key)
                     file.write(key)
 
                 file.close()
@@ -1848,8 +1916,8 @@ def open_Intermediate():
                     global Error_Window
 
                     Error_Window = QtWidgets.QMessageBox()
-                    ui_2 = Ui_Window_error()
-                    ui_2.setupUi(Error_Window)
+                    ui_3 = Ui_Window_error()
+                    ui_3.setupUi(Error_Window)
 
                     Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                     Error_Window.setInformativeText("Буфер обмена пуст")
@@ -1858,54 +1926,67 @@ def open_Intermediate():
 
                     Error_Window.show()
                 else:
-                    ui_1.iv_label.setText(iv)
+                    ui_2.iv_label.setText(iv)
                     file.write(iv)
 
                 file.close()
 
             def chang_text_key_label():
-                echo_mode = ui_1.key_label.echoMode()
+                '''Обработка нажатия на кнопку key_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в key_label'''
+
+                echo_mode = ui_2.key_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.key_on_off.setIcon(icon3)
-                    ui_1.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_on_off.setIcon(icon3)
+                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.key_label.setEchoMode(QLineEdit.Password)
+                    ui_2.key_label.setEchoMode(QLineEdit.Password)
 
             def chang_text_iv_label():
-                echo_mode = ui_1.iv_label.echoMode()
+                '''Обработка нажатия на кнопку iv_on_off
+                Меняет иконку у данной кнопки и
+                включает отображения пароля в iv_label'''
+
+                echo_mode = ui_2.iv_label.echoMode()
 
                 if echo_mode == QLineEdit.Password:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.iv_on_off.setIcon(icon3)
-                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.iv_on_off.setIcon(icon3)
+                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.iv_label.setEchoMode(QLineEdit.Normal)
+                    ui_2.iv_label.setEchoMode(QLineEdit.Normal)
 
                 else:
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.iv_on_off.setIcon(icon3)
-                    ui_1.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.iv_on_off.setIcon(icon3)
+                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                    ui_1.iv_label.setEchoMode(QLineEdit.Password)
+                    ui_2.iv_label.setEchoMode(QLineEdit.Password)
 
             def choose_file():
+                '''Обработка нажатия на клавишу but_exlor
+                Вызывает функцию Choose_fr_expl,
+                чтобы запомнить местоположение выбранного файла.
+                Меняет иконку кнопки but_file если местоположение сохранилось'''
+
                 Choose_fr_expl()
 
                 file = open("Files/selected_file.txt", 'r')
@@ -1914,19 +1995,22 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_1.but_file.setIcon(icon3)
-                    ui_1.but_file.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.but_file.setIcon(icon3)
+                    ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
 
             def cur_state_file():
+                '''Обработка нажатия на клавишу but_file
+                Вызов окна Report'''
+
                 file = open("Files/selected_file.txt", 'r')
 
                 global Report_Window
 
                 Report_Window = QtWidgets.QMessageBox()
-                ui_4 = Ui_Window_report()
-                ui_4.setupUi(Report_Window)
+                ui_5 = Ui_Window_report()
+                ui_5.setupUi(Report_Window)
 
                 if file.read() == '':
                     Report_Window.setText("В данный момент файл для расшифровки не выбран.")
@@ -1935,23 +2019,36 @@ def open_Intermediate():
                 Report_Window.show()
                 file.close()
 
-            ui_1.but_file.clicked.connect(cur_state_file)
-            ui_1.key_on_off.clicked.connect(chang_text_key_label)
-            ui_1.iv_on_off.clicked.connect(chang_text_iv_label)
-            ui_1.but_in_key.clicked.connect(from_clipbord_key)
-            ui_1.but_in_iv.clicked.connect(from_clipbord_iv)
 
-            ui_1.but_exlor.clicked.connect(choose_file)
+            ui_2.but_decr.clicked.connect(decruption)
+            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.key_label.textChanged.connect(text_insert_key)
+            ui_2.iv_label.textChanged.connect(text_insert_iv)
+            ui_2.but_in_key.clicked.connect(from_clipbord_key)
+            ui_2.but_in_iv.clicked.connect(from_clipbord_iv)
+            ui_2.key_on_off.clicked.connect(chang_text_key_label)
+            ui_2.iv_on_off.clicked.connect(chang_text_iv_label)
+            ui_2.but_exlor.clicked.connect(choose_file)
+            ui_2.but_file.clicked.connect(cur_state_file)
 
 
-    ui.but_encr.clicked.connect(open_Encryption)
-    ui.but_decr.clicked.connect(open_Decryption)
-
+    ui_1.but_encr.clicked.connect(open_Encryption)
+    ui_1.but_decr.clicked.connect(open_Decryption)
 
 
 ui.but_start.clicked.connect(open_Intermediate)
 
 
+def upd_Geom():
+    '''При выходе из приложения задаёт
+     стартовые координаты окна для следующего включения'''
+
+    file = open("Files/Geometry.txt", 'w')
+    file.write('485' + '\n')
+    file.write('165')
+    file.close()
+
 atexit.register(Cleaner)  # регестрирует функцию, которая будет выполняться после окончания программы
+atexit.register(upd_Geom) # регестрирует функцию, которая будет выполняться после окончания программы
 
 sys.exit(app.exec_())

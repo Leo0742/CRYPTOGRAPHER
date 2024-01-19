@@ -1,7 +1,7 @@
 '''Расположен класс Ui_Window_report,
 который описывает весь дизайн окна Report'''
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 
 class Ui_Window_report(object):
     '''Описывает дизайн окна Report'''

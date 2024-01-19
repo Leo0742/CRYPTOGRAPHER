@@ -2,14 +2,18 @@
 который описывает весь дизайн окна AES_Encryption'''
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
+from PyQt5.QtWidgets import QLineEdit
 
 class Ui_Window_encr_AES(object):
     '''Описывает дизайн окна AES_Encryption'''
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(950, 750)
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]), int(geometry[1]), 950, 750)  # !!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(950, 750)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
                        QtGui.QIcon.Off)
@@ -83,8 +87,10 @@ class Ui_Window_encr_AES(object):
         self.but_file.setObjectName("but_file")
         MainWindow.setCentralWidget(self.centralwidget)
 
+        self.but_back.clicked.connect(lambda: self.go_new_window(MainWindow))  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -94,6 +100,16 @@ class Ui_Window_encr_AES(object):
         self.but_encr.setText(_translate("MainWindow", "Зашифровать"))
         self.label_2.setText(_translate("MainWindow", "Ваш ключ:"))
         self.but_copy.setText(_translate("MainWindow", "Скопировать"))
+
+    def go_new_window(self, MainWindow):
+        x = MainWindow.geometry().x()
+        y = MainWindow.geometry().y()
+
+        file = open("Files/Geometry.txt", 'w')
+        file.write(str(x) + '\n')
+        file.write(str(y))
+        file.close()
+
 
 # if __name__ == "__main__":
 #     import sys
