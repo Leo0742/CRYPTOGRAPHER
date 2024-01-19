@@ -54,6 +54,7 @@ class Ui_Window_main_screen(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.but_start.clicked.connect(lambda: self.go_new_window(MainWindow)) # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.help.clicked.connect(lambda: self.go_new_window(MainWindow))  # !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

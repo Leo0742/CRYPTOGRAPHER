@@ -9,7 +9,11 @@ class Ui_Window_Chsafe(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(480, 270)
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]) + 240, int(geometry[1]) + 240, 480, 270)  # !!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -32,8 +36,6 @@ class Ui_Window_Chsafe(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

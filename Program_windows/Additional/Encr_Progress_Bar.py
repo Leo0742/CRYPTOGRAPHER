@@ -10,7 +10,11 @@ class Ui_Window_EncrProgbar(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(480, 270)
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]) + 240, int(geometry[1]) + 240, 480, 270)  # !!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.progBar_encr = QProgressBar(self.centralwidget)
@@ -29,7 +33,6 @@ class Ui_Window_EncrProgbar(object):
 
         self.retranslateUi(MainWindow)
 
-        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

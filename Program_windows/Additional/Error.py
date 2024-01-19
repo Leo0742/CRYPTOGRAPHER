@@ -18,6 +18,11 @@ class Ui_Window_error(object):
         error.setStandardButtons(QtWidgets.QMessageBox.Ok)
         error.setStyleSheet("")
 
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        error.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
+
 
 # if __name__ == "__main__":
 #     import sys

@@ -248,7 +248,7 @@ def open_Intermediate():
 
                 ui_3.but_next.clicked.connect(Encrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Encryption и возвращaется в Intermediate'''
 
@@ -380,6 +380,7 @@ def open_Intermediate():
                     ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
                 file.close()
+
             def cur_state_file():
                 '''Обработка нажатия на клавишу but_file
                 Вызов окна Report'''
@@ -400,7 +401,7 @@ def open_Intermediate():
                 file.close()
 
             ui_2.but_encr.clicked.connect(encryption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.but_copy_cl.clicked.connect(copy_clipbord_cl)
             ui_2.but_copy_op.clicked.connect(copy_clipbord_op)
             ui_2.key_cl_on_off.clicked.connect(chang_text_label_cl)
@@ -564,7 +565,7 @@ def open_Intermediate():
 
                 ui_3.but_next.clicked.connect(Encrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Encryption и возвращaется в Intermediate'''
 
@@ -672,7 +673,7 @@ def open_Intermediate():
 
 
             ui_2.but_encr.clicked.connect(encryption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.but_copy.clicked.connect(copy_clipbord)
             ui_2.key_label.textChanged.connect(text_insert)
             ui_2.key_on_off.clicked.connect(chang_text_label)
@@ -840,7 +841,7 @@ def open_Intermediate():
 
                 ui_3.but_next.clicked.connect(Encrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Encryption и возвращaется в Intermediate'''
 
@@ -1005,7 +1006,7 @@ def open_Intermediate():
 
 
             ui_2.but_encr.clicked.connect(encryption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.but_copy_key.clicked.connect(copy_clipbord_key)
             ui_2.but_copy_iv.clicked.connect(copy_clipbord_iv)
             ui_2.key_label.textChanged.connect(text_insert_key)
@@ -1197,7 +1198,7 @@ def open_Intermediate():
 
                 ui_3.but_next.clicked.connect(Decrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Decryption и возвращaется в Intermediate'''
 
@@ -1342,7 +1343,7 @@ def open_Intermediate():
 
 
             ui_2.but_decr.clicked.connect(decruption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.key_label.textChanged.connect(text_insert)
             ui_2.but_insert.clicked.connect(from_clipbord)
             ui_2.key_on_off.clicked.connect(chang_text_label)
@@ -1505,7 +1506,7 @@ def open_Intermediate():
 
                 ui_3.but_next.clicked.connect(Decrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Decryption и возвращaется в Intermediate'''
 
@@ -1634,7 +1635,7 @@ def open_Intermediate():
 
 
             ui_2.but_decr.clicked.connect(decruption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.key_label.textChanged.connect(text_insert)
             ui_2.but_insert.clicked.connect(from_clipbord)
             ui_2.key_on_off.clicked.connect(chang_text_label)
@@ -1812,7 +1813,7 @@ def open_Intermediate():
                         Error_Window.show()
                 ui_3.but_next.clicked.connect(Decrwind)
 
-            def open_Intermediate():
+            def back_Intermediate():
                 ''' Обработка нажатия на кнопку but_back
                 Закрывает окно Decryption и возвращaется в Intermediate'''
 
@@ -2021,7 +2022,7 @@ def open_Intermediate():
 
 
             ui_2.but_decr.clicked.connect(decruption)
-            ui_2.but_back.clicked.connect(open_Intermediate)
+            ui_2.but_back.clicked.connect(back_Intermediate)
             ui_2.key_label.textChanged.connect(text_insert_key)
             ui_2.iv_label.textChanged.connect(text_insert_iv)
             ui_2.but_in_key.clicked.connect(from_clipbord_key)

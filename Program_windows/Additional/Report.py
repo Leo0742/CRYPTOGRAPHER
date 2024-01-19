@@ -16,6 +16,11 @@ class Ui_Window_report(object):
         report.setStandardButtons(QtWidgets.QMessageBox.Ok)
         report.setStyleSheet("")
 
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        report.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
+
 # if __name__ == "__main__":
 #     import sys
 #     app = QtWidgets.QApplication(sys.argv)
