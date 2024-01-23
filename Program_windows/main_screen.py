@@ -39,17 +39,17 @@ class Ui_Window_main_screen(object):
                                    "color: rgb(255, 255, 255);")
         self.label_1.setAlignment(QtCore.Qt.AlignCenter)
         self.label_1.setObjectName("label_1")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(780, 648, 151, 51))
-        self.label_3.setStyleSheet("font: italic 30pt \"Palace Script MT\";\n"
+        self.label_sign = QtWidgets.QLabel(self.centralwidget)
+        self.label_sign.setGeometry(QtCore.QRect(780, 648, 151, 51))
+        self.label_sign.setStyleSheet("font: italic 30pt \"Palace Script MT\";\n"
                                    "color: rgb(255, 170, 0);\n"
                                    "background-color: rgba(255, 255, 255, 30);\n"
                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
                                    "border-radius: 7px;\n"
                                    "border: none;\n"
                                    "border-radius: 20px;")
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
+        self.label_sign.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_sign.setObjectName("label_3")
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(860, 10, 81, 71))
         self.help.setFocusPolicy(QtCore.Qt.WheelFocus)
@@ -61,17 +61,29 @@ class Ui_Window_main_screen(object):
         self.help.setIconSize(QtCore.QSize(60, 60))
         self.help.setFlat(True)
         self.help.setObjectName("help")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(30, 650, 191, 41))
-        self.label_4.setStyleSheet("font: 6pt \"Terminal\";\n"
+        self.label_version = QtWidgets.QLabel(self.centralwidget)
+        self.label_version.setGeometry(QtCore.QRect(30, 650, 191, 41))
+        self.label_version.setStyleSheet("font: 6pt \"Terminal\";\n"
                                    "background-color: rgba(255, 255, 255, 30);\n"
                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
                                    "border-radius: 7px;\n"
                                    "border: none;\n"
                                    "border-radius: 20px;\n"
-                                   "color: rgb(255, 170, 0);")
-        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_4.setObjectName("label_4")
+                                   "color: rgb(255, 170, 0);\n")
+        self.label_version.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_version.setObjectName("label_4")
+
+        self.but_icon = QtWidgets.QPushButton(self.centralwidget)
+        self.but_icon.setGeometry(QtCore.QRect(15, 15, 81, 71))
+        self.but_icon.setStyleSheet("background-color: rgba(255, 255, 255, 30);\n"
+                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                    "border-radius: 25px;")
+        self.but_icon.setText("")
+        self.but_icon.setIcon(icon)
+        self.but_icon.setIconSize(QtCore.QSize(60, 60))
+        self.but_icon.setFlat(True)
+        self.but_icon.setObjectName("but_icon")
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -85,8 +97,8 @@ class Ui_Window_main_screen(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER"))
         self.but_start.setText(_translate("MainWindow", "Start"))
         self.label_1.setText(_translate("MainWindow", "CRYPTOGRAPHER"))
-        self.label_3.setText(_translate("MainWindow", "Leonardo"))
-        self.label_4.setText(_translate("MainWindow", "version 2024.1.0"))
+        self.label_sign.setText(_translate("MainWindow", "Leonardo"))
+        self.label_version.setText(_translate("MainWindow", "version 2024.1.0"))
 
     def go_new_window(self, MainWindow):
         x = MainWindow.geometry().x()
@@ -96,6 +108,10 @@ class Ui_Window_main_screen(object):
         file.write(str(x) + '\n')
         file.write(str(y))
         file.close()
+
+    def delete_self(self):
+        del self
+
 
 # if __name__ == "__main__":
 #     import sys
