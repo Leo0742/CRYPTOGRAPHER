@@ -618,8 +618,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.key_on_off.setIcon(icon3)
-                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
@@ -627,8 +627,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.key_on_off.setIcon(icon3)
-                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.key_label.setEchoMode(QLineEdit.Password)
 
@@ -927,8 +927,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.key_on_off.setIcon(icon3)
-                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.key_label.setEchoMode(QLineEdit.Normal)
 
@@ -936,8 +936,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.key_on_off.setIcon(icon3)
-                    ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_op_on_off.setIcon(icon3)
+                    ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.key_label.setEchoMode(QLineEdit.Password)
 
@@ -952,8 +952,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.iv_on_off.setIcon(icon3)
-                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_cl_on_off.setIcon(icon3)
+                    ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.iv_label.setEchoMode(QLineEdit.Normal)
 
@@ -961,8 +961,8 @@ def open_Intermediate():
                     icon3 = QtGui.QIcon()
                     icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                     QtGui.QIcon.Off)
-                    ui_2.iv_on_off.setIcon(icon3)
-                    ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                    ui_2.key_cl_on_off.setIcon(icon3)
+                    ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
                     ui_2.iv_label.setEchoMode(QLineEdit.Password)
 
@@ -1101,12 +1101,12 @@ def open_Intermediate():
                         ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_4.progBar_decr.setValue(25)
+                        ui_4.progrBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = RSA_decrypt()
 
-                        ui_4.progBar_decr.setValue(50)
+                        ui_4.progrBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1137,7 +1137,7 @@ def open_Intermediate():
                         ui_2.but_file.setIcon(icon3)
                         ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_4.progBar_decr.setValue(100)
+                        ui_4.progrBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -1409,12 +1409,12 @@ def open_Intermediate():
                         ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_4.progBar_decr.setValue(25)
+                        ui_4.progrBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = AES_decrypt()
 
-                        ui_4.progBar_decr.setValue(50)
+                        ui_4.progrBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1445,7 +1445,7 @@ def open_Intermediate():
                         ui_2.but_file.setIcon(icon3)
                         ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_4.progBar_decr.setValue(100)
+                        ui_4.progrBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -1705,12 +1705,12 @@ def open_Intermediate():
                         ui_4.setupUi(DecrProgbar_Window)
                         DecrProgbar_Window.show()
 
-                        ui_4.progBar_decr.setValue(25)
+                        ui_4.progrBar_decr.setValue(25)
                         QtWidgets.QApplication.processEvents()
 
                         plaintext = DES_decrypt()
 
-                        ui_4.progBar_decr.setValue(50)
+                        ui_4.progrBar_decr.setValue(50)
                         QtWidgets.QApplication.processEvents()
 
                         if flag:
@@ -1741,7 +1741,7 @@ def open_Intermediate():
                         ui_2.but_file.setIcon(icon3)
                         ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
                         
-                        ui_4.progBar_decr.setValue(100)
+                        ui_4.progrBar_decr.setValue(100)
                         QtWidgets.QApplication.processEvents()
                         DecrProgbar_Window.close()
 
@@ -2033,8 +2033,13 @@ def open_Intermediate():
             ui_2.but_file.clicked.connect(cur_state_file)
 
 
+    def back_Main():
+        Inter_Window.close()
+        MainWindow.show()
+
     ui_1.but_encr.clicked.connect(open_Encryption)
     ui_1.but_decr.clicked.connect(open_Decryption)
+    ui_1.but_back.clicked.connect(back_Main)
 
 
 ui.but_start.clicked.connect(open_Intermediate)

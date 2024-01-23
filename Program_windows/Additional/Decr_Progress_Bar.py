@@ -14,20 +14,28 @@ class Ui_Window_DecrProgbar(object):
         MainWindow.setGeometry(int(geometry[0]) + 240, int(geometry[1]) + 240, 480, 270)  # !!!!!!!!!!!!!!!!!
         MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
+        MainWindow.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.progBar_decr = QtWidgets.QProgressBar(self.centralwidget)
-        self.progBar_decr.setGeometry(QtCore.QRect(70, 110, 331, 91))
-        self.progBar_decr.setProperty("value", 0)
-        self.progBar_decr.setAlignment(QtCore.Qt.AlignCenter)
-        self.progBar_decr.setOrientation(QtCore.Qt.Horizontal)
-        self.progBar_decr.setTextDirection(QtWidgets.QProgressBar.BottomToTop)
-        self.progBar_decr.setObjectName("progrBar_decr")
+        self.progrBar_decr = QtWidgets.QProgressBar(self.centralwidget)
+        self.progrBar_decr.setGeometry(QtCore.QRect(70, 120, 331, 91))
+        self.progrBar_decr.setStyleSheet("")
+        self.progrBar_decr.setProperty("value", 0)
+        self.progrBar_decr.setAlignment(QtCore.Qt.AlignCenter)
+        self.progrBar_decr.setOrientation(QtCore.Qt.Horizontal)
+        self.progrBar_decr.setTextDirection(QtWidgets.QProgressBar.BottomToTop)
+        self.progrBar_decr.setObjectName("progrBar_decr")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(60, 40, 361, 31))
-        self.label.setStyleSheet("font: 12pt \"Arial\";")
+        self.label.setGeometry(QtCore.QRect(30, 30, 421, 41))
+        self.label.setStyleSheet("font: 14pt \"Arial\";\n"
+                                 "background-color: rgba(255, 255, 255, 30);\n"
+                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                 "border-radius: 15px;\n"
+                                 "color: rgb(255, 255, 255);")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -37,8 +45,8 @@ class Ui_Window_DecrProgbar(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER ->Decr Progress Bar"))
-        self.label.setText(_translate("MainWindow", "Прогресс выполнения расшифрования"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CRYPTOGRAPHER -> Decr Progress Bar"))
+        self.label.setText(_translate("MainWindow", "Прогресс выполнения расшифровки"))
 
 
 # if __name__ == "__main__":

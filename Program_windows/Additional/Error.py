@@ -10,6 +10,10 @@ class Ui_Window_error(object):
 
     def setupUi(self, error):
         error.setObjectName("MainWindow")
+        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        error.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         error.setWindowIcon(icon)
@@ -17,11 +21,6 @@ class Ui_Window_error(object):
         error.setIcon(QMessageBox.Warning)
         error.setStandardButtons(QtWidgets.QMessageBox.Ok)
         error.setStyleSheet("")
-
-        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
-        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
-        file.close()  # !!!!!!!!!!!!!!!!!!!!!
-        error.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
 
 
 # if __name__ == "__main__":

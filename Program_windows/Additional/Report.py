@@ -8,18 +8,17 @@ class Ui_Window_report(object):
 
     def setupUi(self, report):
         report.setObjectName("MainWindow")
+        file = open("../../Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
+        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
+        file.close()  # !!!!!!!!!!!!!!!!!!!!!
+        report.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         report.setWindowIcon(icon)
         report.setWindowTitle("Report")
         report.setIcon(QtWidgets.QMessageBox.Information)
         report.setStandardButtons(QtWidgets.QMessageBox.Ok)
         report.setStyleSheet("")
-
-        file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
-        geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
-        file.close()  # !!!!!!!!!!!!!!!!!!!!!
-        report.setGeometry(int(geometry[0]) + 250, int(geometry[1]) + 300, 0, 0)
 
 # if __name__ == "__main__":
 #     import sys

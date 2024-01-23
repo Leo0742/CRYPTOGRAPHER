@@ -14,40 +14,64 @@ class Ui_Window_main_screen(object):
         MainWindow.setGeometry(int(geometry[0]), int(geometry[1]), 950, 750) # !!!!!!!!!!!!!!!!!
         MainWindow.setFixedSize(950, 750) # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
+                       QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("")
+        MainWindow.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.but_start = QtWidgets.QPushButton(self.centralwidget)
         self.but_start.setGeometry(QtCore.QRect(340, 400, 261, 91))
-        self.but_start.setStyleSheet("font: 16pt \"Bauhaus 93\";\nfont: 22pt \"Forte\";")
+        self.but_start.setStyleSheet("font: 22pt \"Forte\";\n"
+                                     "background-color: rgba(255, 255, 255, 30);\n"
+                                     "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                     "border-radius: 25px;\n"
+                                     "color: rgb(255, 255, 255);")
         self.but_start.setObjectName("but_start")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
         self.label_1.setGeometry(QtCore.QRect(220, 160, 501, 121))
-        self.label_1.setStyleSheet("font: 30pt \"MV Boli\";")
+        self.label_1.setStyleSheet("font: 30pt \"MV Boli\";\n"
+                                   "background-color: rgba(255, 255, 255, 30);\n"
+                                   "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                   "border-radius: 30px;\n"
+                                   "color: rgb(255, 255, 255);")
         self.label_1.setAlignment(QtCore.Qt.AlignCenter)
         self.label_1.setObjectName("label_1")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(800, 670, 131, 51))
-        self.label_3.setStyleSheet("font: italic 24pt \"Palace Script MT\";")
+        self.label_3.setGeometry(QtCore.QRect(780, 648, 151, 51))
+        self.label_3.setStyleSheet("font: italic 30pt \"Palace Script MT\";\n"
+                                   "color: rgb(255, 170, 0);\n"
+                                   "background-color: rgba(255, 255, 255, 30);\n"
+                                   "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                   "border-radius: 7px;\n"
+                                   "border: none;\n"
+                                   "border-radius: 20px;")
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.help = QtWidgets.QPushButton(self.centralwidget)
-        self.help.setGeometry(QtCore.QRect(870, 10, 71, 61))
+        self.help.setGeometry(QtCore.QRect(860, 10, 81, 71))
         self.help.setFocusPolicy(QtCore.Qt.WheelFocus)
+        self.help.setStyleSheet("")
         self.help.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.help.setIcon(icon1)
         self.help.setIconSize(QtCore.QSize(60, 60))
+        self.help.setFlat(True)
         self.help.setObjectName("help")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(20, 680, 171, 41))
-        self.label_2.setStyleSheet("font: 6pt \"Terminal\";")
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(30, 650, 191, 41))
+        self.label_4.setStyleSheet("font: 6pt \"Terminal\";\n"
+                                   "background-color: rgba(255, 255, 255, 30);\n"
+                                   "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                   "border-radius: 7px;\n"
+                                   "border: none;\n"
+                                   "border-radius: 20px;\n"
+                                   "color: rgb(255, 170, 0);")
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -62,7 +86,7 @@ class Ui_Window_main_screen(object):
         self.but_start.setText(_translate("MainWindow", "Start"))
         self.label_1.setText(_translate("MainWindow", "CRYPTOGRAPHER"))
         self.label_3.setText(_translate("MainWindow", "Leonardo"))
-        self.label_2.setText(_translate("MainWindow", "version 2024.1.0"))
+        self.label_4.setText(_translate("MainWindow", "version 2024.1.0"))
 
     def go_new_window(self, MainWindow):
         x = MainWindow.geometry().x()

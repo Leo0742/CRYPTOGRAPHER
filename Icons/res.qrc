@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>iv.svg</file>
+    <file>security.svg</file>
+    <file>back.svg</file>
+    <file>file_NO.svg</file>
+    <file>file_YES.svg</file>
+    <file>help.svg</file>
+    <file>key.svg</file>
+    <file>key_OFF.svg</file>
+    <file>key_ON.svg</file>
+    <file>lock.svg</file>
+    <file>main_icon.svg</file>
+    <file>no_lock.svg</file>
+  </qresource>
+</RCC>
