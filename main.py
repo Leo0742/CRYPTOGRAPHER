@@ -563,7 +563,7 @@ def openMain():
                             else:
                                 Error_Window.setInformativeText("Возникла непредвиденная ошибка")
                                 Error_Window.setDetailedText(
-                                    "Скорее всего вы наткнулись на программную ошибку.В скором времени она будет исправлена.")
+                                    "Скорее всего вы наткнулись на программную ошибку. В скором времени она будет исправлена.")
 
                                 EncrProgbar_Window = QtWidgets.QMainWindow()
                                 ui_4 = Ui_Window_EncrProgbar()
