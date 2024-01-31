@@ -146,13 +146,10 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
+
 
                         ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
                                                     "background-color: rgba(255, 255, 255, 30);\n"
@@ -161,20 +158,16 @@ def openMain():
                                                     "color: rgb(255, 255, 255);")
                         QtWidgets.QApplication.processEvents()
 
-
                         global flag
                         global end
 
                         flag = None
 
-                        selected_file = open("Files/selected_file.txt", "r")
-                        print(selected_file.read())
-                        if selected_file.read() != '':
-                            size = os.path.getsize(selected_file.read()) >= 190
+                        selected_file = open("Files/selected_file.txt", "r").read()
+                        if selected_file != '':
+                            size = os.path.getsize(selected_file) > 190
                         else:
                             size = False
-
-                        selected_file.close()
 
                         try:
                             if ui_3.rab_new.isChecked():
@@ -599,11 +592,8 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(
+                            ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
 
@@ -965,11 +955,8 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(
+                            ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
 
@@ -1443,11 +1430,8 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(
+                            ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
 
@@ -1846,11 +1830,8 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(
+                            ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
 
@@ -1860,7 +1841,6 @@ def openMain():
                                                     "border-radius: 25px;\n"
                                                     "color: rgb(255, 255, 255);")
                         QtWidgets.QApplication.processEvents()
-
 
                         global flag
                         global end
@@ -2236,11 +2216,8 @@ def openMain():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
 
-                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
-                                                    "background-color: rgb(177, 92, 145);\n"
-                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
-                                                    "border-radius: 25px;\n"
-                                                    "color: rgb(255, 255, 255);")
+                        ui_3.but_next.setStyleSheet(
+                            ui_3.but_next.styleSheet() + "\nbackground-color: rgb(177, 92, 145);")
                         QtWidgets.QApplication.processEvents()
                         time.sleep(0.1)
 
