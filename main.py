@@ -8,6 +8,7 @@ import os
 import os.path
 import sys
 import pyperclip
+import time
 from PyQt5.QtCore import QEasingCurve
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QLineEdit
@@ -37,6 +38,8 @@ from Cleaner import Cleaner
 app = QtWidgets.QApplication(sys.argv)
 
 def openMain():
+    ''' Открывает окно main_screen и обрабатывает действия в нём'''
+
     global MainWindow
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_Window_main_screen()
@@ -53,6 +56,22 @@ def openMain():
 
     def open_Intermediate():
         ''' Открывает окно Intermediate и обрабатывает действия в нём'''
+
+        if MainWindow.isActiveWindow():
+            ui.but_start.setStyleSheet("font: 22pt \"Forte\";\n"
+                                       "background-color: rgb(177, 92, 145);\n"
+                                       "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                       "border-radius: 25px;\n"
+                                       "color: rgb(255, 255, 255);")
+            QtWidgets.QApplication.processEvents()
+            time.sleep(0.1)
+
+            ui.but_start.setStyleSheet("font: 22pt \"Forte\";\n"
+                                         "background-color: rgba(255, 255, 255, 30);\n"
+                                         "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                         "border-radius: 25px;\n"
+                                         "color: rgb(255, 255, 255);")
+            QtWidgets.QApplication.processEvents()
 
         global Inter_Window
 
@@ -78,6 +97,17 @@ def openMain():
             if ui_1.Box_encr.currentText() == "RSA":
                 '''Открывает открывает окно RSA_Encryption и обрабатывает действия в нём'''
 
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+
+
                 global Encr_Window
                 Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_RSA()
@@ -90,6 +120,21 @@ def openMain():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
                     global Chsafe_Window
                     Chsafe_Window = QtWidgets.QMainWindow()
                     ui_3 = Ui_Window_Chsafe()
@@ -100,6 +145,22 @@ def openMain():
                     def Encrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -262,6 +323,18 @@ def openMain():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Cleaner()
                     Encr_Window.close()
                     open_Intermediate()
@@ -269,6 +342,16 @@ def openMain():
                 def copy_clipbord_cl():
                     '''Обработка нажатия на кнопку but_copy_cl
                     Копирует ключ в буфер обмена'''
+
+                    ui_2.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);\n"
+                                                   "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
 
                     file = open("Files/RSA_priv_key.pem", 'r')
                     lines = file.readlines()
@@ -286,9 +369,9 @@ def openMain():
                         ui_6.setupUi(Error_Window)
 
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                        Error_Window.setInformativeText("Поле ввода ключа пусто")
+                        Error_Window.setInformativeText("Поле ввода закрытого ключа пусто")
                         Error_Window.setDetailedText(
-                            "Ключ не получится скопировать в буфер обмена, пока вы не зашифруете файл и не получите свой закрытый ключ.")
+                            "Закрытый ключ не получится скопировать в буфер обмена, пока вы не зашифруете файл и не получите свой данный ключ.")
 
                         Error_Window.show()
                     else:
@@ -297,6 +380,16 @@ def openMain():
                 def copy_clipbord_op():
                     '''Обработка нажатия на кнопку but_copy_op
                     Копирует ключ в буфер обмена'''
+
+                    ui_2.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);\n"
+                                                   "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
 
                     file = open("Files/RSA_pub_key.pem", 'r')
                     lines = file.readlines()
@@ -314,9 +407,9 @@ def openMain():
                         ui_6.setupUi(Error_Window)
 
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
-                        Error_Window.setInformativeText("Поле ввода ключа пусто")
+                        Error_Window.setInformativeText("Поле ввода открытого ключа пусто")
                         Error_Window.setDetailedText(
-                            "Ключ не получится скопировать в буфер обмена, пока вы не зашифруете файл и не получите свой открытый ключ.")
+                            "Открытый ключ не получится скопировать в буфер обмена, пока вы не зашифруете файл и не получите свой данный ключ.")
 
                         Error_Window.show()
                     else:
@@ -326,6 +419,14 @@ def openMain():
                     '''Обработка нажатия на кнопку key_cl_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label_cl'''
+
+                    ui_2.key_cl_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_cl_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     echo_mode = ui_2.key_label_cl.echoMode()
 
@@ -351,6 +452,14 @@ def openMain():
                     '''Обработка нажатия на кнопку key_op_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label_op'''
+
+                    ui_2.key_op_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_op_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     echo_mode = ui_2.key_label_op.echoMode()
 
@@ -378,6 +487,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -394,6 +516,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -421,6 +551,17 @@ def openMain():
             elif ui_1.Box_encr.currentText() == "AES":
                 '''Открывает открывает окно AES_Encryption и обрабатывает действия в нём'''
 
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+
+
                 Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_AES()
                 ui_2.setupUi(Encr_Window)
@@ -432,6 +573,22 @@ def openMain():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
+
                     global Chsafe_Window
                     Chsafe_Window = QtWidgets.QMainWindow()
                     ui_3 = Ui_Window_Chsafe()
@@ -441,6 +598,22 @@ def openMain():
                     def Encrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -579,6 +752,18 @@ def openMain():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Cleaner()
 
                     Encr_Window.close()
@@ -587,6 +772,17 @@ def openMain():
                 def copy_clipbord():
                     '''Обработка нажатия на кнопку but_copy
                     Копирует ключ в буфер обмена'''
+
+                    ui_2.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                "color: rgb(255, 255, 255);\n"
+                                                "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/key.txt", 'r')
                     key = file.read()
@@ -622,6 +818,14 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
+                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
+
                     echo_mode = ui_2.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
@@ -648,6 +852,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -664,6 +881,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -692,6 +917,17 @@ def openMain():
             elif ui_1.Box_encr.currentText() == "Triple DES":
                 '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
 
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_encr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+
+
                 Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_DES()
                 ui_2.setupUi(Encr_Window)
@@ -703,6 +939,22 @@ def openMain():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
+
                     global Chsafe_Window
                     Chsafe_Window = QtWidgets.QMainWindow()
                     ui_3 = Ui_Window_Chsafe()
@@ -712,6 +964,22 @@ def openMain():
                     def Encrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -855,6 +1123,18 @@ def openMain():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Cleaner()
 
                     Encr_Window.close()
@@ -863,6 +1143,17 @@ def openMain():
                 def copy_clipbord_key():
                     '''Обработка нажатия на кнопку but_copy_key
                     Копирует ключ в буфер обмена'''
+
+                    ui_2.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                    "color: rgb(255, 255, 255);\n"
+                                                    "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                    "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/key.txt", 'r')
                     key = file.read()
@@ -889,6 +1180,17 @@ def openMain():
                 def copy_clipbord_iv():
                     '''Обработка нажатия на кнопку but_copy_iv
                     Копирует вектор инициализации в буфер обмена'''
+
+                    ui_2.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);\n"
+                                                   "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                                                   "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/DES_iv.txt", 'r')
                     iv = file.read()
@@ -931,6 +1233,14 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
+                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_cl_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
+
                     echo_mode = ui_2.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
@@ -955,6 +1265,14 @@ def openMain():
                     '''Обработка нажатия на кнопку iv_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в iv_label'''
+
+                    ui_2.iv_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.iv_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     echo_mode = ui_2.iv_label.echoMode()
 
@@ -982,6 +1300,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -998,6 +1329,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -1033,6 +1372,17 @@ def openMain():
             if ui_1.Box_decr.currentText() == "RSA":
                 '''Открывает открывает окно RSA_Decryption и обрабатывает действия в нём'''
 
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+                QtWidgets.QApplication.processEvents()
+
                 global Decr_Window
 
                 Decr_Window = QtWidgets.QMainWindow()
@@ -1046,13 +1396,27 @@ def openMain():
                     '''Обработка нажатия на кнопку but_decr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
                     file = open("Files/RSA_priv_key.pem", 'a')
                     file.write("\n-----END RSA PRIVATE KEY-----\n")
                     file.close()
 
                     file = open("Files/RSA_priv_key.pem", 'r')
                     lines = file.readlines()
-                    print(lines)
                     file.close()
 
                     file = open("Files/RSA_priv_key.pem", 'w')
@@ -1078,6 +1442,22 @@ def openMain():
                     def Decrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -1212,6 +1592,18 @@ def openMain():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Decryption и возвращaется в Intermediate'''
 
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Cleaner()
 
                     Decr_Window.close()
@@ -1260,6 +1652,17 @@ def openMain():
                     '''Обработка нажатия на кнопку but_insert
                     Вставляет ключ из буфера'''
 
+                    ui_2.but_insert.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_insert.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
+
                     key = pyperclip.paste()
 
                     if key == '':
@@ -1275,7 +1678,7 @@ def openMain():
                         Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                         Error_Window.setInformativeText("Буфер обмена пуст")
                         Error_Window.setDetailedText(
-                            "Программа не сможет считать ваш ключ с буфера обмена, пока вы его не скопируете.")
+                            "Программа не сможет считать ваш закрытый ключ с буфера обмена, пока вы его не скопируете.")
 
                         Error_Window.show()
                     else:
@@ -1292,6 +1695,14 @@ def openMain():
                     '''Обработка нажатия на кнопку key_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
+
+                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     echo_mode = ui_2.key_label.echoMode()
 
@@ -1319,6 +1730,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -1335,6 +1759,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -1362,6 +1794,17 @@ def openMain():
             elif ui_1.Box_decr.currentText() == "AES":
                 '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
 
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+
+
                 Decr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_decr_AES()
                 ui_2.setupUi(Decr_Window)
@@ -1372,6 +1815,22 @@ def openMain():
                 def decruption():
                     '''Обработка нажатия на кнопку but_decr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
+
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/key.txt", 'r')
                     key = file.read()
@@ -1386,6 +1845,22 @@ def openMain():
                     def Decrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -1520,6 +1995,17 @@ def openMain():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Decryption и возвращaется в Intermediate'''
 
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
                     Cleaner()
 
                     Decr_Window.close()
@@ -1555,6 +2041,17 @@ def openMain():
                     '''Обработка нажатия на кнопку but_insert
                     Вставляет ключ из буфера'''
 
+                    ui_2.but_insert.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_insert.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
+
                     file = open("Files/key.txt", 'w')
                     key = pyperclip.paste()
 
@@ -1585,6 +2082,14 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
+                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
+
                     echo_mode = ui_2.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
@@ -1611,6 +2116,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -1627,6 +2145,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -1654,6 +2180,17 @@ def openMain():
             elif ui_1.Box_decr.currentText() == "Triple DES":
                 '''Открывает открывает окно DES_Decryption и обрабатывает действия в нём'''
 
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "background-color: rgb(177, 92, 145);")
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.1)
+
+                ui_1.but_decr.setStyleSheet("font: italic 16pt \"Arial\";\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            "")
+                QtWidgets.QApplication.processEvents()
+
                 Decr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_decr_DES()
                 ui_2.setupUi(Decr_Window)
@@ -1664,6 +2201,22 @@ def openMain():
                 def decruption():
                     '''Обработка нажатия на кнопку but_decr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
+
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgb(177, 92, 145);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_decr.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                "background-color: rgba(255, 255, 255, 30);\n"
+                                                "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;\n"
+                                                "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/key.txt", 'r')
                     key = file.read()
@@ -1682,6 +2235,22 @@ def openMain():
                     def Decrwind():
                         '''Обработка нажатия на кнопку but_next
                         Обрабатывает действия в окне Choice_safe'''
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgb(177, 92, 145);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+                        time.sleep(0.1)
+
+                        ui_3.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+                                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                                    "border-radius: 25px;\n"
+                                                    "color: rgb(255, 255, 255);")
+                        QtWidgets.QApplication.processEvents()
+
 
                         global flag
                         global end
@@ -1821,11 +2390,24 @@ def openMain():
 
                             Error_Window.setText("Сейчас выполнить данное действие невозможно !")
                             Error_Window.show()
+
                     ui_3.but_next.clicked.connect(Decrwind)
 
                 def back_Intermediate():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Decryption и возвращaется в Intermediate'''
+
+                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                                "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
 
                     Cleaner()
 
@@ -1888,6 +2470,17 @@ def openMain():
                     '''Обработка нажатия на кнопку but_in_key
                     Вставляет ключ из буфера'''
 
+                    ui_2.but_in_key.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);\n"
+                                                  "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_in_key.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                  "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
+
                     file = open("Files/key.txt", 'w')
                     key = pyperclip.paste()
 
@@ -1916,6 +2509,17 @@ def openMain():
                 def from_clipbord_iv():
                     '''Обработка нажатия на кнопку but_in_iv
                     Вставляет вектор инициализации из буфера'''
+
+                    ui_2.but_in_iv.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_in_iv.setStyleSheet("font: italic 16pt \"Courier New\";\n"
+                                                 "color: rgb(255, 255, 255);")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/DES_iv.txt", 'w')
                     iv = pyperclip.paste()
@@ -1947,6 +2551,14 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
+                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.key_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
+
                     echo_mode = ui_2.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
@@ -1971,6 +2583,14 @@ def openMain():
                     '''Обработка нажатия на кнопку iv_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в iv_label'''
+
+                    ui_2.iv_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.iv_on_off.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     echo_mode = ui_2.iv_label.echoMode()
 
@@ -1998,6 +2618,19 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;\n"
+                                                 "background-color: rgb(177, 92, 145);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                                                 "color: rgb(255, 255, 255);\n"
+                                                 "border-radius: 20px;")
+                    QtWidgets.QApplication.processEvents()
+
+
                     Choose_fr_expl()
 
                     file = open("Files/selected_file.txt", 'r')
@@ -2014,6 +2647,14 @@ def openMain():
                 def cur_state_file():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
+
+                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.but_file.setStyleSheet("")
+                    QtWidgets.QApplication.processEvents()
+
 
                     file = open("Files/selected_file.txt", 'r')
 
@@ -2044,6 +2685,21 @@ def openMain():
 
 
         def back_Main():
+            ''' Обработка нажатия на кнопку but_back
+            Закрывает окно Encryption и возвращaется в main_screen'''
+
+            ui_1.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                        "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                        "border-radius: 25px;")
+            QtWidgets.QApplication.processEvents()
+            time.sleep(0.1)
+
+            ui_1.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                        "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                        "border-radius: 25px;")
+            QtWidgets.QApplication.processEvents()
+
+
             Inter_Window.close()
             openMain()
 

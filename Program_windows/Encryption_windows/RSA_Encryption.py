@@ -24,19 +24,26 @@ class Ui_Window_encr_RSA(object):
         self.centralwidget.setObjectName("centralwidget")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
         self.but_back.setGeometry(QtCore.QRect(10, 10, 71, 61))
+        self.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                    "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                    "border-radius: 25px;")
         self.but_back.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Icons/back.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.but_back.setIcon(icon1)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("Icons/back.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.but_back.setIcon(icon4)
         self.but_back.setIconSize(QtCore.QSize(50, 50))
         self.but_back.setFlat(True)
         self.but_back.setObjectName("but_back")
         self.help = QtWidgets.QPushButton(self.centralwidget)
-        self.help.setGeometry(QtCore.QRect(850, 10, 93, 71))
+        self.help.setGeometry(QtCore.QRect(860, 10, 81, 71))
+        self.help.setFocusPolicy(QtCore.Qt.WheelFocus)
+        self.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                "border-radius: 25px;")
         self.help.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.help.setIcon(icon2)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.help.setIcon(icon1)
         self.help.setIconSize(QtCore.QSize(60, 60))
         self.help.setFlat(True)
         self.help.setObjectName("help")
@@ -67,6 +74,7 @@ class Ui_Window_encr_RSA(object):
         self.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                      "color: rgb(255, 255, 255);\n"
                                      "border-radius: 20px;")
+        self.but_exlor.setFlat(True)
         self.but_exlor.setObjectName("but_exlor")
         self.but_encr = QtWidgets.QPushButton(self.centralwidget)
         self.but_encr.setGeometry(QtCore.QRect(370, 280, 211, 71))
@@ -75,6 +83,7 @@ class Ui_Window_encr_RSA(object):
                                     "border: 1px solid rgba(255, 255, 255, 40);\n"
                                     "border-radius: 25px;\n"
                                     "color: rgb(255, 255, 255);")
+        self.but_encr.setFlat(True)
         self.but_encr.setObjectName("but_encr")
         self.widget_2 = QtWidgets.QWidget(self.centralwidget)
         self.widget_2.setGeometry(QtCore.QRect(40, 430, 861, 231))
@@ -86,6 +95,7 @@ class Ui_Window_encr_RSA(object):
         self.but_copy_cl.setGeometry(QtCore.QRect(670, 130, 171, 61))
         self.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                        "color: rgb(255, 255, 255);")
+        self.but_copy_cl.setFlat(True)
         self.but_copy_cl.setObjectName("but_copy_cl")
         self.key_label_op = QtWidgets.QLineEdit(self.widget_2)
         self.key_label_op.setGeometry(QtCore.QRect(250, 45, 341, 51))
@@ -101,6 +111,7 @@ class Ui_Window_encr_RSA(object):
         self.but_copy_op.setGeometry(QtCore.QRect(670, 40, 171, 61))
         self.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                        "color: rgb(255, 255, 255);")
+        self.but_copy_op.setFlat(True)
         self.but_copy_op.setObjectName("but_copy_op")
         self.key_cl_on_off = QtWidgets.QPushButton(self.widget_2)
         self.key_cl_on_off.setGeometry(QtCore.QRect(600, 130, 61, 61))
@@ -110,6 +121,7 @@ class Ui_Window_encr_RSA(object):
                         QtGui.QIcon.Off)
         self.key_cl_on_off.setIcon(icon4)
         self.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_cl_on_off.setFlat(True)
         self.key_cl_on_off.setObjectName("iv_on_off")
         self.key_label_cl = QtWidgets.QLineEdit(self.widget_2)
         self.key_label_cl.setGeometry(QtCore.QRect(250, 137, 341, 51))
@@ -126,6 +138,7 @@ class Ui_Window_encr_RSA(object):
         self.key_op_on_off.setText("")
         self.key_op_on_off.setIcon(icon4)
         self.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+        self.key_op_on_off.setFlat(True)
         self.key_op_on_off.setObjectName("key_on_off")
         self.label_2 = QtWidgets.QLabel(self.widget_2)
         self.label_2.setGeometry(QtCore.QRect(20, 30, 221, 81))

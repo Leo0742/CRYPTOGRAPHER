@@ -29,6 +29,7 @@ class Ui_Window_main_screen(object):
                                      "border: 1px solid rgba(255, 255, 255, 40);\n"
                                      "border-radius: 25px;\n"
                                      "color: rgb(255, 255, 255);")
+        self.but_start.setFlat(True)
         self.but_start.setObjectName("but_start")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
         self.label_1.setGeometry(QtCore.QRect(220, 160, 501, 121))
@@ -53,7 +54,9 @@ class Ui_Window_main_screen(object):
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(860, 10, 81, 71))
         self.help.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.help.setStyleSheet("")
+        self.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                "border-radius: 25px;")
         self.help.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

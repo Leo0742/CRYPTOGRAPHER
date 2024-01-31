@@ -24,11 +24,15 @@ class Ui_Window_inter(object):
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet(
             "background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));")
+        MainWindow.setAnimated(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.help = QtWidgets.QPushButton(self.centralwidget)
         self.help.setGeometry(QtCore.QRect(860, 10, 81, 71))
         self.help.setFocusPolicy(QtCore.Qt.WheelFocus)
+        self.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                "border-radius: 25px;")
         self.help.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("Icons/help.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -98,6 +102,9 @@ class Ui_Window_inter(object):
         self.Box_encr.addItem("")
         self.but_back = QtWidgets.QPushButton(self.centralwidget)
         self.but_back.setGeometry(QtCore.QRect(10, 10, 71, 61))
+        self.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                    "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                    "border-radius: 25px;")
         self.but_back.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("Icons/back.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
