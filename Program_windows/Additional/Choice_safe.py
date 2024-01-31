@@ -12,8 +12,8 @@ class Ui_Window_Chsafe(object):
         file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
         geometry = file.readlines()  # !!!!!!!!!!!!!!!!!
         file.close()  # !!!!!!!!!!!!!!!!!!!!!
-        MainWindow.setGeometry(int(geometry[0]) + 240, int(geometry[1]) + 240, 480, 270)  # !!!!!!!!!!!!!!!!!
-        MainWindow.setFixedSize(480, 270)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
+        MainWindow.setGeometry(int(geometry[0]) + 230, int(geometry[1]) + 230, 500, 288)  # !!!!!!!!!!!!!!!!!
+        MainWindow.setFixedSize(500, 288)  # !!!!!!!!!!!!!!!!!!!!!!!!!!
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Icons/main_icon.svg"), QtGui.QIcon.Normal,
                        QtGui.QIcon.Off)
@@ -24,29 +24,29 @@ class Ui_Window_Chsafe(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.but_next = QtWidgets.QPushButton(self.centralwidget)
-        self.but_next.setGeometry(QtCore.QRect(160, 190, 171, 51))
-        self.but_next.setStyleSheet("font: 14pt \"Arial\";\n"
+        self.but_next.setGeometry(QtCore.QRect(150, 190, 191, 61))
+        self.but_next.setStyleSheet("font: 16pt \"Arial\";\n"
                                     "background-color: rgba(255, 255, 255, 30);\n"
                                     "border: 1px solid rgba(255, 255, 255, 40);\n"
                                     "border-radius: 25px;\n"
                                     "color: rgb(255, 255, 255);")
         self.but_next.setObjectName("but_next")
         self.widget_rad = QtWidgets.QWidget(self.centralwidget)
-        self.widget_rad.setGeometry(QtCore.QRect(40, 30, 411, 131))
+        self.widget_rad.setGeometry(QtCore.QRect(20, 30, 461, 131))
         self.widget_rad.setStyleSheet("background-color: rgba(255, 255, 255, 30);\n"
                                       "border: 1px solid rgba(255, 255, 255, 40);\n"
                                       "border-radius: 25px;")
         self.widget_rad.setObjectName("widget_rad")
         self.rab_new = QtWidgets.QRadioButton(self.widget_rad)
-        self.rab_new.setGeometry(QtCore.QRect(10, 70, 381, 41))
-        self.rab_new.setStyleSheet("font: 12pt \"Arial\";\n"
+        self.rab_new.setGeometry(QtCore.QRect(10, 70, 421, 41))
+        self.rab_new.setStyleSheet("font: 13pt \"Arial\";\n"
                                    "color: rgb(255, 255, 255);\n"
                                    "background-color: none;\n"
                                    "border: none;")
         self.rab_new.setObjectName("rab_new")
         self.rab_this = QtWidgets.QRadioButton(self.widget_rad)
-        self.rab_this.setGeometry(QtCore.QRect(10, 20, 391, 31))
-        self.rab_this.setStyleSheet("font: 12pt \"Arial\";\n"
+        self.rab_this.setGeometry(QtCore.QRect(10, 20, 441, 31))
+        self.rab_this.setStyleSheet("font: 13pt \"Arial\";\n"
                                     "color: rgb(255, 255, 255);\n"
                                     "background-color: none;\n"
                                     "border: none;")
@@ -55,6 +55,9 @@ class Ui_Window_Chsafe(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.rab_new.toggled.connect(self.on_radio)
+        self.rab_this.toggled.connect(self.on_radio)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -65,6 +68,16 @@ class Ui_Window_Chsafe(object):
         self.rab_new.setText(_translate("MainWindow", "Выполнить операцию с копией файла"))
         self.rab_this.setText(_translate("MainWindow", "Выполнить операцию с данным файлом"))
 
+
+    def on_radio(self):
+        self.but_next.setStyleSheet("font: 75 italic 16pt \"Arial\";\n"
+                                    "background-color: rgba(255, 255, 255, 30);\n"
+                                    "border: 1px solid rgba(255, 255, 255, 40);\n"
+                                    "border-radius: 25px;\n"
+                                    "color: rgb(255, 255, 255);\n"
+                                    "border-style: outset;\n"
+                                    "border-width: 5px;\n"
+                                    "border-color: green;")
 
 # if __name__ == "__main__":
 #     import sys
