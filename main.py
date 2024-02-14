@@ -5,7 +5,6 @@
 
 import atexit
 import os
-import os.path
 import sys
 import pyperclip
 import time
@@ -33,6 +32,7 @@ from Shivrs.RSA.Deshifrator import RSA_decrypt
 from Shivrs.DES.Deshifrator import DES_decrypt
 from Shivrs.AES.Deshifrator import AES_decrypt
 from Cleaner import Cleaner
+from Documentation import Documentation
 
 
 app = QtWidgets.QApplication(sys.argv)
@@ -41,6 +41,7 @@ def openMain():
     ''' Открывает окно main_screen и обрабатывает действия в нём'''
 
     global MainWindow
+
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_Window_main_screen()
     ui.setupUi(MainWindow)
@@ -48,6 +49,7 @@ def openMain():
     MainWindow.close()
     MainWindow.deleteLater()
     ui.delete_self()
+
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_Window_main_screen()
     ui.setupUi(MainWindow)
@@ -533,6 +535,25 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
+
                 ui_2.but_encr.clicked.connect(encryption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
                 ui_2.but_copy_cl.clicked.connect(copy_clipbord_cl)
@@ -541,6 +562,7 @@ def openMain():
                 ui_2.key_op_on_off.clicked.connect(chang_text_label_op)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
+                ui_2.help.clicked.connect(open_Documentation)
             elif ui_1.Box_encr.currentText() == "AES":
                 '''Открывает открывает окно AES_Encryption и обрабатывает действия в нём'''
 
@@ -896,6 +918,24 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
 
                 ui_2.but_encr.clicked.connect(encryption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
@@ -904,6 +944,7 @@ def openMain():
                 ui_2.key_on_off.clicked.connect(chang_text_label)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
+                ui_2.help.clicked.connect(open_Documentation)
             elif ui_1.Box_encr.currentText() == "Triple DES":
                 '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
 
@@ -1340,6 +1381,24 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
 
                 ui_2.but_encr.clicked.connect(encryption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
@@ -1351,7 +1410,7 @@ def openMain():
                 ui_2.iv_on_off.clicked.connect(chang_text_iv_label)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
-
+                ui_2.help.clicked.connect(open_Documentation)
 
         def open_Decryption():
             ''' Открывает окно Decryption и обрабатывает действия в нём'''
@@ -1767,6 +1826,24 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
 
                 ui_2.but_decr.clicked.connect(decruption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
@@ -1775,6 +1852,7 @@ def openMain():
                 ui_2.key_on_off.clicked.connect(chang_text_label)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
+                ui_2.help.clicked.connect(open_Documentation)
             elif ui_1.Box_decr.currentText() == "AES":
                 '''Открывает открывает окно AES_Decryption и обрабатывает действия в нём'''
 
@@ -2149,6 +2227,24 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
 
                 ui_2.but_decr.clicked.connect(decruption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
@@ -2157,6 +2253,7 @@ def openMain():
                 ui_2.key_on_off.clicked.connect(chang_text_label)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
+                ui_2.help.clicked.connect(open_Documentation)
             elif ui_1.Box_decr.currentText() == "Triple DES":
                 '''Открывает открывает окно DES_Decryption и обрабатывает действия в нём'''
 
@@ -2648,6 +2745,24 @@ def openMain():
                     Report_Window.show()
                     file.close()
 
+                def open_Documentation():
+                    '''Изменяет цвет кнопки help при нажатии и
+                    открывает окно с Руководством пользователя'''
+
+                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+
+                    QtWidgets.QApplication.processEvents()
+                    time.sleep(0.1)
+
+                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                          "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                          "border-radius: 25px;")
+                    QtWidgets.QApplication.processEvents()
+
+                    Documentation()
+
 
                 ui_2.but_decr.clicked.connect(decruption)
                 ui_2.but_back.clicked.connect(back_Intermediate)
@@ -2659,7 +2774,7 @@ def openMain():
                 ui_2.iv_on_off.clicked.connect(chang_text_iv_label)
                 ui_2.but_exlor.clicked.connect(choose_file)
                 ui_2.but_file.clicked.connect(cur_state_file)
-
+                ui_2.help.clicked.connect(open_Documentation)
 
         def back_Main():
             ''' Обработка нажатия на кнопку but_back
@@ -2680,9 +2795,25 @@ def openMain():
             Inter_Window.close()
             openMain()
 
+        def open_Documentation():
+            ui_1.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                                  "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                  "border-radius: 25px;")
+
+            QtWidgets.QApplication.processEvents()
+            time.sleep(0.1)
+
+            ui_1.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                  "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                  "border-radius: 25px;")
+            QtWidgets.QApplication.processEvents()
+
+            Documentation()
+
         ui_1.but_encr.clicked.connect(open_Encryption)
         ui_1.but_decr.clicked.connect(open_Decryption)
         ui_1.but_back.clicked.connect(back_Main)
+        ui_1.help.clicked.connect(open_Documentation)
 
     def feature():
         '''Обработка нажатия на кнопку but_icon
@@ -2838,9 +2969,28 @@ def openMain():
 
             ui.group.start()
 
+    def open_Documentation():
+        '''Изменяет цвет кнопки help при нажатии и
+         открывает окно с Руководством пользователя'''
+
+        ui.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                              "border: 2px solid rgba(255, 255, 255, 40);\n"
+                              "border-radius: 25px;")
+
+        QtWidgets.QApplication.processEvents()
+        time.sleep(0.1)
+
+        ui.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                "border: 2px solid rgba(255, 255, 255, 40);\n"
+                                "border-radius: 25px;")
+        QtWidgets.QApplication.processEvents()
+
+        Documentation()
+
 
     ui.but_start.clicked.connect(open_Intermediate)
     ui.but_icon.clicked.connect(feature)
+    ui.help.clicked.connect(open_Documentation)
 
 openMain()
 
