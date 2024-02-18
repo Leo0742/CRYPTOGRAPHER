@@ -19,7 +19,7 @@ ___
 
 <br>
  
-[Ссылка для загрузки приложения под операционную систему Windows](https://disk.yandex.ru/d/6txBGSq1mpgJrg)
+[Ссылка для загрузки установщика приложения под операционную систему Windows](https://disk.yandex.ru/d/6txBGSq1mpgJrg)
 
 
 [Ссылка для загрузки руководства пользователя](https://disk.yandex.ru/i/Bu99IDinIstMvQ)
