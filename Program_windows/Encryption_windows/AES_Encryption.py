@@ -179,8 +179,8 @@ class Ui_Window_encr_AES(QtWidgets.QMainWindow):
             ui.setupUi(Report_Window)
 
             Report_Window.setText("Вы не скопировали ключ !")
-            Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
-                                          "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+            Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ, нажмите OK.\n"
+                                          "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите Cancel.")
             Report_Window.buttonClicked.connect(close_wind)
             Report_Window.show()
 
