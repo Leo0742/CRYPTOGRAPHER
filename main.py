@@ -24,6 +24,7 @@ from Program_windows.Intermediate import Ui_Window_inter
 from Program_windows.Additional.Error import Ui_Window_error
 from Choose_fr_expl import Choose_fr_expl
 from Program_windows.Additional.Report import Ui_Window_report
+from Program_windows.Additional.Close_Report import Ui_Window_close_Report
 from Program_windows.main_screen import Ui_Window_main_screen
 from Shivrs.AES.Shifrator import AES_shifr
 from Shivrs.DES.Shifrator import DES_shifr
@@ -110,19 +111,16 @@ def openMain():
                                             "")
 
 
-                global Encr_Window
-                Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_RSA()
-                ui_2.setupUi(Encr_Window)
                 Inter_Window.close()
-                Encr_Window.show()
+                ui_2.show()
 
 
                 def encryption():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgb(177, 92, 145);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -130,7 +128,7 @@ def openMain():
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgba(255, 255, 255, 30);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -204,8 +202,8 @@ def openMain():
                             def show_keys(key_cl, key_op):
                                 '''Шифрует ключи под * и выводит его в окна key_label_cl и key_label_op'''
 
-                                ui_2.key_label_cl.setText(key_cl)
-                                ui_2.key_label_op.setText(key_op)
+                                ui_2.wind.key_label_cl.setText(key_cl)
+                                ui_2.wind.key_label_op.setText(key_op)
 
                             crypt_text = RSA_shifr()
 
@@ -216,7 +214,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -252,12 +250,18 @@ def openMain():
                             icon3 = QtGui.QIcon()
                             icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                             QtGui.QIcon.Off)
-                            ui_2.but_file.setIcon(icon3)
-                            ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                            ui_2.wind.but_file.setIcon(icon3)
+                            ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                             ui_4.progBar_encr.setValue(100)
                             QtWidgets.QApplication.processEvents()
                             EncrProgbar_Window.close()
+
+                            data = ["true\n", '0\n', '0']
+                            file = open("Files/DES_RSA_flag.txt", 'w')
+                            file.writelines(data)
+                            file.close()
+
 
                             '''Открывает окно Report которое сообщает об успешном шифровании файла'''
 
@@ -314,37 +318,130 @@ def openMain():
 
                     ui_3.but_next.clicked.connect(Encrwind)
 
+                def check_encryption():
+                    file = open("Files/DES_RSA_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
+                    data[1] = data[1][:-1]
+
+                    if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                encryption()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        if (data[1] == "0" and data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали открытый и закрытый ключи!")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать открытый и закрытый ключи, нажмите Cancel.\n"
+                                "Если вы переписали открытый и закрытый ключи вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[1] == "0"):
+                            Report_Window.setText("Вы не скопировали открытый ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать открытый ключ, нажмите Cancel.\n"
+                                "Если вы переписали открытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали закрытый ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать закрытый ключ, нажмите Cancel.\n"
+                                "Если вы переписали закрытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+
+                    else:
+                        encryption()
+
                 def back_Intermediate():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
-                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
 
+                    file = open("Files/DES_RSA_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
+                    data[1] = data[1][:-1]
 
-                    Cleaner()
-                    Encr_Window.close()
-                    open_Intermediate()
+                    if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                data = ["false\n", '0\n', '0']
+                                file = open("Files/DES_RSA_flag.txt", 'w')
+                                file.writelines(data)
+                                file.close()
+
+                                Cleaner()
+                                ui_2.close()
+                                open_Intermediate()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        if (data[1] == "0" and data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали открытый и закрытый ключи!")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать открытый и закрытый ключи, нажмите Cancel.\n"
+                                "Если вы переписали открытый и закрытый ключи вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[1] == "0"):
+                            Report_Window.setText("Вы не скопировали открытый ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать открытый ключ, нажмите Cancel.\n"
+                                "Если вы переписали открытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали закрытый ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать закрытый ключ, нажмите Cancel.\n"
+                                "Если вы переписали закрытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+
+                    else:
+                        data = ["false\n", '0\n', '0']
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
+                        Cleaner()
+                        ui_2.close()
+                        open_Intermediate()
+
 
                 def copy_clipbord_cl():
                     '''Обработка нажатия на кнопку but_copy_cl
                     Копирует ключ в буфер обмена'''
 
-                    ui_2.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);\n"
                                                    "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_cl.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);")
                     QtWidgets.QApplication.processEvents()
 
@@ -370,19 +467,28 @@ def openMain():
 
                         Error_Window.show()
                     else:
+                        file = open("Files/DES_RSA_flag.txt", 'r')
+                        data = file.readlines()
+                        file.close()
+                        data[2] = "1"
+
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
                         pyperclip.copy(str(key_cl))
 
                 def copy_clipbord_op():
                     '''Обработка нажатия на кнопку but_copy_op
                     Копирует ключ в буфер обмена'''
 
-                    ui_2.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);\n"
                                                    "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_op.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);")
                     QtWidgets.QApplication.processEvents()
 
@@ -408,6 +514,15 @@ def openMain():
 
                         Error_Window.show()
                     else:
+                        file = open("Files/DES_RSA_flag.txt", 'r')
+                        data = file.readlines()
+                        file.close()
+                        data[1] = "1\n"
+
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
                         pyperclip.copy(str(key_op))
 
                 def chang_text_label_cl():
@@ -415,66 +530,66 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label_cl'''
 
-                    ui_2.key_cl_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.key_cl_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.key_cl_on_off.setStyleSheet("")
+                    ui_2.wind.key_cl_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
-                    echo_mode = ui_2.key_label_cl.echoMode()
+                    echo_mode = ui_2.wind.key_label_cl.echoMode()
 
                     if echo_mode == QLineEdit.Password:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_cl_on_off.setIcon(icon3)
-                        ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_cl_on_off.setIcon(icon3)
+                        ui_2.wind.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label_cl.setEchoMode(QLineEdit.Normal)
+                        ui_2.wind.key_label_cl.setEchoMode(QLineEdit.Normal)
 
                     else:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_cl_on_off.setIcon(icon3)
-                        ui_2.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_cl_on_off.setIcon(icon3)
+                        ui_2.wind.key_cl_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label_cl.setEchoMode(QLineEdit.Password)
+                        ui_2.wind.key_label_cl.setEchoMode(QLineEdit.Password)
 
                 def chang_text_label_op():
                     '''Обработка нажатия на кнопку key_op_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label_op'''
 
-                    ui_2.key_op_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.key_op_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.key_op_on_off.setStyleSheet("")
+                    ui_2.wind.key_op_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
-                    echo_mode = ui_2.key_label_op.echoMode()
+                    echo_mode = ui_2.wind.key_label_op.echoMode()
 
                     if echo_mode == QLineEdit.Password:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_op_on_off.setIcon(icon3)
-                        ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_op_on_off.setIcon(icon3)
+                        ui_2.wind.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label_op.setEchoMode(QLineEdit.Normal)
+                        ui_2.wind.key_label_op.setEchoMode(QLineEdit.Normal)
 
                     else:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_op_on_off.setIcon(icon3)
-                        ui_2.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_op_on_off.setIcon(icon3)
+                        ui_2.wind.key_op_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label_op.setEchoMode(QLineEdit.Password)
+                        ui_2.wind.key_label_op.setEchoMode(QLineEdit.Password)
 
                 def choose_file():
                     '''Обработка нажатия на клавишу but_exlor
@@ -482,14 +597,14 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;\n"
                                                  "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;")
                     QtWidgets.QApplication.processEvents()
@@ -503,8 +618,8 @@ def openMain():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.but_file.setIcon(icon3)
-                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.but_file.setIcon(icon3)
+                        ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                     file.close()
 
@@ -512,11 +627,11 @@ def openMain():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
 
-                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_file.setStyleSheet("")
+                    ui_2.wind.but_file.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
@@ -539,14 +654,14 @@ def openMain():
                     '''Изменяет цвет кнопки help при нажатии и
                     открывает окно с Руководством пользователя'''
 
-                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
 
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
@@ -554,15 +669,15 @@ def openMain():
                     Documentation()
 
 
-                ui_2.but_encr.clicked.connect(encryption)
-                ui_2.but_back.clicked.connect(back_Intermediate)
-                ui_2.but_copy_cl.clicked.connect(copy_clipbord_cl)
-                ui_2.but_copy_op.clicked.connect(copy_clipbord_op)
-                ui_2.key_cl_on_off.clicked.connect(chang_text_label_cl)
-                ui_2.key_op_on_off.clicked.connect(chang_text_label_op)
-                ui_2.but_exlor.clicked.connect(choose_file)
-                ui_2.but_file.clicked.connect(cur_state_file)
-                ui_2.help.clicked.connect(open_Documentation)
+                ui_2.wind.but_encr.clicked.connect(check_encryption)
+                ui_2.wind.but_back.clicked.connect(back_Intermediate)
+                ui_2.wind.but_copy_cl.clicked.connect(copy_clipbord_cl)
+                ui_2.wind.but_copy_op.clicked.connect(copy_clipbord_op)
+                ui_2.wind.key_cl_on_off.clicked.connect(chang_text_label_cl)
+                ui_2.wind.key_op_on_off.clicked.connect(chang_text_label_op)
+                ui_2.wind.but_exlor.clicked.connect(choose_file)
+                ui_2.wind.but_file.clicked.connect(cur_state_file)
+                ui_2.wind.help.clicked.connect(open_Documentation)
             elif ui_1.Box_encr.currentText() == "AES":
                 '''Открывает открывает окно AES_Encryption и обрабатывает действия в нём'''
 
@@ -577,18 +692,16 @@ def openMain():
                                             "")
 
 
-                Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_AES()
-                ui_2.setupUi(Encr_Window)
                 Inter_Window.close()
-                Encr_Window.show()
+                ui_2.show()
 
 
                 def encryption():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgb(177, 92, 145);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -596,7 +709,7 @@ def openMain():
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgba(255, 255, 255, 30);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -665,7 +778,7 @@ def openMain():
                             def show_key(key):
                                 '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                                ui_2.key_label.setText(key)
+                                ui_2.wind.key_label.setText(key)
 
                             crypt_text = AES_shifr()
 
@@ -676,7 +789,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -706,12 +819,17 @@ def openMain():
                             icon3 = QtGui.QIcon()
                             icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                             QtGui.QIcon.Off)
-                            ui_2.but_file.setIcon(icon3)
-                            ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                            ui_2.wind.but_file.setIcon(icon3)
+                            ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                             ui_4.progBar_encr.setValue(100)
                             QtWidgets.QApplication.processEvents()
                             EncrProgbar_Window.close()
+
+                            data = ["true\n", '0']
+                            file = open("Files/AES_flag.txt", 'w')
+                            file.writelines(data)
+                            file.close()
 
                             '''Открывает окно Report которое сообщает об успешном шифровании файла'''
 
@@ -760,38 +878,97 @@ def openMain():
 
                     ui_3.but_next.clicked.connect(Encrwind)
 
+                def check_encryption():
+                    file = open("Files/AES_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
+
+                    if (data[0] == "true" and data[1] == "0"):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                encryption()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        Report_Window.setText("Вы не скопировали ключ !")
+                        Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
+                                                      "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+                    else:
+                        encryption()
+
                 def back_Intermediate():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
-                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
 
+                    file = open("Files/AES_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
 
-                    Cleaner()
+                    if (data[0] == "true" and data[1] == "0"):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                data = ["false\n", '0']
+                                file = open("Files/AES_flag.txt", 'w')
+                                file.writelines(data)
+                                file.close()
 
-                    Encr_Window.close()
-                    open_Intermediate()
+                                Cleaner()
+
+                                ui_2.close()
+                                open_Intermediate()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        Report_Window.setText("Вы не скопировали ключ !")
+                        Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
+                                                      "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+                    else:
+                        data = ["false\n", '0']
+                        file = open("Files/AES_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
+                        Cleaner()
+
+                        ui_2.close()
+                        open_Intermediate()
 
                 def copy_clipbord():
                     '''Обработка нажатия на кнопку but_copy
                     Копирует ключ в буфер обмена'''
 
-                    ui_2.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                 "color: rgb(255, 255, 255);\n"
                                                 "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                 "color: rgb(255, 255, 255);")
                     QtWidgets.QApplication.processEvents()
 
@@ -816,6 +993,11 @@ def openMain():
 
                         Error_Window.show()
                     else:
+                        data = ["true\n", '1']
+                        file = open("Files/AES_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
                         pyperclip.copy(str(key))
 
                 def text_insert(passwrd):
@@ -830,33 +1012,33 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
-                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.key_on_off.setStyleSheet("")
+                    ui_2.wind.key_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
-                    echo_mode = ui_2.key_label.echoMode()
+                    echo_mode = ui_2.wind.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_on_off.setIcon(icon3)
-                        ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_on_off.setIcon(icon3)
+                        ui_2.wind.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label.setEchoMode(QLineEdit.Normal)
+                        ui_2.wind.key_label.setEchoMode(QLineEdit.Normal)
 
                     else:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_on_off.setIcon(icon3)
-                        ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_on_off.setIcon(icon3)
+                        ui_2.wind.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label.setEchoMode(QLineEdit.Password)
+                        ui_2.wind.key_label.setEchoMode(QLineEdit.Password)
 
                 def choose_file():
                     '''Обработка нажатия на клавишу but_exlor
@@ -864,14 +1046,14 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;\n"
                                                  "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;")
                     QtWidgets.QApplication.processEvents()
@@ -885,8 +1067,8 @@ def openMain():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.but_file.setIcon(icon3)
-                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.but_file.setIcon(icon3)
+                        ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                     file.close()
 
@@ -894,11 +1076,11 @@ def openMain():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
 
-                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_file.setStyleSheet("")
+                    ui_2.wind.but_file.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
@@ -922,14 +1104,14 @@ def openMain():
                     '''Изменяет цвет кнопки help при нажатии и
                     открывает окно с Руководством пользователя'''
 
-                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
 
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
@@ -937,14 +1119,14 @@ def openMain():
                     Documentation()
 
 
-                ui_2.but_encr.clicked.connect(encryption)
-                ui_2.but_back.clicked.connect(back_Intermediate)
-                ui_2.but_copy.clicked.connect(copy_clipbord)
-                ui_2.key_label.textChanged.connect(text_insert)
-                ui_2.key_on_off.clicked.connect(chang_text_label)
-                ui_2.but_exlor.clicked.connect(choose_file)
-                ui_2.but_file.clicked.connect(cur_state_file)
-                ui_2.help.clicked.connect(open_Documentation)
+                ui_2.wind.but_encr.clicked.connect(check_encryption)
+                ui_2.wind.but_back.clicked.connect(back_Intermediate)
+                ui_2.wind.but_copy.clicked.connect(copy_clipbord)
+                ui_2.wind.key_label.textChanged.connect(text_insert)
+                ui_2.wind.key_on_off.clicked.connect(chang_text_label)
+                ui_2.wind.but_exlor.clicked.connect(choose_file)
+                ui_2.wind.but_file.clicked.connect(cur_state_file)
+                ui_2.wind.help.clicked.connect(open_Documentation)
             elif ui_1.Box_encr.currentText() == "Triple DES":
                 '''Открывает открывает окно DES_Encryption и обрабатывает действия в нём'''
 
@@ -959,18 +1141,16 @@ def openMain():
                                             "")
 
 
-                Encr_Window = QtWidgets.QMainWindow()
                 ui_2 = Ui_Window_encr_DES()
-                ui_2.setupUi(Encr_Window)
                 Inter_Window.close()
-                Encr_Window.show()
+                ui_2.show()
 
 
                 def encryption():
                     '''Обработка нажатия на кнопку but_encr
                     Открывает окно Choice_safe и обрабатывает действия в нём'''
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgb(177, 92, 145);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -978,7 +1158,7 @@ def openMain():
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
+                    ui_2.wind.but_encr.setStyleSheet("font: italic 17pt \"Courier New\";\n"
                                                 "background-color: rgba(255, 255, 255, 30);\n"
                                                 "border: 1px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;\n"
@@ -1047,8 +1227,8 @@ def openMain():
                             def show_key_iv(key, iv):
                                 '''Шифрует ключ под * и выводит его в окно pasw_out'''
 
-                                ui_2.key_label.setText(key)
-                                ui_2.iv_label.setText(iv)
+                                ui_2.wind.key_label.setText(key)
+                                ui_2.wind.iv_label.setText(iv)
 
                             crypt_text = DES_shifr()
 
@@ -1059,7 +1239,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -1093,12 +1273,18 @@ def openMain():
                             icon3 = QtGui.QIcon()
                             icon3.addPixmap(QtGui.QPixmap("Icons/file_NO.svg"), QtGui.QIcon.Normal,
                                             QtGui.QIcon.Off)
-                            ui_2.but_file.setIcon(icon3)
-                            ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                            ui_2.wind.but_file.setIcon(icon3)
+                            ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                             ui_4.progBar_encr.setValue(100)
                             QtWidgets.QApplication.processEvents()
                             EncrProgbar_Window.close()
+
+
+                            data = ["true\n", '0\n', '0']
+                            file = open("Files/DES_RSA_flag.txt", 'w')
+                            file.writelines(data)
+                            file.close()
 
                             '''Открывает окно Report которое сообщает об успешном шифровании файла'''
 
@@ -1147,38 +1333,131 @@ def openMain():
 
                     ui_3.but_next.clicked.connect(Encrwind)
 
+                def check_encryption():
+                    file = open("Files/DES_RSA_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
+                    data[1] = data[1][:-1]
+
+                    if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                encryption()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        if (data[1] == "0" and data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали ключ и вектор инициализации!")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать ключ и вектор инициализации, нажмите Cancel.\n"
+                                "Если вы переписали ключ и вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[1] == "0"):
+                            Report_Window.setText("Вы не скопировали ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
+                                "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали вектор инициализации !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать вектор инициализации, нажмите Cancel.\n"
+                                "Если вы переписали вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+
+                    else:
+                        encryption()
+
                 def back_Intermediate():
                     ''' Обработка нажатия на кнопку but_back
                     Закрывает окно Encryption и возвращaется в Intermediate'''
 
-                    ui_2.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.but_back.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                                 "border: 2px solid rgba(255, 255, 255, 40);\n"
                                                 "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
 
+                    file = open("Files/DES_RSA_flag.txt", 'r')
+                    data = file.readlines()
+                    file.close()
+                    data[0] = data[0][:-1]
+                    data[1] = data[1][:-1]
 
-                    Cleaner()
+                    if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+                        def close_wind(btn):
+                            if btn.text() == "Cancel":
+                                data = ["false\n", '0\n', '0']
+                                file = open("Files/DES_RSA_flag.txt", 'w')
+                                file.writelines(data)
+                                file.close()
 
-                    Encr_Window.close()
-                    open_Intermediate()
+                                Cleaner()
+
+                                ui_2.close()
+                                open_Intermediate()
+
+                        global Report_Window
+                        Report_Window = QtWidgets.QMessageBox()
+                        ui = Ui_Window_close_Report()
+                        ui.setupUi(Report_Window)
+
+                        if (data[1] == "0" and data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали ключ и вектор инициализации!")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать ключ и вектор инициализации, нажмите Cancel.\n"
+                                "Если вы переписали ключ и вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[1] == "0"):
+                            Report_Window.setText("Вы не скопировали ключ !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
+                                "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        elif (data[2] == "0"):
+                            Report_Window.setText("Вы не скопировали вектор инициализации !")
+                            Report_Window.setDetailedText(
+                                "Если вы хотите вернуться и скопировать вектор инициализации, нажмите Cancel.\n"
+                                "Если вы переписали вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+                        Report_Window.buttonClicked.connect(close_wind)
+                        Report_Window.show()
+
+
+                    else:
+                        data = ["false\n", '0\n', '0']
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
+                        Cleaner()
+
+                        ui_2.close()
+                        open_Intermediate()
 
                 def copy_clipbord_key():
                     '''Обработка нажатия на кнопку but_copy_key
                     Копирует ключ в буфер обмена'''
 
-                    ui_2.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                     "color: rgb(255, 255, 255);\n"
                                                     "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_key.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                     "color: rgb(255, 255, 255);")
                     QtWidgets.QApplication.processEvents()
 
@@ -1203,19 +1482,26 @@ def openMain():
 
                         Error_Window.show()
                     else:
+                        file = open("Files/DES_RSA_flag.txt", 'r')
+                        data = file.readlines()
+                        data[1] = "1\n"
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
                         pyperclip.copy(str(key))
 
                 def copy_clipbord_iv():
                     '''Обработка нажатия на кнопку but_copy_iv
                     Копирует вектор инициализации в буфер обмена'''
 
-                    ui_2.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);\n"
                                                    "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
+                    ui_2.wind.but_copy_iv.setStyleSheet("font: italic 15pt \"Courier New\";\n"
                                                    "color: rgb(255, 255, 255);")
                     QtWidgets.QApplication.processEvents()
 
@@ -1240,6 +1526,13 @@ def openMain():
 
                         Error_Window.show()
                     else:
+                        file = open("Files/DES_RSA_flag.txt", 'r')
+                        data = file.readlines()
+                        data[2] = "1"
+                        file = open("Files/DES_RSA_flag.txt", 'w')
+                        file.writelines(data)
+                        file.close()
+
                         pyperclip.copy(str(iv))
 
                 def text_insert_key(passwrd):
@@ -1261,66 +1554,66 @@ def openMain():
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в key_label'''
 
-                    ui_2.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.key_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.key_cl_on_off.setStyleSheet("")
+                    ui_2.wind.key_cl_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
-                    echo_mode = ui_2.key_label.echoMode()
+                    echo_mode = ui_2.wind.key_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_on_off.setIcon(icon3)
-                        ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_on_off.setIcon(icon3)
+                        ui_2.wind.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label.setEchoMode(QLineEdit.Normal)
+                        ui_2.wind.key_label.setEchoMode(QLineEdit.Normal)
 
                     else:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.key_on_off.setIcon(icon3)
-                        ui_2.key_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.key_on_off.setIcon(icon3)
+                        ui_2.wind.key_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.key_label.setEchoMode(QLineEdit.Password)
+                        ui_2.wind.key_label.setEchoMode(QLineEdit.Password)
 
                 def chang_text_iv_label():
                     '''Обработка нажатия на кнопку iv_on_off
                     Меняет иконку у данной кнопки и
                     включает отображения пароля в iv_label'''
 
-                    ui_2.iv_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.iv_on_off.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.iv_on_off.setStyleSheet("")
+                    ui_2.wind.iv_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
-                    echo_mode = ui_2.iv_label.echoMode()
+                    echo_mode = ui_2.wind.iv_label.echoMode()
 
                     if echo_mode == QLineEdit.Password:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_on.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.iv_on_off.setIcon(icon3)
-                        ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.iv_on_off.setIcon(icon3)
+                        ui_2.wind.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.iv_label.setEchoMode(QLineEdit.Normal)
+                        ui_2.wind.iv_label.setEchoMode(QLineEdit.Normal)
 
                     else:
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/key_off.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.iv_on_off.setIcon(icon3)
-                        ui_2.iv_on_off.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.iv_on_off.setIcon(icon3)
+                        ui_2.wind.iv_on_off.setIconSize(QtCore.QSize(30, 30))
 
-                        ui_2.iv_label.setEchoMode(QLineEdit.Password)
+                        ui_2.wind.iv_label.setEchoMode(QLineEdit.Password)
 
                 def choose_file():
                     '''Обработка нажатия на клавишу but_exlor
@@ -1328,14 +1621,14 @@ def openMain():
                     чтобы запомнить местоположение выбранного файла.
                     Меняет иконку кнопки but_file если местоположение сохранилось'''
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;\n"
                                                  "background-color: rgb(177, 92, 145);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
+                    ui_2.wind.but_exlor.setStyleSheet("font: 10pt \"Segoe Print\";\n"
                                                  "color: rgb(255, 255, 255);\n"
                                                  "border-radius: 20px;")
                     QtWidgets.QApplication.processEvents()
@@ -1349,8 +1642,8 @@ def openMain():
                         icon3 = QtGui.QIcon()
                         icon3.addPixmap(QtGui.QPixmap("Icons/file_YES.svg"), QtGui.QIcon.Normal,
                                         QtGui.QIcon.Off)
-                        ui_2.but_file.setIcon(icon3)
-                        ui_2.but_file.setIconSize(QtCore.QSize(30, 30))
+                        ui_2.wind.but_file.setIcon(icon3)
+                        ui_2.wind.but_file.setIconSize(QtCore.QSize(30, 30))
 
                     file.close()
 
@@ -1358,11 +1651,11 @@ def openMain():
                     '''Обработка нажатия на клавишу but_file
                     Вызов окна Report'''
 
-                    ui_2.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
+                    ui_2.wind.but_file.setStyleSheet("background-color: rgb(177, 167, 92);")
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.but_file.setStyleSheet("")
+                    ui_2.wind.but_file.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
@@ -1385,14 +1678,14 @@ def openMain():
                     '''Изменяет цвет кнопки help при нажатии и
                     открывает окно с Руководством пользователя'''
 
-                    ui_2.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgb(177, 167, 92);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
 
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                    ui_2.wind.help.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                           "border: 2px solid rgba(255, 255, 255, 40);\n"
                                           "border-radius: 25px;")
                     QtWidgets.QApplication.processEvents()
@@ -1400,17 +1693,17 @@ def openMain():
                     Documentation()
 
 
-                ui_2.but_encr.clicked.connect(encryption)
-                ui_2.but_back.clicked.connect(back_Intermediate)
-                ui_2.but_copy_key.clicked.connect(copy_clipbord_key)
-                ui_2.but_copy_iv.clicked.connect(copy_clipbord_iv)
-                ui_2.key_label.textChanged.connect(text_insert_key)
-                ui_2.iv_label.textChanged.connect(text_insert_iv)
-                ui_2.key_on_off.clicked.connect(chang_text_key_label)
-                ui_2.iv_on_off.clicked.connect(chang_text_iv_label)
-                ui_2.but_exlor.clicked.connect(choose_file)
-                ui_2.but_file.clicked.connect(cur_state_file)
-                ui_2.help.clicked.connect(open_Documentation)
+                ui_2.wind.but_encr.clicked.connect(check_encryption)
+                ui_2.wind.but_back.clicked.connect(back_Intermediate)
+                ui_2.wind.but_copy_key.clicked.connect(copy_clipbord_key)
+                ui_2.wind.but_copy_iv.clicked.connect(copy_clipbord_iv)
+                ui_2.wind.key_label.textChanged.connect(text_insert_key)
+                ui_2.wind.iv_label.textChanged.connect(text_insert_iv)
+                ui_2.wind.key_on_off.clicked.connect(chang_text_key_label)
+                ui_2.wind.iv_on_off.clicked.connect(chang_text_iv_label)
+                ui_2.wind.but_exlor.clicked.connect(choose_file)
+                ui_2.wind.but_file.clicked.connect(cur_state_file)
+                ui_2.wind.help.clicked.connect(open_Documentation)
 
         def open_Decryption():
             ''' Открывает окно Decryption и обрабатывает действия в нём'''
@@ -1546,7 +1839,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -1964,7 +2257,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -2370,7 +2663,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(Encr_Window, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -2996,12 +3289,20 @@ openMain()
 
 
 def upd_Geom():
-    '''При выходе из приложения задаёт
-     стартовые координаты окна для следующего включения'''
+    '''При выходе из приложения задаёт необхожимые
+     параметры для следующего включения приложения'''
 
     file = open("Files/Geometry.txt", 'w')
     file.write('485' + '\n')
     file.write('165')
+    file.close()
+
+    file = open("Files/AES_flag.txt", 'w')
+    file.writelines(["false\n", "0"])
+    file.close()
+
+    file = open("Files/DES_RSA_flag.txt", 'w')
+    file.writelines(["false\n", "0\n", "0"])
     file.close()
 
 atexit.register(Cleaner)  # регестрирует функцию, которая будет выполняться после окончания программы

@@ -2,9 +2,10 @@
 который описывает весь дизайн окна RSA_Encryption'''
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QLineEdit, QApplication
+from Program_windows.Additional.Close_Report import Ui_Window_close_Report
 
-class Ui_Window_encr_RSA(object):
+class MyMainWindow(object):
     '''Описывает дизайн окна RSA_Encryption'''
 
     def setupUi(self, MainWindow):
@@ -186,6 +187,55 @@ class Ui_Window_encr_RSA(object):
         file.write(str(x) + '\n')
         file.write(str(y))
         file.close()
+
+class Ui_Window_encr_RSA(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.wind = MyMainWindow()
+        self.wind.setupUi(self)
+
+    def closeEvent(self, event):
+        event.ignore()
+
+        file = open("Files/DES_RSA_flag.txt", 'r')
+        data = file.readlines()
+        file.close()
+        data[0] = data[0][:-1]
+        data[1] = data[1][:-1]
+
+        if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+            def close_wind(btn):
+                if btn.text() == "Cancel":
+                    QApplication.quit()
+
+            global Report_Window
+            Report_Window = QtWidgets.QMessageBox()
+            ui = Ui_Window_close_Report()
+            ui.setupUi(Report_Window)
+
+            if (data[1] == "0" and data[2] == "0"):
+                Report_Window.setText("Вы не скопировали открытый и закрытый ключи!")
+                Report_Window.setDetailedText(
+                    "Если вы хотите вернуться и скопировать открытый и закрытый ключи, нажмите Cancel.\n"
+                    "Если вы переписали открытый и закрытый ключи вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            elif (data[1] == "0"):
+                Report_Window.setText("Вы не скопировали открытый ключ !")
+                Report_Window.setDetailedText("Если вы хотите вернуться и скопировать открытый ключ, нажмите Cancel.\n"
+                                              "Если вы переписали открытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            elif (data[2] == "0"):
+                Report_Window.setText("Вы не скопировали закрытый ключ !")
+                Report_Window.setDetailedText(
+                    "Если вы хотите вернуться и скопировать закрытый ключ, нажмите Cancel.\n"
+                    "Если вы переписали закрытый ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            Report_Window.buttonClicked.connect(close_wind)
+            Report_Window.show()
+
+
+        else:
+            event.accept()
 
 
 # if __name__ == "__main__":

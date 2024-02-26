@@ -2,9 +2,10 @@
 который описывает весь дизайн окна DES_Encryption'''
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QLineEdit, QApplication
+from Program_windows.Additional.Close_Report import Ui_Window_close_Report
 
-class Ui_Window_encr_DES(object):
+class MyMainWindow(object):
     '''Описывает дизайн окна DES_Encryption'''
 
     def setupUi(self, MainWindow):
@@ -179,6 +180,53 @@ class Ui_Window_encr_DES(object):
         file.write(str(x) + '\n')
         file.write(str(y))
         file.close()
+
+class Ui_Window_encr_DES(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.wind = MyMainWindow()
+        self.wind.setupUi(self)
+
+    def closeEvent(self, event):
+        event.ignore()
+
+        file = open("Files/DES_RSA_flag.txt", 'r')
+        data = file.readlines()
+        file.close()
+        data[0] = data[0][:-1]
+        data[1] = data[1][:-1]
+
+        if (data[0] == "true" and (data[1] == "0" or data[2] == "0")):
+            def close_wind(btn):
+                if btn.text() == "Cancel":
+                    QApplication.quit()
+
+            global Report_Window
+            Report_Window = QtWidgets.QMessageBox()
+            ui = Ui_Window_close_Report()
+            ui.setupUi(Report_Window)
+
+            if (data[1] == "0" and data[2] == "0"):
+                Report_Window.setText("Вы не скопировали ключ и вектор инициализации!")
+                Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ и вектор инициализации, нажмите Cancel.\n"
+                                              "Если вы переписали ключ и вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            elif (data[1] == "0"):
+                Report_Window.setText("Вы не скопировали ключ !")
+                Report_Window.setDetailedText("Если вы хотите вернуться и скопировать ключ, нажмите Cancel.\n"
+                                              "Если вы переписали ключ вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            elif (data[2] == "0"):
+                Report_Window.setText("Вы не скопировали вектор инициализации !")
+                Report_Window.setDetailedText("Если вы хотите вернуться и скопировать вектор инициализации, нажмите Cancel.\n"
+                                              "Если вы переписали вектор инициализации вручную и хотите закончить работу с приложением, нажмите OK.")
+
+            Report_Window.buttonClicked.connect(close_wind)
+            Report_Window.show()
+
+
+        else:
+            event.accept()
 
 
 # if __name__ == "__main__":

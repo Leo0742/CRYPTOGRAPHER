@@ -3,8 +3,9 @@
 
 from PyQt5 import QtGui, QtWidgets
 
-class Ui_Window_report(object):
+class Ui_Window_close_Report(object):
     '''Описывает дизайн окна Report'''
+
     def setupUi(self, report):
         report.setObjectName("MainWindow")
         file = open("Files/Geometry.txt", 'r')  # !!!!!!!!!!!!!!!!!
@@ -16,14 +17,15 @@ class Ui_Window_report(object):
         report.setWindowIcon(icon)
         report.setWindowTitle("Report")
         report.setIcon(QtWidgets.QMessageBox.Information)
-        report.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        report.setStandardButtons(QtWidgets.QMessageBox.Ok|QtWidgets.QMessageBox.Cancel)
         report.setStyleSheet("")
+
 
 # if __name__ == "__main__":
 #     import sys
 #     app = QtWidgets.QApplication(sys.argv)
 #     Report_Window = QtWidgets.QMessageBox()
-#     ui = Ui_Window_report()
+#     ui = Ui_Window_close_Report()
 #     ui.setupUi(Report_Window)
 #     Report_Window.show()
 #     sys.exit(app.exec_())
