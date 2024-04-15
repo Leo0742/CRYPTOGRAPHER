@@ -172,7 +172,6 @@ class Ui_Window_encr_AES(QtWidgets.QMainWindow):
                 if btn.text() == "Cancel":
                     QApplication.quit()
 
-
             global Report_Window
             Report_Window = QtWidgets.QMessageBox()
             ui = Ui_Window_close_Report()

@@ -1558,7 +1558,7 @@ def openMain():
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.1)
 
-                    ui_2.wind.key_cl_on_off.setStyleSheet("")
+                    ui_2.wind.key_on_off.setStyleSheet("")
                     QtWidgets.QApplication.processEvents()
 
 
@@ -1839,7 +1839,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(Decr_Window, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
@@ -2257,9 +2257,10 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(Decr_Window, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
+
                                 if file_name:
                                     with open(file_name, 'wb') as f:
                                         f.write(plaintext)
@@ -2663,7 +2664,7 @@ def openMain():
                                 '''Открывает окно Проводника для названия и сохранения файла в выбранном месте'''
 
                                 options = QFileDialog.Options()
-                                file_name, _ = QFileDialog.getSaveFileName(ui_2, "Сохранить файл", "",
+                                file_name, _ = QFileDialog.getSaveFileName(Decr_Window, "Сохранить файл", "",
                                                                            "All Files (*)",
                                                                            options=options)
                                 if file_name:
