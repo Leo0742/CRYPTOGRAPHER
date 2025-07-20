@@ -104,7 +104,7 @@ class Ui_Window_main_screen(object):
         self.but_start.setText(_translate("MainWindow", "Start"))
         self.label_1.setText(_translate("MainWindow", "CRYPTOGRAPHER"))
         self.label_sign.setText(_translate("MainWindow", "Leonardo"))
-        self.label_version.setText(_translate("MainWindow", "version 2024.14.3"))
+        self.label_version.setText(_translate("MainWindow", "version 2025.15.0"))
 
     def go_new_window(self, MainWindow):
         x = MainWindow.geometry().x()

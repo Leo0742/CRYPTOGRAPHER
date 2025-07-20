@@ -11,16 +11,16 @@ def AES_shifr():
     key = Fernet.generate_key()
     f = Fernet(key)
 
-    selected_file = open("Files/selected_file.txt", "r")
-    file = open(str(selected_file.read()), 'rb')  # rb - будет считывать в бинарной строчке -> read binary
-    text = file.read()
-    selected_file.close()
-    file.close()
-
+    with open("Files/selected_file.txt", "r") as selected_file:
+        file_path = selected_file.read()
+        
+    with open(file_path, 'rb') as file:
+        text = file.read()
+    
     crypt_text = f.encrypt(text)
 
-    file = open("Files/key.txt", 'w')
-    file.write(key.decode('utf-8'))
+    with open("Files/key.txt", 'w') as file:
+        file.write(key.decode('utf-8'))
     file.close()
 
     return crypt_text

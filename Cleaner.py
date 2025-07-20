@@ -3,27 +3,16 @@
 
 def Cleaner():
     '''Очищает содержимое файлов из папки Files'''
-
-    file = open("Files/selected_file.txt", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/key.txt", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/RSA_pub_key.pem", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/RSA_priv_key.pem", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/DES_iv.txt", 'w')
-    file.write('')
-    file.close()
-
-    file = open("Files/flag_value.txt", 'w')
-    file.write('')
-    file.close()
+    
+    files_to_clean = [
+        "Files/selected_file.txt",
+        "Files/key.txt",
+        "Files/RSA_pub_key.pem",
+        "Files/RSA_priv_key.pem",
+        "Files/DES_iv.txt",
+        "Files/flag_value.txt"
+    ]
+    
+    for file_path in files_to_clean:
+        with open(file_path, 'w') as file:
+            file.write('')

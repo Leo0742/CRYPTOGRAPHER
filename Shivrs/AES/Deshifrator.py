@@ -5,20 +5,24 @@
 from cryptography.fernet import Fernet
 
 def AES_decrypt():
-    '''Считывает ключ, кодирует его в бинарный вид
-    Расшифрованное содержимое файла возвращает в main'''
+    try:
+        with open("Files/key.txt", 'r') as file:
+            key = file.read()
 
-    file = open("Files/key.txt", 'r')
-    key = file.read()
-    file.close()
+        key = key.encode()
 
-    key = key.encode()
+        f = Fernet(key)
+        with open("Files/selected_file.txt", "r") as selected_file:
+            file_path = selected_file.read()
+            
+        with open(file_path, 'rb') as file:
+            crypt_text = file.read()
 
-    f = Fernet(key)
-    selected_file = open("Files/selected_file.txt", "r")
-    crypt_text = open(selected_file.read(), 'rb').read()
-    selected_file.close()
-
-    plaintext = f.decrypt(crypt_text)
+        plaintext = f.decrypt(crypt_text)
+        return plaintext
+    except FileNotFoundError:
+        raise Exception("Файл не найден. Проверьте путь к файлу.")
+    except Exception as e:
+        raise Exception(f"Ошибка при дешифровании: {str(e)}")
 
     return plaintext
