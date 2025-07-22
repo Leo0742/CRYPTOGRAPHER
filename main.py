@@ -12,6 +12,7 @@ import time
 from PyQt5.QtCore import QEasingCurve
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QLineEdit
+from PyQt5.QtGui import QFontDatabase
 from Program_windows.Encryption_windows.AES_Encryption import Ui_Window_encr_AES
 from Program_windows.Encryption_windows.RSA_Encryption import Ui_Window_encr_RSA
 from Program_windows.Encryption_windows.DES_Encryption import Ui_Window_encr_DES
@@ -38,6 +39,17 @@ from Documentation import Documentation
 
 
 app = QtWidgets.QApplication(sys.argv)
+
+def load_fonts():
+    '''Загружает все шрифты, используемые программой'''
+
+    font_dir = os.path.join(os.path.dirname(__file__), "fonts")
+    for f in os.listdir(font_dir):
+        if f.lower().endswith((".ttf", ".ttc", ".otf", "fon")):
+            QFontDatabase.addApplicationFont(os.path.join(font_dir, f))
+
+load_fonts()
+
 
 def openMain():
     ''' Открывает окно main_screen и обрабатывает действия в нём'''
