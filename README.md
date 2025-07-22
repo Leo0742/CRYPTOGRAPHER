@@ -1,6 +1,6 @@
 # CRYPTOGRAPHER
-![Static Badge](https://img.shields.io/badge/Python%203.12-violet?style=plastic&link=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3120%2F)
-![Static Badge](https://img.shields.io/badge/PyQt5-violet?style=plastic&link=https%3A%2F%2Fpypi.org%2Fproject%2FPyQt5%2F)
+![Static Badge](https://img.shields.io/badge/Python%203.13.5-%234F2982?style=flat&logo=Python&logoColor=%23FFB440&labelColor=%238C04A8&link=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3135%2F)
+![Static Badge](https://img.shields.io/badge/PyQt5%205.15.11-%23B70094?style=flat&logo=Qt&logoColor=%23FFB440&labelColor=%238C04A8&link=https%3A%2F%2Fpypi.org%2Fproject%2FPyQt5%2F)
 
 
 Компьюторное приложение *CRYPTOGRAPHER* обеспечивает  защиту конфидециальной информации пользователей, в том числе при хранении её на внешних носителях.
@@ -26,11 +26,5 @@ ___
 
 <br>
 
-**ОБРАТИТЕ ВНИМАНИЕ!** 
 
-Для дальнейшей работы с приложением после его установки необходимо:
-> 1) Закрыть установщик
-> 2) Найти ярлык приложения на рабочем столе
-> 3) Запустить его от имени администратора
-> 
-> *Все дальнейшие инструкции вы найдёте в руководстве пользователя (в том числе и как настроить приложение для запуска от имени администратора по умолчанию)*
+*Все дальнейшие инструкции вы найдёте в руководстве пользователя.*
